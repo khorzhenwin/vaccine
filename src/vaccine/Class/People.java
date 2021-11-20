@@ -6,7 +6,7 @@ public class People extends User {
    private int phone;
    private boolean citizen;
 
-   public People(String name, int phone, boolean citizen, int icno, String password) {
+   public People(String icno, String password, String name, int phone, boolean citizen) {
       super(icno, password);
       this.name = name;
       this.phone = phone;

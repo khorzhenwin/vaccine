@@ -7,6 +7,9 @@ public class Centre {
    private int centreID;
    private String centreName, Address;
    private ArrayList<VaccineSupply> myInventory = new ArrayList<VaccineSupply>();
+   // V01 - Pfizer - KLCC - 20
+   // V01 - Moderna - KLCC - 20
+   // V01 - SinoVac - KLCC - 20
 
    public Centre(int centreID, String centreName, String Address) {
       this.centreID = centreID;
