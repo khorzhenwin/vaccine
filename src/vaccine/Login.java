@@ -144,6 +144,7 @@ public class Login extends javax.swing.JFrame {
          // IF not, proceed to let user enter password
       } else {
          // validation for wrong password
+
       }
    }//GEN-LAST:event_btnLoginActionPerformed
 

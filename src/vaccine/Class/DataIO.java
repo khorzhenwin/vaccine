@@ -7,8 +7,7 @@ import java.util.Scanner;
 
 public class DataIO {
 
-   public static ArrayList<VaccineSupply> allVaccines = new ArrayList<VaccineSupply>(); //vaccine.txt
-   public static ArrayList<Centre> allCentres = new ArrayList<Centre>(); //centre.txt
+   public static ArrayList<Centre> allCentres = new ArrayList<Centre>(); //centre.txt - contains vaccine inventory
    public static ArrayList<People> allPeople = new ArrayList<People>(); //people.txt
    public static ArrayList<Personnel> allPersonnel = new ArrayList<Personnel>(); //personnel.txt
    public static ArrayList<Appointment> allAppointments = new ArrayList<Appointment>(); //appointment.txt
@@ -17,6 +16,9 @@ public class DataIO {
    public static void read() {
       try {
          Scanner s = new Scanner(new File("people.txt"));
+         Scanner s1 = new Scanner(new File("centre.txt"));
+         Scanner s2 = new Scanner(new File("personnel.txt"));
+         Scanner s3 = new Scanner(new File("appointment.txt"));
          // Read the lines in the text file
          while (s.hasNext()) {
             //icno
