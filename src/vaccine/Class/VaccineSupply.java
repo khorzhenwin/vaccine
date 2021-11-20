@@ -1,16 +1,12 @@
 package vaccine.Class;
 
-public class Vaccine {
+public class VaccineSupply {
 
    private int vaccineID, inventory;
    private VaccineName vaccineName;
    private Centre centre;
-// Moderna - 20 - KLCC
-// Pfizer - 30 - KLCC
 
-// Moderna - 20 - Puchong
-// Pfizer - 30 - Puchong
-   public Vaccine(int vaccineID, int inventory, VaccineName vaccineName, Centre centre) {
+   public VaccineSupply(int vaccineID, int inventory, VaccineName vaccineName, Centre centre) {
       this.vaccineID = vaccineID;
       this.inventory = inventory;
       this.vaccineName = vaccineName;

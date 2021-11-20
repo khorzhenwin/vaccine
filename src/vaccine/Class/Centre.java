@@ -6,7 +6,7 @@ public class Centre {
 
    private int centreID;
    private String centreName, Address;
-   private ArrayList<Vaccine> myInventory = new ArrayList<Vaccine>();
+   private ArrayList<VaccineSupply> myInventory = new ArrayList<VaccineSupply>();
 
    public Centre(int centreID, String centreName, String Address) {
       this.centreID = centreID;
@@ -38,11 +38,11 @@ public class Centre {
       this.Address = Address;
    }
 
-   public ArrayList<Vaccine> getMyInventory() {
+   public ArrayList<VaccineSupply> getMyInventory() {
       return myInventory;
    }
 
-   public void setMyInventory(ArrayList<Vaccine> myInventory) {
+   public void setMyInventory(ArrayList<VaccineSupply> myInventory) {
       this.myInventory = myInventory;
    }
 

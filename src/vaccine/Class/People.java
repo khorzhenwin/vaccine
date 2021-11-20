@@ -1,12 +1,12 @@
 package vaccine.Class;
 
-public class Citizen extends User {
+public class People extends User {
 
    private String name;
    private int phone;
    private boolean citizen;
 
-   public Citizen(String name, int phone, boolean citizen, int icno, String password) {
+   public People(String name, int phone, boolean citizen, int icno, String password) {
       super(icno, password);
       this.name = name;
       this.phone = phone;
