@@ -61,11 +61,21 @@ public class DataIO {
       }
    }
 
-   public static People checkIC(String x) {
+   public static People checkPeople(String x) {
       // return null if name not found, return name object if found
       for (int i = 0; i < allPeople.size(); i++) {
          if (x.equals(allPeople.get(i).getIcno())) {
             return allPeople.get(i);
+         }
+      }
+      return null;
+   }
+
+   public static Personnel checkPersonnel(String x) {
+      // return null if name not found, return name object if found
+      for (int i = 0; i < allPersonnel.size(); i++) {
+         if (x.equals(allPersonnel.get(i).getIcno())) {
+            return allPersonnel.get(i);
          }
       }
       return null;

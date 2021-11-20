@@ -68,8 +68,18 @@ public class Login extends javax.swing.JFrame {
       });
 
       btnRegister.setText("Register New Account");
+      btnRegister.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnRegisterActionPerformed(evt);
+         }
+      });
 
       btnLoginAdmin.setText("Login as Admin");
+      btnLoginAdmin.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnLoginAdminActionPerformed(evt);
+         }
+      });
 
       jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
       jLabel3.setText("Login ");
@@ -137,14 +147,20 @@ public class Login extends javax.swing.JFrame {
       if (txtIC.getText().isBlank() || txtPassword.getText().isBlank()) {
          JOptionPane.showMessageDialog(btnLogin, "Please fill in all the fields!");
       }
-      People found = DataIO.checkIC(txtIC.getText());
+      People found = DataIO.checkPeople(txtIC.getText());
       // Check if user doesnt exist, dont allow login
       if (found == null) {
          JOptionPane.showMessageDialog(txtIC, "User has not been registered!");
          // IF not, proceed to let user enter password
       } else {
          // validation for wrong password
-
+         if (found.getPassword() == txtPassword.getText()) {
+            UserMain a = new UserMain();
+            a.setVisible(true);
+            this.dispose();
+         } else {
+            JOptionPane.showMessageDialog(txtIC, "Wrong Password!");
+         }
       }
    }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -152,6 +168,41 @@ public class Login extends javax.swing.JFrame {
       txtIC.setText("");
       txtPassword.setText("");
    }//GEN-LAST:event_btnClearActionPerformed
+
+   private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+      Register reg = new Register();
+      reg.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnRegisterActionPerformed
+
+   private void btnLoginAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginAdminActionPerformed
+      String username = JOptionPane.showInputDialog("Enter your username :");
+
+      // Setting a super admin user to bypass admin login
+      if (username == "superadmin6969") {
+         AdminMain admin = new AdminMain();
+         admin.setVisible(true);
+         this.dispose();
+      }
+
+      Personnel found = DataIO.checkPersonnel(username);
+      // Check if user doesnt exist, dont allow login
+      if (found == null) {
+         JOptionPane.showMessageDialog(btnLoginAdmin, "Admin account not found!");
+      } else {
+         String password = JOptionPane.showInputDialog("Enter your password: ");
+         // validation for wrong password
+         if (found.getPassword() == password) {
+            AdminMain admin = new AdminMain();
+            admin.setVisible(true);
+            this.dispose();
+         } else {
+            JOptionPane.showMessageDialog(btnLoginAdmin, "Wrong Password!");
+         }
+
+      }
+
+   }//GEN-LAST:event_btnLoginAdminActionPerformed
 
    /**
     * @param args the command line arguments

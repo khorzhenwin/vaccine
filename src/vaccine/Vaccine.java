@@ -8,6 +8,7 @@ public class Vaccine {
 
    public static void main(String[] args) {
       DataIO.read();
+
    }
 
 }
