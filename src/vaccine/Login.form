@@ -41,6 +41,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="chkPassword" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtIC" pref="150" max="32767" attributes="0"/>
                           <Component id="txtPassword" alignment="0" max="32767" attributes="0"/>
@@ -66,6 +67,8 @@
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="chkPassword" min="-2" pref="14" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnLogin" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -75,7 +78,7 @@
               <Component id="btnRegister" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnLoginAdmin" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="45" max="32767" attributes="0"/>
+              <EmptySpace pref="41" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -139,6 +142,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="txtPassword">
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkPassword">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Show Password"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkPasswordActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -239,6 +239,7 @@ public class UserProfile extends javax.swing.JFrame {
       if (txtPassword.getText().isBlank() || txtContact.getText().isBlank()) {
          JOptionPane.showMessageDialog(btnSave, "Please make sure all fields are filled!");
       } else {
+         // updating user object with latest information
          Vaccine.login.setPassword(txtPassword.getText().trim());
          Vaccine.login.setPhone(txtContact.getText().trim());
          DataIO.write();
