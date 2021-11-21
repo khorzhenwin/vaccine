@@ -28,7 +28,7 @@ public class DataIO {
             //name
             String name = s.nextLine();
             //phone
-            int phone = Integer.parseInt(s.nextLine());
+            String phone = s.nextLine();
             //citizen
             boolean citizen = Boolean.parseBoolean(s.nextLine());
             s.nextLine();
@@ -49,7 +49,7 @@ public class DataIO {
             a.println(allPeople.get(i).getIcno());
             a.println(allPeople.get(i).getPassword());
             a.println(allPeople.get(i).getName());
-            a.println(allPeople.get(i).getPassword());
+            a.println(allPeople.get(i).getPhone());
             a.println(allPeople.get(i).isCitizen());
             // Print empty line as seperator
             a.println();
@@ -65,6 +65,16 @@ public class DataIO {
       // return null if name not found, return name object if found
       for (int i = 0; i < allPeople.size(); i++) {
          if (x.equals(allPeople.get(i).getIcno())) {
+            return allPeople.get(i);
+         }
+      }
+      return null;
+   }
+
+   public static People checkPeopleContact(String x) {
+      // return null if name not found, return name object if found
+      for (int i = 0; i < allPeople.size(); i++) {
+         if (x.equals(allPeople.get(i).getPhone())) {
             return allPeople.get(i);
          }
       }

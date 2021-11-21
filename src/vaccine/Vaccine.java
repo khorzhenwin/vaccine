@@ -8,7 +8,8 @@ public class Vaccine {
 
    public static void main(String[] args) {
       DataIO.read();
-
+      Login firstpage = new Login();
+      firstpage.setVisible(true);
    }
 
 }

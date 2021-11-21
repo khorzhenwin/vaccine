@@ -67,7 +67,7 @@ public class Login extends javax.swing.JFrame {
          }
       });
 
-      btnRegister.setText("Register New Account");
+      btnRegister.setText("Register New Account ➤");
       btnRegister.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
             btnRegisterActionPerformed(evt);
@@ -100,10 +100,10 @@ public class Login extends javax.swing.JFrame {
                .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                .addComponent(btnLoginAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                .addGroup(layout.createSequentialGroup()
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addComponent(jLabel1)
-                     .addComponent(jLabel2))
-                  .addGap(18, 18, 18)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                      .addComponent(jLabel3)
                      .addComponent(txtIC, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
@@ -128,13 +128,14 @@ public class Login extends javax.swing.JFrame {
                .addComponent(btnLogin)
                .addComponent(btnClear))
             .addGap(12, 12, 12)
-            .addComponent(btnRegister)
+            .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(btnLoginAdmin)
-            .addContainerGap(51, Short.MAX_VALUE))
+            .addContainerGap(45, Short.MAX_VALUE))
       );
 
       pack();
+      setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
 
    private void txtICActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtICActionPerformed
@@ -146,20 +147,21 @@ public class Login extends javax.swing.JFrame {
       //validation for empty fields
       if (txtIC.getText().isBlank() || txtPassword.getText().isBlank()) {
          JOptionPane.showMessageDialog(btnLogin, "Please fill in all the fields!");
-      }
-      People found = DataIO.checkPeople(txtIC.getText());
-      // Check if user doesnt exist, dont allow login
-      if (found == null) {
-         JOptionPane.showMessageDialog(txtIC, "User has not been registered!");
-         // IF not, proceed to let user enter password
       } else {
-         // validation for wrong password
-         if (found.getPassword() == txtPassword.getText()) {
-            UserMain a = new UserMain();
-            a.setVisible(true);
-            this.dispose();
+         People found = DataIO.checkPeople(txtIC.getText().trim());
+         // Check if user doesnt exist, dont allow login
+         if (found == null) {
+            JOptionPane.showMessageDialog(txtIC, "User has not been registered!");
+            // IF not, proceed to let user enter password
          } else {
-            JOptionPane.showMessageDialog(txtIC, "Wrong Password!");
+            // validation for wrong password
+            if (found.getPassword().equals(txtPassword.getText())) {
+               UserMain a = new UserMain();
+               a.setVisible(true);
+               this.dispose();
+            } else {
+               JOptionPane.showMessageDialog(txtIC, "Wrong Password!");
+            }
          }
       }
    }//GEN-LAST:event_btnLoginActionPerformed
@@ -179,59 +181,36 @@ public class Login extends javax.swing.JFrame {
       String username = JOptionPane.showInputDialog("Enter your username :");
 
       // Setting a super admin user to bypass admin login
-      if (username == "superadmin6969") {
+      if (username.equals("superadmin6969")) {
          AdminMain admin = new AdminMain();
          admin.setVisible(true);
          this.dispose();
-      }
-
-      Personnel found = DataIO.checkPersonnel(username);
-      // Check if user doesnt exist, dont allow login
-      if (found == null) {
-         JOptionPane.showMessageDialog(btnLoginAdmin, "Admin account not found!");
       } else {
-         String password = JOptionPane.showInputDialog("Enter your password: ");
-         // validation for wrong password
-         if (found.getPassword() == password) {
-            AdminMain admin = new AdminMain();
-            admin.setVisible(true);
-            this.dispose();
+         Personnel found = DataIO.checkPersonnel(username);
+         // Check if user doesnt exist, dont allow login
+         if (found == null) {
+            JOptionPane.showMessageDialog(btnLoginAdmin, "Admin account not found!");
          } else {
-            JOptionPane.showMessageDialog(btnLoginAdmin, "Wrong Password!");
+            String password = JOptionPane.showInputDialog("Enter your password: ");
+            // validation for wrong password
+            if (found.getPassword() == password) {
+               AdminMain admin = new AdminMain();
+               admin.setVisible(true);
+               this.dispose();
+            } else {
+               JOptionPane.showMessageDialog(btnLoginAdmin, "Wrong Password!");
+            }
+
          }
-
       }
-
    }//GEN-LAST:event_btnLoginAdminActionPerformed
 
    /**
     * @param args the command line arguments
     */
    public static void main(String args[]) {
-      /* Set the Nimbus look and feel */
-      //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-      /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-       */
-      try {
-         for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-               javax.swing.UIManager.setLookAndFeel(info.getClassName());
-               break;
-            }
-         }
-      } catch (ClassNotFoundException ex) {
-         java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      } catch (InstantiationException ex) {
-         java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      } catch (IllegalAccessException ex) {
-         java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-         java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      }
-      //</editor-fold>
 
-      /* Create and display the form */
+      DataIO.read();
       java.awt.EventQueue.invokeLater(new Runnable() {
          public void run() {
             new Login().setVisible(true);
