@@ -2,19 +2,18 @@ package vaccine.Class;
 
 public abstract class User {
 
-   private int icno;
-   private String password;
+   private String icno, password;
 
-   public User(int icno, String password) {
+   public User(String icno, String password) {
       this.icno = icno;
       this.password = password;
    }
 
-   public int getIcno() {
+   public String getIcno() {
       return icno;
    }
 
-   public void setIcno(int icno) {
+   public void setIcno(String icno) {
       this.icno = icno;
    }
 
