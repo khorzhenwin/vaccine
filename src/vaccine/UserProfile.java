@@ -5,6 +5,9 @@
  */
 package vaccine;
 
+import javax.swing.JOptionPane;
+import vaccine.Class.DataIO;
+
 /**
  *
  * @author User
@@ -16,6 +19,11 @@ public class UserProfile extends javax.swing.JFrame {
     */
    public UserProfile() {
       initComponents();
+      txtName.setText(Vaccine.login.getName());
+      txtPassword.setText(Vaccine.login.getPassword());
+      txtIC.setText(Vaccine.login.getIcno());
+      txtContact.setText(Vaccine.login.getPhone());
+      chkCitizen.setSelected(Vaccine.login.isCitizen());
    }
 
    /**
@@ -27,119 +35,235 @@ public class UserProfile extends javax.swing.JFrame {
    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
    private void initComponents() {
 
-      jLabel1 = new javax.swing.JLabel();
+      jPanel1 = new javax.swing.JPanel();
+      jLabel3 = new javax.swing.JLabel();
+      btnBack = new javax.swing.JButton();
+      txtContact = new javax.swing.JTextField();
+      chkCitizen = new javax.swing.JCheckBox();
+      txtName = new javax.swing.JTextField();
       jLabel2 = new javax.swing.JLabel();
-      jLabel4 = new javax.swing.JLabel();
-      jLabel5 = new javax.swing.JLabel();
-      jButton1 = new javax.swing.JButton();
-      jLabel7 = new javax.swing.JLabel();
-      jButton2 = new javax.swing.JButton();
-      jTextField1 = new javax.swing.JTextField();
-      jTextField3 = new javax.swing.JTextField();
-      jTextField4 = new javax.swing.JTextField();
       jLabel6 = new javax.swing.JLabel();
-      jTextField5 = new javax.swing.JTextField();
-      jCheckBox2 = new javax.swing.JCheckBox();
+      jLabel4 = new javax.swing.JLabel();
+      txtIC = new javax.swing.JTextField();
+      jLabel5 = new javax.swing.JLabel();
+      txtPassword = new javax.swing.JPasswordField();
+      chkPassword = new javax.swing.JCheckBox();
+      btnSave = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setResizable(false);
 
-      jLabel1.setText("Show User Profile");
+      jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+      jLabel3.setText("User Profile");
+      jLabel3.setToolTipText("");
+      jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-      jLabel2.setText("Name");
+      btnBack.setText("Back ➤");
+      btnBack.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnBackActionPerformed(evt);
+         }
+      });
 
-      jLabel4.setText("IC");
+      txtContact.setForeground(new java.awt.Color(0, 0, 0));
+      txtContact.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            txtContactActionPerformed(evt);
+         }
+      });
+      txtContact.addKeyListener(new java.awt.event.KeyAdapter() {
+         public void keyPressed(java.awt.event.KeyEvent evt) {
+            txtContactKeyPressed(evt);
+         }
+         public void keyTyped(java.awt.event.KeyEvent evt) {
+            txtContactKeyTyped(evt);
+         }
+      });
 
-      jLabel5.setText("Phone Number");
+      chkCitizen.setText("Malaysian Citizen ?");
+      chkCitizen.setEnabled(false);
+      chkCitizen.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            chkCitizenActionPerformed(evt);
+         }
+      });
 
-      jButton1.setText("Save Changes");
+      txtName.setForeground(new java.awt.Color(0, 0, 0));
+      txtName.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+      txtName.setEnabled(false);
 
-      jLabel7.setText("Every textbox is required to have information");
+      jLabel2.setText("Name :");
 
-      jButton2.setText("Back to Dashboard");
+      jLabel6.setText("Password :");
 
-      jTextField1.setText("jTextField1");
+      jLabel4.setText("IC. No :");
 
-      jTextField3.setText("jTextField1");
+      txtIC.setForeground(new java.awt.Color(0, 0, 0));
+      txtIC.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+      txtIC.setEnabled(false);
 
-      jTextField4.setText("jTextField1");
+      jLabel5.setText("Phone Number :");
 
-      jLabel6.setText("Password");
+      txtPassword.setForeground(new java.awt.Color(0, 0, 0));
 
-      jTextField5.setText("jTextField5");
+      chkPassword.setText("Show Password");
+      chkPassword.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            chkPasswordActionPerformed(evt);
+         }
+      });
 
-      jCheckBox2.setText("Show Password");
+      btnSave.setText("Save Changes");
+      btnSave.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnSaveActionPerformed(evt);
+         }
+      });
+
+      javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+      jPanel1.setLayout(jPanel1Layout);
+      jPanel1Layout.setHorizontalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                  .addGroup(jPanel1Layout.createSequentialGroup()
+                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                           .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel5))
+                     .addGap(28, 28, 28)
+                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                           .addComponent(txtIC)
+                           .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(chkPassword)
+                        .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                  .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(chkCitizen, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)))))
+            .addContainerGap())
+      );
+      jPanel1Layout.setVerticalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(47, 47, 47)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel2)
+               .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txtIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel4))
+            .addGap(18, 18, 18)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel6))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(chkPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel5))
+            .addGap(18, 18, 18)
+            .addComponent(chkCitizen)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(btnBack)
+               .addComponent(btnSave))
+            .addContainerGap())
+      );
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(layout.createSequentialGroup()
-                  .addContainerGap()
-                  .addComponent(jLabel7))
-               .addGroup(layout.createSequentialGroup()
-                  .addContainerGap()
-                  .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-               .addGroup(layout.createSequentialGroup()
-                  .addGap(52, 52, 52)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(87, 87, 87)
-                        .addComponent(jTextField3))
-                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2))
-                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(29, 29, 29)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                           .addComponent(jLabel2)
-                           .addComponent(jLabel6))
-                        .addGap(53, 53, 53)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                           .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                           .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.TRAILING)
-                           .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING))))))
-            .addContainerGap(71, Short.MAX_VALUE))
+            .addGap(63, 63, 63)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(69, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jLabel7)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel2)
-               .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(44, 44, 44)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel4))
-            .addGap(27, 27, 27)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel6)
-               .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-               .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(45, 45, 45)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jButton2)
-               .addComponent(jButton1))
-            .addContainerGap())
+            .addGap(37, 37, 37)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(39, 39, 39))
       );
 
       pack();
+      setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
+
+   private void txtContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContactActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_txtContactActionPerformed
+
+   private void chkCitizenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCitizenActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_chkCitizenActionPerformed
+
+   private void chkPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPasswordActionPerformed
+      if (chkPassword.isSelected()) {
+         txtPassword.setEchoChar((char) 0); //password = JPasswordField
+      } else {
+         txtPassword.setEchoChar('*');
+      }
+   }//GEN-LAST:event_chkPasswordActionPerformed
+
+   private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+      UserMain a = new UserMain();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnBackActionPerformed
+
+   private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+
+      //validation for empty fields
+      if (txtPassword.getText().isBlank() || txtContact.getText().isBlank()) {
+         JOptionPane.showMessageDialog(btnSave, "Please make sure all fields are filled!");
+      } else {
+         Vaccine.login.setPassword(txtPassword.getText().trim());
+         Vaccine.login.setPhone(txtContact.getText().trim());
+         DataIO.write();
+         JOptionPane.showMessageDialog(btnSave, "Saved Successfully!");
+         UserMain a = new UserMain();
+         a.setVisible(true);
+         this.dispose();
+      }
+   }//GEN-LAST:event_btnSaveActionPerformed
+
+   private void txtContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactKeyPressed
+      char c = evt.getKeyChar();
+      if (Character.isLetter(c)) {
+         txtContact.setEditable(false);
+      } else {
+         txtContact.setEditable(true);
+      }
+   }//GEN-LAST:event_txtContactKeyPressed
+
+   private void txtContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactKeyTyped
+      boolean maxno = txtContact.getText().length() > 11;
+      if (maxno) {
+         evt.consume();
+      }
+   }//GEN-LAST:event_txtContactKeyTyped
 
    /**
     * @param args the command line arguments
@@ -178,18 +302,19 @@ public class UserProfile extends javax.swing.JFrame {
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JButton jButton1;
-   private javax.swing.JButton jButton2;
-   private javax.swing.JCheckBox jCheckBox2;
-   private javax.swing.JLabel jLabel1;
+   private javax.swing.JButton btnBack;
+   private javax.swing.JButton btnSave;
+   private javax.swing.JCheckBox chkCitizen;
+   private javax.swing.JCheckBox chkPassword;
    private javax.swing.JLabel jLabel2;
+   private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
    private javax.swing.JLabel jLabel6;
-   private javax.swing.JLabel jLabel7;
-   private javax.swing.JTextField jTextField1;
-   private javax.swing.JTextField jTextField3;
-   private javax.swing.JTextField jTextField4;
-   private javax.swing.JTextField jTextField5;
+   private javax.swing.JPanel jPanel1;
+   private javax.swing.JTextField txtContact;
+   private javax.swing.JTextField txtIC;
+   private javax.swing.JTextField txtName;
+   private javax.swing.JPasswordField txtPassword;
    // End of variables declaration//GEN-END:variables
 }
