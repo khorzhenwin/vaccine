@@ -156,6 +156,7 @@ public class Login extends javax.swing.JFrame {
          } else {
             // validation for wrong password
             if (found.getPassword().equals(txtPassword.getText())) {
+               Vaccine.login = found;
                UserMain a = new UserMain();
                a.setVisible(true);
                this.dispose();
@@ -205,9 +206,6 @@ public class Login extends javax.swing.JFrame {
       }
    }//GEN-LAST:event_btnLoginAdminActionPerformed
 
-   /**
-    * @param args the command line arguments
-    */
    public static void main(String args[]) {
 
       DataIO.read();
