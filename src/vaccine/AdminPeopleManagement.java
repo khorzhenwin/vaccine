@@ -5,8 +5,12 @@
  */
 package vaccine;
 
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import vaccine.Class.DataIO;
+import vaccine.Class.People;
 
 /**
  *
@@ -102,6 +106,12 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
          tblPeople.getColumnModel().getColumn(2).setCellRenderer(null);
       }
 
+      txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+         public void keyReleased(java.awt.event.KeyEvent evt) {
+            txtSearchKeyReleased(evt);
+         }
+      });
+
       btnRefresh.setText("Refresh");
       btnRefresh.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,6 +123,15 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
 
       chkCitizen.setText("Citizen of Malaysia");
 
+      txtContact.addKeyListener(new java.awt.event.KeyAdapter() {
+         public void keyPressed(java.awt.event.KeyEvent evt) {
+            txtContactKeyPressed(evt);
+         }
+         public void keyTyped(java.awt.event.KeyEvent evt) {
+            txtContactKeyTyped(evt);
+         }
+      });
+
       jLabel3.setText("Name :");
 
       jLabel4.setText("Password :");
@@ -120,8 +139,18 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       jLabel5.setText("IC No :");
 
       btnRegister.setText("Register");
+      btnRegister.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnRegisterActionPerformed(evt);
+         }
+      });
 
       btnUpdate.setText("Update");
+      btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnUpdateActionPerformed(evt);
+         }
+      });
 
       btnClear.setText("Clear");
       btnClear.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +160,11 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       });
 
       btnDelete.setText("Delete");
+      btnDelete.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnDeleteActionPerformed(evt);
+         }
+      });
 
       jLabel7.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
       jLabel7.setText("Manage People Profiles");
@@ -248,6 +282,9 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       txtPassword.setText(tblPeople.getValueAt(tblPeople.getSelectedRow(), 2).toString());
       txtContact.setText(tblPeople.getValueAt(tblPeople.getSelectedRow(), 3).toString());
       chkCitizen.setSelected(Boolean.valueOf(tblPeople.getValueAt(tblPeople.getSelectedRow(), 4).toString()));
+
+      txtIC.enable(false);
+
    }//GEN-LAST:event_tblPeopleMouseClicked
 
    private void chkPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPasswordActionPerformed
@@ -274,6 +311,7 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       tblPeople.getColumnModel().getColumn(2).setMinWidth(0);
       tblPeople.getColumnModel().getColumn(2).setMaxWidth(0);
       btnClearActionPerformed(evt);
+      txtIC.enable(true);
    }//GEN-LAST:event_btnRefreshActionPerformed
 
    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -284,7 +322,97 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       txtSearch.setText("");
       chkCitizen.setSelected(false);
       chkPassword.setSelected(false);
+      txtIC.enable(true);
+      tblPeople.getSelectionModel().clearSelection();
    }//GEN-LAST:event_btnClearActionPerformed
+
+   private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+      DefaultTableModel model = (DefaultTableModel) tblPeople.getModel();
+      String input = txtSearch.getText();
+      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+      tblPeople.setRowSorter(tr);
+      tr.setRowFilter(RowFilter.regexFilter(input));
+   }//GEN-LAST:event_txtSearchKeyReleased
+
+   private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+
+      int confirmReg = JOptionPane.showConfirmDialog(this, "Register User", "Confirm Registration?", JOptionPane.YES_NO_OPTION);
+      if (confirmReg == JOptionPane.YES_OPTION) {
+         //validation for empty fields
+         if (txtIC.getText().isBlank()
+                 || txtPassword.getText().isBlank()
+                 || txtName.getText().isBlank()
+                 || txtContact.getText().isBlank()) {
+            JOptionPane.showMessageDialog(btnRegister, "Please fill in all the fields!");
+         } else {
+            People found = DataIO.checkPeople(txtIC.getText().trim());
+            People foundPhone = DataIO.checkPeopleContact(txtContact.getText().trim());
+            // Check if IC or phone exist, dont allow registration
+            if (found != null) {
+               JOptionPane.showMessageDialog(btnRegister, "User already exists!");
+            } else if (foundPhone != null) {
+               JOptionPane.showMessageDialog(btnRegister, "Contact Number already exists!");
+            } else {
+               People user = new People(txtIC.getText().trim(),
+                       txtPassword.getText().trim(),
+                       txtName.getText(),
+                       txtContact.getText().trim(),
+                       chkCitizen.isSelected());
+               DataIO.allPeople.add(user);
+               DataIO.write();
+               JOptionPane.showMessageDialog(btnRegister, "Account Successfully Registered!");
+               btnRefreshActionPerformed(evt);
+            }
+         }
+      }
+   }//GEN-LAST:event_btnRegisterActionPerformed
+
+   private void txtContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactKeyTyped
+      boolean maxno = txtContact.getText().length() > 11;
+      if (maxno) {
+         evt.consume();
+      }
+   }//GEN-LAST:event_txtContactKeyTyped
+
+   private void txtContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactKeyPressed
+      char c = evt.getKeyChar();
+      if (Character.isLetter(c)) {
+         txtContact.setEditable(false);
+      } else {
+         txtContact.setEditable(true);
+      }
+   }//GEN-LAST:event_txtContactKeyPressed
+
+   private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_btnDeleteActionPerformed
+
+   private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
+      People found = DataIO.checkPeople(txtIC.getText().trim());
+      if (found == null) {
+         JOptionPane.showMessageDialog(btnUpdate, "IC not found");
+      } else {
+         Vaccine.login = found;
+         //validation for empty fields
+         if (txtPassword.getText().isBlank()
+                 || txtContact.getText().isBlank()
+                 || txtName.getText().isBlank()
+                 || txtIC.getText().isBlank()) {
+            JOptionPane.showMessageDialog(btnUpdate, "Please make sure all fields are filled!");
+         } else {
+            // updating user object with latest information
+            Vaccine.login.setIcno(txtIC.getText().trim());
+            Vaccine.login.setName(txtName.getText());
+            Vaccine.login.setPassword(txtPassword.getText().trim());
+            Vaccine.login.setPhone(txtContact.getText().trim());
+            Vaccine.login.setCitizen(chkCitizen.isSelected());
+            DataIO.write();
+            JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
+            btnRefreshActionPerformed(evt);
+         }
+      }
+   }//GEN-LAST:event_btnUpdateActionPerformed
 
    /**
     * @param args the command line arguments
