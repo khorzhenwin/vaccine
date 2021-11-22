@@ -67,6 +67,7 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       jLabel7 = new javax.swing.JLabel();
       txtPassword = new javax.swing.JPasswordField();
       chkPassword = new javax.swing.JCheckBox();
+      btnBack = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setResizable(false);
@@ -102,9 +103,6 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
          }
       });
       jScrollPane1.setViewportView(tblPeople);
-      if (tblPeople.getColumnModel().getColumnCount() > 0) {
-         tblPeople.getColumnModel().getColumn(2).setCellRenderer(null);
-      }
 
       txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
          public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -178,6 +176,13 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
          }
       });
 
+      btnBack.setText("Back ➤");
+      btnBack.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnBackActionPerformed(evt);
+         }
+      });
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
@@ -229,11 +234,17 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
             .addGap(19, 19, 19)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap(24, Short.MAX_VALUE))
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addGap(32, 32, 32)
+            .addContainerGap()
+            .addComponent(btnBack)
+            .addGap(2, 2, 2)
             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -318,12 +329,14 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       txtIC.setText("");
       txtName.setText("");
       txtPassword.setText("");
+      txtPassword.setEchoChar('*');
       txtContact.setText("");
       txtSearch.setText("");
       chkCitizen.setSelected(false);
       chkPassword.setSelected(false);
       txtIC.enable(true);
       tblPeople.getSelectionModel().clearSelection();
+
    }//GEN-LAST:event_btnClearActionPerformed
 
    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
@@ -384,35 +397,64 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
    }//GEN-LAST:event_txtContactKeyPressed
 
    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-      // TODO add your handling code here:
-   }//GEN-LAST:event_btnDeleteActionPerformed
-
-   private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-
-      People found = DataIO.checkPeople(txtIC.getText().trim());
-      if (found == null) {
-         JOptionPane.showMessageDialog(btnUpdate, "IC not found");
-      } else {
-         Vaccine.login = found;
-         //validation for empty fields
-         if (txtPassword.getText().isBlank()
-                 || txtContact.getText().isBlank()
-                 || txtName.getText().isBlank()
-                 || txtIC.getText().isBlank()) {
-            JOptionPane.showMessageDialog(btnUpdate, "Please make sure all fields are filled!");
+      int confirmDelete = JOptionPane.showConfirmDialog(this, "Delete User", "Confirm Deletion?", JOptionPane.YES_NO_OPTION);
+      if (confirmDelete == JOptionPane.YES_OPTION) {
+         People found = DataIO.checkPeople(txtIC.getText().trim());
+         if (found == null) {
+            JOptionPane.showMessageDialog(btnDelete, "IC not found");
          } else {
-            // updating user object with latest information
-            Vaccine.login.setIcno(txtIC.getText().trim());
-            Vaccine.login.setName(txtName.getText());
-            Vaccine.login.setPassword(txtPassword.getText().trim());
-            Vaccine.login.setPhone(txtContact.getText().trim());
-            Vaccine.login.setCitizen(chkCitizen.isSelected());
+            Vaccine.login = found;
+            for (int i = 0; i < DataIO.allPeople.size(); i++) {
+               if (Vaccine.login == DataIO.allPeople.get(i)) {
+                  DataIO.allPeople.remove(i);
+               }
+            }
             DataIO.write();
-            JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
+            JOptionPane.showMessageDialog(btnDelete, "Deleted Successfully!");
             btnRefreshActionPerformed(evt);
          }
       }
+   }//GEN-LAST:event_btnDeleteActionPerformed
+
+   private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+      int confirmUpdate = JOptionPane.showConfirmDialog(this, "Update User", "Save Changes?", JOptionPane.YES_NO_OPTION);
+      if (confirmUpdate == JOptionPane.YES_OPTION) {
+         People found = DataIO.checkPeople(txtIC.getText().trim());
+         People foundPhone = DataIO.checkPeopleContact(txtContact.getText().trim());
+         if (found == null) {
+            JOptionPane.showMessageDialog(btnUpdate, "IC not found");
+         } else if (foundPhone != null && !foundPhone.getIcno().equals(found.getIcno())) {
+            //validating phone number
+            JOptionPane.showMessageDialog(btnUpdate, "Contact Number already exists!");
+         } else {
+            Vaccine.login = found;
+            //validation for empty fields
+            if (txtPassword.getText().isBlank()
+                    || txtContact.getText().isBlank()
+                    || txtName.getText().isBlank()
+                    || txtIC.getText().isBlank()) {
+               JOptionPane.showMessageDialog(btnUpdate, "Please make sure all fields are filled!");
+            } else {
+
+               // updating user object with latest information
+               Vaccine.login.setIcno(txtIC.getText().trim());
+               Vaccine.login.setName(txtName.getText());
+               Vaccine.login.setPassword(txtPassword.getText().trim());
+               Vaccine.login.setPhone(txtContact.getText().trim());
+               Vaccine.login.setCitizen(chkCitizen.isSelected());
+               DataIO.write();
+               JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
+               btnRefreshActionPerformed(evt);
+            }
+         }
+      }
    }//GEN-LAST:event_btnUpdateActionPerformed
+
+   private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+      AdminMain a = new AdminMain();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnBackActionPerformed
 
    /**
     * @param args the command line arguments
@@ -453,6 +495,7 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JButton btnBack;
    private javax.swing.JButton btnClear;
    private javax.swing.JButton btnDelete;
    private javax.swing.JButton btnRefresh;
