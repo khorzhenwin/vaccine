@@ -7,6 +7,7 @@ package vaccine;
 
 import javax.swing.JOptionPane;
 import vaccine.Class.DataIO;
+import vaccine.Class.People;
 
 /**
  *
@@ -239,14 +240,19 @@ public class UserProfile extends javax.swing.JFrame {
       if (txtPassword.getText().isBlank() || txtContact.getText().isBlank()) {
          JOptionPane.showMessageDialog(btnSave, "Please make sure all fields are filled!");
       } else {
-         // updating user object with latest information
-         Vaccine.login.setPassword(txtPassword.getText().trim());
-         Vaccine.login.setPhone(txtContact.getText().trim());
-         DataIO.write();
-         JOptionPane.showMessageDialog(btnSave, "Saved Successfully!");
-         UserMain a = new UserMain();
-         a.setVisible(true);
-         this.dispose();
+         People foundPhone = DataIO.checkPeopleContact(txtContact.getText().trim());
+         if (foundPhone != null && !foundPhone.getIcno().equals(txtIC.getText().trim())) {
+            JOptionPane.showMessageDialog(btnSave, "Contact Number already exists!");
+         } else {
+            // updating user object with latest information
+            Vaccine.login.setPassword(txtPassword.getText().trim());
+            Vaccine.login.setPhone(txtContact.getText().trim());
+            DataIO.write();
+            JOptionPane.showMessageDialog(btnSave, "Saved Successfully!");
+            UserMain a = new UserMain();
+            a.setVisible(true);
+            this.dispose();
+         }
       }
    }//GEN-LAST:event_btnSaveActionPerformed
 
