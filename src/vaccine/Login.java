@@ -190,31 +190,37 @@ public class Login extends javax.swing.JFrame {
    }//GEN-LAST:event_btnRegisterActionPerformed
 
    private void btnLoginAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginAdminActionPerformed
-      String username = JOptionPane.showInputDialog("Enter your username :");
 
-      // Setting a super admin user to bypass admin login
-      if (username.equals("superadmin6969")) {
-         AdminMain admin = new AdminMain();
-         admin.setVisible(true);
-         this.dispose();
-      } else {
-         Personnel found = DataIO.checkPersonnel(username);
-         // Check if user doesnt exist, dont allow login
-         if (found == null) {
-            JOptionPane.showMessageDialog(btnLoginAdmin, "Admin account not found!");
+      try {
+         String username = JOptionPane.showInputDialog("Enter your username :");
+
+         // Setting a super admin user to bypass admin login
+         if (username.equals("superadmin6969")) {
+            AdminMain admin = new AdminMain();
+            admin.setVisible(true);
+            this.dispose();
          } else {
-            String password = JOptionPane.showInputDialog("Enter your password: ");
-            // validation for wrong password
-            if (found.getPassword() == password) {
-               AdminMain admin = new AdminMain();
-               admin.setVisible(true);
-               this.dispose();
+            Personnel found = DataIO.checkPersonnel(username);
+            // Check if user doesnt exist, dont allow login
+            if (found == null) {
+               JOptionPane.showMessageDialog(btnLoginAdmin, "Admin account not found!");
             } else {
-               JOptionPane.showMessageDialog(btnLoginAdmin, "Wrong Password!");
-            }
+               String password = JOptionPane.showInputDialog("Enter your password: ");
+               // validation for wrong password
+               if (found.getPassword() == password) {
+                  AdminMain admin = new AdminMain();
+                  admin.setVisible(true);
+                  this.dispose();
+               } else {
+                  JOptionPane.showMessageDialog(btnLoginAdmin, "Wrong Password!");
+               }
 
+            }
          }
+      } catch (Exception e) {
+         System.out.println("Admin login cancelled");
       }
+
    }//GEN-LAST:event_btnLoginAdminActionPerformed
 
    private void chkPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPasswordActionPerformed
