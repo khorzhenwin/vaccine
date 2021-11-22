@@ -39,6 +39,7 @@ public class Login extends javax.swing.JFrame {
       btnLoginAdmin = new javax.swing.JButton();
       jLabel3 = new javax.swing.JLabel();
       txtPassword = new javax.swing.JPasswordField();
+      chkPassword = new javax.swing.JCheckBox();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
       setResizable(false);
@@ -86,6 +87,13 @@ public class Login extends javax.swing.JFrame {
       jLabel3.setToolTipText("");
       jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+      chkPassword.setText("Show Password");
+      chkPassword.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            chkPasswordActionPerformed(evt);
+         }
+      });
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
@@ -105,6 +113,7 @@ public class Login extends javax.swing.JFrame {
                      .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                     .addComponent(chkPassword)
                      .addComponent(jLabel3)
                      .addComponent(txtIC, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                      .addComponent(txtPassword))))
@@ -123,6 +132,8 @@ public class Login extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel2)
                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(chkPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(btnLogin)
@@ -131,7 +142,7 @@ public class Login extends javax.swing.JFrame {
             .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(btnLoginAdmin)
-            .addContainerGap(45, Short.MAX_VALUE))
+            .addContainerGap(41, Short.MAX_VALUE))
       );
 
       pack();
@@ -156,6 +167,7 @@ public class Login extends javax.swing.JFrame {
          } else {
             // validation for wrong password
             if (found.getPassword().equals(txtPassword.getText())) {
+               Vaccine.login = found;
                UserMain a = new UserMain();
                a.setVisible(true);
                this.dispose();
@@ -178,36 +190,47 @@ public class Login extends javax.swing.JFrame {
    }//GEN-LAST:event_btnRegisterActionPerformed
 
    private void btnLoginAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginAdminActionPerformed
-      String username = JOptionPane.showInputDialog("Enter your username :");
 
-      // Setting a super admin user to bypass admin login
-      if (username.equals("superadmin6969")) {
-         AdminMain admin = new AdminMain();
-         admin.setVisible(true);
-         this.dispose();
-      } else {
-         Personnel found = DataIO.checkPersonnel(username);
-         // Check if user doesnt exist, dont allow login
-         if (found == null) {
-            JOptionPane.showMessageDialog(btnLoginAdmin, "Admin account not found!");
+      try {
+         String username = JOptionPane.showInputDialog("Enter your username :");
+
+         // Setting a super admin user to bypass admin login
+         if (username.equals("superadmin6969")) {
+            AdminMain admin = new AdminMain();
+            admin.setVisible(true);
+            this.dispose();
          } else {
-            String password = JOptionPane.showInputDialog("Enter your password: ");
-            // validation for wrong password
-            if (found.getPassword() == password) {
-               AdminMain admin = new AdminMain();
-               admin.setVisible(true);
-               this.dispose();
+            Personnel found = DataIO.checkPersonnel(username);
+            // Check if user doesnt exist, dont allow login
+            if (found == null) {
+               JOptionPane.showMessageDialog(btnLoginAdmin, "Admin account not found!");
             } else {
-               JOptionPane.showMessageDialog(btnLoginAdmin, "Wrong Password!");
-            }
+               String password = JOptionPane.showInputDialog("Enter your password: ");
+               // validation for wrong password
+               if (found.getPassword() == password) {
+                  AdminMain admin = new AdminMain();
+                  admin.setVisible(true);
+                  this.dispose();
+               } else {
+                  JOptionPane.showMessageDialog(btnLoginAdmin, "Wrong Password!");
+               }
 
+            }
          }
+      } catch (Exception e) {
+         System.out.println("Admin login cancelled");
       }
+
    }//GEN-LAST:event_btnLoginAdminActionPerformed
 
-   /**
-    * @param args the command line arguments
-    */
+   private void chkPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPasswordActionPerformed
+      if (chkPassword.isSelected()) {
+         txtPassword.setEchoChar((char) 0); //password = JPasswordField
+      } else {
+         txtPassword.setEchoChar('*');
+      }
+   }//GEN-LAST:event_chkPasswordActionPerformed
+
    public static void main(String args[]) {
 
       DataIO.read();
@@ -223,6 +246,7 @@ public class Login extends javax.swing.JFrame {
    private javax.swing.JButton btnLogin;
    private javax.swing.JButton btnLoginAdmin;
    private javax.swing.JButton btnRegister;
+   private javax.swing.JCheckBox chkPassword;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;

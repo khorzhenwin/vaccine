@@ -44,6 +44,7 @@ public class Register extends javax.swing.JFrame {
       btnBack = new javax.swing.JButton();
       jLabel4 = new javax.swing.JLabel();
       txtPassword = new javax.swing.JPasswordField();
+      chkPassword = new javax.swing.JCheckBox();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setResizable(false);
@@ -120,6 +121,13 @@ public class Register extends javax.swing.JFrame {
       jLabel4.setToolTipText("");
       jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+      chkPassword.setText("Show Password");
+      chkPassword.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            chkPasswordActionPerformed(evt);
+         }
+      });
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
@@ -141,6 +149,7 @@ public class Register extends javax.swing.JFrame {
                .addGroup(layout.createSequentialGroup()
                   .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(chkCitizen, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                      .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -148,12 +157,13 @@ public class Register extends javax.swing.JFrame {
                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                           .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
-                           .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING)
-                           .addComponent(txtContact)
-                           .addComponent(txtIC)))
-                     .addComponent(chkCitizen, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addComponent(chkPassword)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                              .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                              .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING)
+                              .addComponent(txtContact)
+                              .addComponent(txtIC)))))))
             .addGap(70, 70, 70))
       );
 
@@ -172,7 +182,9 @@ public class Register extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel3)
                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(12, 12, 12)
+            .addGap(8, 8, 8)
+            .addComponent(chkPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel2)
                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,7 +200,7 @@ public class Register extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(btnClear)
                .addComponent(btnBack))
-            .addGap(49, 49, 49))
+            .addGap(27, 27, 27))
       );
 
       layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel5});
@@ -281,6 +293,14 @@ public class Register extends javax.swing.JFrame {
 
    }//GEN-LAST:event_txtICKeyPressed
 
+   private void chkPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPasswordActionPerformed
+      if (chkPassword.isSelected()) {
+         txtPassword.setEchoChar((char) 0); //password = JPasswordField
+      } else {
+         txtPassword.setEchoChar('*');
+      }
+   }//GEN-LAST:event_chkPasswordActionPerformed
+
    /**
     * @param args the command line arguments
     */
@@ -322,6 +342,7 @@ public class Register extends javax.swing.JFrame {
    private javax.swing.JButton btnClear;
    private javax.swing.JButton btnRegister;
    private javax.swing.JCheckBox chkCitizen;
+   private javax.swing.JCheckBox chkPassword;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
