@@ -19,7 +19,7 @@ public class DataIO {
          Scanner s1 = new Scanner(new File("centre.txt"));
          Scanner s2 = new Scanner(new File("personnel.txt"));
          Scanner s3 = new Scanner(new File("appointment.txt"));
-         // Read the lines in the text file
+         // -----------------------People-----------------------
          while (s.hasNext()) {
             //icno
             String icno = s.nextLine();
@@ -36,6 +36,18 @@ public class DataIO {
             // Add the data to the array list object in java to read, write, compare easier
             allPeople.add(user1);
          }
+         // -----------------------Personnel-----------------------
+         while (s2.hasNext()) {
+            //icno
+            String personnel_icno = s2.nextLine();
+            //password
+            String personnel_password = s2.nextLine();
+            //name
+            String personnel_name = s2.nextLine();
+            s2.nextLine();
+            Personnel committee = new Personnel(personnel_icno, personnel_password, personnel_name);
+            allPersonnel.add(committee);
+         }
 
       } catch (Exception e) {
          System.out.println("Error in read");
@@ -45,6 +57,10 @@ public class DataIO {
    public static void write() {
       try {
          PrintWriter a = new PrintWriter("people.txt");
+         PrintWriter a1 = new PrintWriter("personnel.txt");
+         PrintWriter a2 = new PrintWriter("centre.txt");
+         PrintWriter a3 = new PrintWriter("appointment.txt");
+         // -----------------------People--------------------------
          for (int i = 0; i < allPeople.size(); i++) {
             a.println(allPeople.get(i).getIcno());
             a.println(allPeople.get(i).getPassword());
@@ -55,7 +71,15 @@ public class DataIO {
             a.println();
          }
          a.close();
-
+         // -----------------------Personnel-----------------------
+         for (int i = 0; i < allPersonnel.size(); i++) {
+            a1.println(allPersonnel.get(i).getIcno());
+            a1.println(allPersonnel.get(i).getPassword());
+            a1.println(allPersonnel.get(i).getPersonnelName());
+            // Print empty line as seperator
+            a1.println();
+         }
+         a1.close();
       } catch (Exception e) {
          System.out.println("Error in write");
       }
