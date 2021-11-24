@@ -407,6 +407,7 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
             for (int i = 0; i < DataIO.allPeople.size(); i++) {
                if (Vaccine.login == DataIO.allPeople.get(i)) {
                   DataIO.allPeople.remove(i);
+                  break;
                }
             }
             DataIO.write();
