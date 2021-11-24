@@ -365,6 +365,7 @@ public class AdminPersonnelManagement extends javax.swing.JFrame {
       txtName.setText("");
       txtPassword.setText("");
       txtPassword.setEchoChar('*');
+      chkPassword.setSelected(false);
       txtSearch.setText("");
       txtIC.enable(true);
       tblPersonnel.getSelectionModel().clearSelection();
