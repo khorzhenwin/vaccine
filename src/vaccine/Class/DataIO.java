@@ -62,7 +62,45 @@ public class DataIO {
             Personnel committee = new Personnel(personnel_icno, personnel_password, personnel_name);
             allPersonnel.add(committee);
          }
-
+         // -----------------------Appointment-----------------------
+         while (s3.hasNext()) {
+            //////////////////////////People object///////////////////////
+            //icno
+            String icno = s3.nextLine();
+            //password
+            String password = s3.nextLine();
+            //name
+            String name = s3.nextLine();
+            //phone
+            String phone = s3.nextLine();
+            //citizen
+            boolean citizen = Boolean.parseBoolean(s3.nextLine());
+            People user1 = new People(icno, password, name, phone, citizen);
+            ///////////////////////////////////////////////////////////////
+            // date 1
+            String date1 = s3.nextLine();
+            // date 2
+            String date2 = s3.nextLine();
+            // dose 1
+            boolean dose1 = Boolean.parseBoolean(s3.nextLine());
+            // dose 2
+            boolean dose2 = Boolean.parseBoolean(s3.nextLine());
+            //////////////////////////Centre object///////////////////////
+            // centreName
+            String centreName = s3.nextLine();
+            // centreAddress
+            String centreAddress = s3.nextLine();
+            // inventory for vaccine
+            int inventory = Integer.parseInt(s3.nextLine());
+            // centre status
+            String status = s3.nextLine();
+            Centre place1 = new Centre(centreName, centreAddress, inventory, status);
+            ///////////////////////////////////////////////////////////////
+            // empty line seperator
+            s3.nextLine();
+            Appointment app = new Appointment(user1, date1, date2, dose1, dose2, place1);
+            allAppointments.add(app);
+         }
       } catch (Exception e) {
          System.out.println("Error in read");
       }
@@ -104,6 +142,28 @@ public class DataIO {
             a2.println();
          }
          a2.close();
+         // ----------------------Appointment-----------------------
+         for (int i = 0; i < allAppointments.size(); i++) {
+            // people object
+            a3.println(allAppointments.get(i).getPerson().getIcno());
+            a3.println(allAppointments.get(i).getPerson().getPassword());
+            a3.println(allAppointments.get(i).getPerson().getName());
+            a3.println(allAppointments.get(i).getPerson().getPhone());
+            a3.println(allAppointments.get(i).getPerson().isCitizen());
+            // end of people object
+            a3.println(allAppointments.get(i).getDate1());
+            a3.println(allAppointments.get(i).getDate2());
+            a3.println(allAppointments.get(i).isDose1());
+            a3.println(allAppointments.get(i).isDose2());
+            // centre object
+            a3.println(allAppointments.get(i).getLocation().getCentreName());
+            a3.println(allAppointments.get(i).getLocation().getAddress());
+            a3.println(allAppointments.get(i).getLocation().getInventory());
+            a3.println(allAppointments.get(i).getLocation().getStatus());
+            // Print empty line as seperator
+            a3.println();
+         }
+         a3.close();
       } catch (Exception e) {
          System.out.println("Error in write");
       }
