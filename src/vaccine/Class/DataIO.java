@@ -32,9 +32,23 @@ public class DataIO {
             //citizen
             boolean citizen = Boolean.parseBoolean(s.nextLine());
             s.nextLine();
-            People user1 = new People(icno, password, name, phone, citizen);
+            People user = new People(icno, password, name, phone, citizen);
             // Add the data to the array list object in java to read, write, compare easier
-            allPeople.add(user1);
+            allPeople.add(user);
+         }
+         // ------------------------Centre-------------------------
+         while (s1.hasNext()) {
+            // centreName
+            String centreName = s1.nextLine();
+            // centreAddress
+            String centreAddress = s1.nextLine();
+            // inventory for vaccine
+            int inventory = Integer.parseInt(s1.nextLine());
+            // centre status
+            String status = s1.nextLine();
+            s1.nextLine();
+            Centre place = new Centre(centreName, centreAddress, inventory, status);
+            allCentres.add(place);
          }
          // -----------------------Personnel-----------------------
          while (s2.hasNext()) {
@@ -80,6 +94,16 @@ public class DataIO {
             a1.println();
          }
          a1.close();
+         // ------------------------Centre-------------------------
+         for (int i = 0; i < allCentres.size(); i++) {
+            a2.println(allCentres.get(i).getCentreName());
+            a2.println(allCentres.get(i).getAddress());
+            a2.println(allCentres.get(i).getInventory());
+            a2.println(allCentres.get(i).getStatus());
+            // Print empty line as seperator
+            a2.println();
+         }
+         a2.close();
       } catch (Exception e) {
          System.out.println("Error in write");
       }

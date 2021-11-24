@@ -2,22 +2,22 @@ package vaccine.Class;
 
 public class Centre {
 
-   private int centreID, inventory;
-   private String centreName, Address;
+   private int inventory;
+   private String centreName, address, status;
 
-   public Centre(int centreID, String centreName, String Address, int inventory) {
-      this.centreID = centreID;
-      this.centreName = centreName;
-      this.Address = Address;
+   public Centre(String centreName, String address, int inventory, String status) {
       this.inventory = inventory;
+      this.centreName = centreName;
+      this.address = address;
+      this.status = status;
    }
 
-   public int getCentreID() {
-      return centreID;
+   public int getInventory() {
+      return inventory;
    }
 
-   public void setCentreID(int centreID) {
-      this.centreID = centreID;
+   public void setInventory(int inventory) {
+      this.inventory = inventory;
    }
 
    public String getCentreName() {
@@ -29,19 +29,19 @@ public class Centre {
    }
 
    public String getAddress() {
-      return Address;
+      return address;
    }
 
-   public void setAddress(String Address) {
-      this.Address = Address;
+   public void setAddress(String address) {
+      this.address = address;
    }
 
-   public int getInventory() {
-      return inventory;
+   public String getStatus() {
+      return status;
    }
 
-   public void setInventory(int inventory) {
-      this.inventory = inventory;
+   public void setStatus(String status) {
+      this.status = status;
    }
 
 }
