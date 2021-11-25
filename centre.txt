@@ -1,18 +1,20 @@
 1
 Stadium Bukit Jalil
 Kuala Lumpur
-2000
 Active
 
 2
 Sunway Convention Centre
 Sunway Pyramid
-888
 Inactive
 
 3
 IOI Puchong Mall
 Bandar Puchong Jaya
-1498
+Active
+
+4
+Asia Pacific University
+Bukit Jalil
 Active
 

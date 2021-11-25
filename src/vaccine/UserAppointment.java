@@ -5,6 +5,9 @@
  */
 package vaccine;
 
+import javax.swing.DefaultComboBoxModel;
+import vaccine.Class.DataIO;
+
 /**
  *
  * @author User
@@ -16,6 +19,17 @@ public class UserAppointment extends javax.swing.JFrame {
     */
    public UserAppointment() {
       initComponents();
+      DataIO.read();
+      DefaultComboBoxModel model = (DefaultComboBoxModel) cmbCentre.getModel();
+      model.removeAllElements();
+
+      for (int i = 0; i < DataIO.allCentres.size(); i++) {
+         System.out.println(DataIO.allCentres.get(i).getCentreName());
+         if (DataIO.allCentres.get(i).getStatus().equals("Active")) {
+            model.addElement(DataIO.allCentres.get(i).getCentreName());
+         }
+
+      }
    }
 
    /**
@@ -33,7 +47,7 @@ public class UserAppointment extends javax.swing.JFrame {
       jLabel3 = new javax.swing.JLabel();
       jLabel4 = new javax.swing.JLabel();
       jLabel5 = new javax.swing.JLabel();
-      jComboBox2 = new javax.swing.JComboBox<>();
+      cmbCentre = new javax.swing.JComboBox<>();
       jButton1 = new javax.swing.JButton();
       jButton2 = new javax.swing.JButton();
 
@@ -51,7 +65,7 @@ public class UserAppointment extends javax.swing.JFrame {
 
       jLabel5.setText("Insert JDTPicker");
 
-      jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+      cmbCentre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
       jButton1.setText("Make Appointment");
 
@@ -72,7 +86,7 @@ public class UserAppointment extends javax.swing.JFrame {
                      .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cmbCentre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                      .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addComponent(jLabel3)
@@ -95,7 +109,7 @@ public class UserAppointment extends javax.swing.JFrame {
             .addGap(18, 18, 18)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                .addComponent(jLabel4)
-               .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(cmbCentre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel2)
@@ -151,10 +165,10 @@ public class UserAppointment extends javax.swing.JFrame {
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JComboBox<String> cmbCentre;
    private javax.swing.JButton jButton1;
    private javax.swing.JButton jButton2;
    private javax.swing.JComboBox<String> jComboBox1;
-   private javax.swing.JComboBox<String> jComboBox2;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;

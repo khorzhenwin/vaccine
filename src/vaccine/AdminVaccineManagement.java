@@ -6,38 +6,56 @@
 package vaccine;
 
 import java.awt.event.KeyEvent;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-
 import vaccine.Class.*;
 
 /**
  *
- * @author User
+ * @author user
  */
 public class AdminVaccineManagement extends javax.swing.JFrame {
 
    /**
-    * Creates new form admin_vaccine
+    * Creates new form AdminVaccineManagement
     */
    public AdminVaccineManagement() {
       initComponents();
+
       DataIO.read();
-      DefaultTableModel model = (DefaultTableModel) tblCentre.getModel();
+
+      // ------------ Table Information ------------
+      DefaultTableModel model = (DefaultTableModel) tblVaccine.getModel();
       model.setRowCount(0);
-      for (int i = 0; i < DataIO.allCentres.size(); i++) {
-         String id = String.valueOf(DataIO.allCentres.get(i).getCentreId());
-         String name = DataIO.allCentres.get(i).getCentreName();
-         String address = DataIO.allCentres.get(i).getAddress();
-         String inventory = String.valueOf(DataIO.allCentres.get(i).getInventory());
-         String status = DataIO.allCentres.get(i).getStatus();
-         String array[] = {id, name, address, inventory, status};
+      for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+         String centreID = String.valueOf(DataIO.allVaccines.get(i).getCentre().getCentreId());
+         String centreName = DataIO.allVaccines.get(i).getCentre().getCentreName();
+         String centreStatus = DataIO.allVaccines.get(i).getCentre().getStatus();
+         String vaccineID = String.valueOf(DataIO.allVaccines.get(i).getVaccineID());
+         String vaccineName = DataIO.allVaccines.get(i).getVaccineName();
+         String amount = String.valueOf(DataIO.allVaccines.get(i).getInventory());
+         String array[] = {centreID, centreName, centreStatus, vaccineID, vaccineName, amount};
          model.addRow(array);
       }
-      tblCentre.getColumnModel().getColumn(0).setMinWidth(0);
-      tblCentre.getColumnModel().getColumn(0).setMaxWidth(0);
+      tblVaccine.getColumnModel().getColumn(0).setMinWidth(0);
+      tblVaccine.getColumnModel().getColumn(0).setMaxWidth(0);
+      tblVaccine.getColumnModel().getColumn(3).setMinWidth(0);
+      tblVaccine.getColumnModel().getColumn(3).setMaxWidth(0);
+
+      // ------------ ComboBox Information ------------
+      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
+      comboBoxModel.removeAllElements();
+      for (int i = 0; i < DataIO.allCentres.size(); i++) {
+         if (DataIO.allCentres.get(i).getStatus().equals("Active")) {
+            comboBoxModel.addElement(DataIO.allCentres.get(i).getCentreName());
+         }
+      }
+      String selectedCentre = comboBoxModel.getSelectedItem().toString();
+      Centre selected = DataIO.checkCentre(selectedCentre);
+      txtCentreID.setText(String.valueOf(selected.getCentreId()));
    }
 
    /**
@@ -49,31 +67,43 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
    private void initComponents() {
 
+      jLabel3 = new javax.swing.JLabel();
+      btnBack = new javax.swing.JButton();
       jPanel1 = new javax.swing.JPanel();
       jLabel2 = new javax.swing.JLabel();
       btnCreate = new javax.swing.JButton();
       txtSearch = new javax.swing.JTextField();
-      btnInactive = new javax.swing.JButton();
       jLabel4 = new javax.swing.JLabel();
-      txtName = new javax.swing.JTextField();
       btnUpdate = new javax.swing.JButton();
       btnRefresh = new javax.swing.JButton();
-      txtAddress = new javax.swing.JTextField();
-      jLabel5 = new javax.swing.JLabel();
-      txtInventory = new javax.swing.JTextField();
+      txtVaccineName = new javax.swing.JTextField();
       jLabel6 = new javax.swing.JLabel();
-      btnActive = new javax.swing.JButton();
-      jLabel1 = new javax.swing.JLabel();
       jScrollPane1 = new javax.swing.JScrollPane();
-      tblCentre = new javax.swing.JTable();
-      txtID = new javax.swing.JTextField();
+      tblVaccine = new javax.swing.JTable();
       jLabel7 = new javax.swing.JLabel();
       btnClear = new javax.swing.JButton();
-      jLabel3 = new javax.swing.JLabel();
-      btnBack = new javax.swing.JButton();
+      jLabel5 = new javax.swing.JLabel();
+      txtAmount = new javax.swing.JTextField();
+      txtVaccineID = new javax.swing.JTextField();
+      jLabel8 = new javax.swing.JLabel();
+      cmbCentreName = new javax.swing.JComboBox<>();
+      txtCentreID = new javax.swing.JTextField();
+      btnDelete = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setResizable(false);
+
+      jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+      jLabel3.setText("Vaccine Inventory Management");
+      jLabel3.setToolTipText("");
+      jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+      btnBack.setText("Back ➤");
+      btnBack.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnBackActionPerformed(evt);
+         }
+      });
 
       jLabel2.setText("Centre Name");
 
@@ -90,14 +120,7 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          }
       });
 
-      btnInactive.setText("Inactive");
-      btnInactive.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnInactiveActionPerformed(evt);
-         }
-      });
-
-      jLabel4.setText("Address");
+      jLabel4.setText("Vaccine Name");
 
       btnUpdate.setText("Update");
       btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -113,62 +136,39 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          }
       });
 
-      jLabel5.setText("Inventory");
-
-      txtInventory.addKeyListener(new java.awt.event.KeyAdapter() {
-         public void keyPressed(java.awt.event.KeyEvent evt) {
-            txtInventoryKeyPressed(evt);
-         }
-         public void keyTyped(java.awt.event.KeyEvent evt) {
-            txtInventoryKeyTyped(evt);
-         }
-      });
-
       jLabel6.setText("🔍");
 
-      btnActive.setText("Active");
-      btnActive.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnActiveActionPerformed(evt);
-         }
-      });
-
-      jLabel1.setText("Update Status  :");
-
-      tblCentre.setAutoCreateRowSorter(true);
-      tblCentre.setForeground(new java.awt.Color(51, 51, 51));
-      tblCentre.setModel(new javax.swing.table.DefaultTableModel(
+      tblVaccine.setAutoCreateRowSorter(true);
+      tblVaccine.setForeground(new java.awt.Color(51, 51, 51));
+      tblVaccine.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null}
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null}
          },
          new String [] {
-            "CentreID", "CentreName", "Address", "Inventory", "Status"
+            "CentreID", "CentreName", "CentreStatus", "VaccineID", "VaccineName", "Amount"
          }
       ) {
          boolean[] canEdit = new boolean [] {
-            false, false, false, false, false
+            false, false, false, false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
             return canEdit [columnIndex];
          }
       });
-      tblCentre.setSelectionBackground(new java.awt.Color(153, 153, 255));
-      tblCentre.setSelectionForeground(new java.awt.Color(51, 51, 51));
-      tblCentre.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-      tblCentre.getTableHeader().setReorderingAllowed(false);
-      tblCentre.addMouseListener(new java.awt.event.MouseAdapter() {
+      tblVaccine.setSelectionBackground(new java.awt.Color(153, 153, 255));
+      tblVaccine.setSelectionForeground(new java.awt.Color(51, 51, 51));
+      tblVaccine.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      tblVaccine.getTableHeader().setReorderingAllowed(false);
+      tblVaccine.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            tblCentreMouseClicked(evt);
+            tblVaccineMouseClicked(evt);
          }
       });
-      jScrollPane1.setViewportView(tblCentre);
-
-      txtID.setDisabledTextColor(new java.awt.Color(102, 102, 102));
-      txtID.setEnabled(false);
+      jScrollPane1.setViewportView(tblVaccine);
 
       jLabel7.setText("Centre ID");
 
@@ -179,6 +179,39 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          }
       });
 
+      jLabel5.setText("Amount   :");
+
+      txtAmount.addKeyListener(new java.awt.event.KeyAdapter() {
+         public void keyPressed(java.awt.event.KeyEvent evt) {
+            txtAmountKeyPressed(evt);
+         }
+         public void keyTyped(java.awt.event.KeyEvent evt) {
+            txtAmountKeyTyped(evt);
+         }
+      });
+
+      txtVaccineID.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+      txtVaccineID.setEnabled(false);
+
+      jLabel8.setText("Vaccine ID");
+
+      cmbCentreName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+      cmbCentreName.addItemListener(new java.awt.event.ItemListener() {
+         public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            cmbCentreNameItemStateChanged(evt);
+         }
+      });
+
+      txtCentreID.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+      txtCentreID.setEnabled(false);
+
+      btnDelete.setText("Delete");
+      btnDelete.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnDeleteActionPerformed(evt);
+         }
+      });
+
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
       jPanel1Layout.setHorizontalGroup(
@@ -186,7 +219,7 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          .addGroup(jPanel1Layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jScrollPane1)
+               .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                .addGroup(jPanel1Layout.createSequentialGroup()
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                      .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
@@ -194,33 +227,31 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
                      .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtCentreID, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnActive, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnInactive, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                     .addComponent(txtAddress)
+                        .addComponent(txtVaccineID, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                      .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtVaccineName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtAmount))
+                     .addComponent(cmbCentreName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                      .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtSearch)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btnCreate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                     .addComponent(txtSearch))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGap(18, 18, 18)
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                      .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                      .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
@@ -232,25 +263,25 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
             .addContainerGap()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel7)
-               .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(btnInactive)
-               .addComponent(btnActive)
-               .addComponent(jLabel1))
+               .addComponent(jLabel8)
+               .addComponent(txtVaccineID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(txtCentreID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel2)
-               .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel5)
-               .addComponent(txtInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(cmbCentreName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel4))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+               .addComponent(txtVaccineName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel4)
+               .addComponent(jLabel5)
+               .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(btnCreate)
                .addComponent(btnUpdate)
-               .addComponent(btnClear))
+               .addComponent(btnClear)
+               .addComponent(btnDelete))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addComponent(btnRefresh)
@@ -258,137 +289,70 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
                   .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                   .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(20, Short.MAX_VALUE))
       );
-
-      jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-      jLabel3.setText("Vaccination Centre Inventory Management");
-      jLabel3.setToolTipText("");
-      jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-      btnBack.setText("Back ➤");
-      btnBack.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnBackActionPerformed(evt);
-         }
-      });
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
          .addGroup(layout.createSequentialGroup()
-            .addGap(54, 54, 54)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-               .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(54, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(layout.createSequentialGroup()
+                  .addGap(54, 54, 54)
+                  .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGap(0, 45, Short.MAX_VALUE))
+               .addGroup(layout.createSequentialGroup()
+                  .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap())
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(135, 135, 135))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(btnBack)
-            .addGap(26, 26, 26)
+            .addGap(27, 27, 27)
             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(35, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
 
       pack();
       setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
 
-   private void tblCentreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCentreMouseClicked
-
-      txtID.setText(tblCentre.getValueAt(tblCentre.getSelectedRow(), 0).toString());
-      txtName.setText(tblCentre.getValueAt(tblCentre.getSelectedRow(), 1).toString());
-      txtAddress.setText(tblCentre.getValueAt(tblCentre.getSelectedRow(), 2).toString());
-      txtInventory.setText(tblCentre.getValueAt(tblCentre.getSelectedRow(), 3).toString());
-
-   }//GEN-LAST:event_tblCentreMouseClicked
-
-   private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-      txtID.setText("");
-      txtName.setText("");
-      txtAddress.setText("");
-      txtInventory.setText("");
-      txtSearch.setText("");
-      tblCentre.getSelectionModel().clearSelection();
-   }//GEN-LAST:event_btnClearActionPerformed
-
-   private void txtInventoryKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInventoryKeyPressed
-      char c = evt.getKeyChar();
-      if ((c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
-         txtInventory.setEditable(true);
-      } else if (Character.isLetter(c) || !((c >= '0') && (c <= '9'))) {
-         txtInventory.setEditable(false);
-      } else {
-         txtInventory.setEditable(true);
-      }
-   }//GEN-LAST:event_txtInventoryKeyPressed
-
-   private void txtInventoryKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInventoryKeyTyped
-      boolean maxno = txtInventory.getText().length() > 6;
-      if (maxno) {
-         evt.consume();
-      }
-   }//GEN-LAST:event_txtInventoryKeyTyped
-
-   private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-      if (txtID.getText().trim().equals("")) {
-         JOptionPane.showMessageDialog(btnUpdate, "Select a centre to update!");
-      } else {
-         int confirmUpdate = JOptionPane.showConfirmDialog(this, "Update Centre", "Save Changes?", JOptionPane.YES_NO_OPTION);
-         if (confirmUpdate == JOptionPane.YES_OPTION) {
-            // allow only if a row is selected
-            if (!txtID.getText().isBlank()) {
-               Centre found = DataIO.checkCentre(Integer.valueOf(txtID.getText()));
-               Vaccine.editCentre = found;
-               // empty fields validation
-               if (txtName.getText().isBlank()
-                       || txtAddress.getText().isBlank()
-                       || txtInventory.getText().isBlank()) {
-                  JOptionPane.showMessageDialog(btnCreate, "Please fill in all the fields!");
-               } else {
-                  Vaccine.editCentre.setCentreName(txtName.getText());
-                  Vaccine.editCentre.setAddress(txtAddress.getText());
-                  Vaccine.editCentre.setInventory(Integer.valueOf(txtInventory.getText()));
-                  DataIO.write();
-                  JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
-                  btnRefreshActionPerformed(evt);
-               }
-            } else {
-               JOptionPane.showMessageDialog(btnCreate, "Please select a row");
-            }
-         }
-      }
-   }//GEN-LAST:event_btnUpdateActionPerformed
+   private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+      AdminMain a = new AdminMain();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnBackActionPerformed
 
    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-      int confirmReg = JOptionPane.showConfirmDialog(this, "Create a New Centre?", "Confirm Creation?", JOptionPane.YES_NO_OPTION);
+      int confirmReg = JOptionPane.showConfirmDialog(this, "Create new Vaccine Inventory?", "Confirm Creation?", JOptionPane.YES_NO_OPTION);
       if (confirmReg == JOptionPane.YES_OPTION) {
          // allow only if a row is not selected
-         if (txtID.getText().isBlank()) {
+         if (tblVaccine.getSelectionModel().isSelectionEmpty() || txtVaccineID.getText().isBlank()) {
             // empty fields validation
-            if (txtName.getText().isBlank()
-                    || txtAddress.getText().isBlank()
-                    || txtInventory.getText().isBlank()) {
+            if (txtVaccineName.getText().isBlank()
+                    || txtAmount.getText().isBlank()) {
                JOptionPane.showMessageDialog(btnCreate, "Please fill in all the fields!");
             } else {
-               Centre newCentre = new Centre(DataIO.getCentreSize() + 1,
-                       txtName.getText(),
-                       txtAddress.getText(),
-                       Integer.parseInt(txtInventory.getText()),
-                       "Active");
-               DataIO.allCentres.add(newCentre);
+               Centre found = DataIO.checkCentre(Integer.valueOf(txtCentreID.getText().trim()));
+               VaccineSupply inventory = new VaccineSupply(DataIO.getVaccineSize() + 1,
+                       txtVaccineName.getText().trim(),
+                       Integer.valueOf(txtAmount.getText().trim()),
+                       found);
+               DataIO.allVaccines.add(inventory);
+               found.getMyInventory().add(inventory);
                DataIO.write();
-               JOptionPane.showMessageDialog(btnCreate, "Centre Sucessfully Created!");
+               JOptionPane.showMessageDialog(btnCreate, "Inventory has been created for " + found.getCentreName());
                btnRefreshActionPerformed(evt);
             }
          } else {
@@ -397,81 +361,107 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
       }
    }//GEN-LAST:event_btnCreateActionPerformed
 
-   private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-
-      DefaultTableModel model = (DefaultTableModel) tblCentre.getModel();
-      model.setRowCount(0);
-      for (int i = 0; i < DataIO.allCentres.size(); i++) {
-         String id = String.valueOf(DataIO.allCentres.get(i).getCentreId());
-         String name = DataIO.allCentres.get(i).getCentreName();
-         String address = DataIO.allCentres.get(i).getAddress();
-         String inventory = String.valueOf(DataIO.allCentres.get(i).getInventory());
-         String status = DataIO.allCentres.get(i).getStatus();
-         String array[] = {id, name, address, inventory, status};
-         model.addRow(array);
-      }
-      tblCentre.getColumnModel().getColumn(0).setMinWidth(0);
-      tblCentre.getColumnModel().getColumn(0).setMaxWidth(0);
-      btnClearActionPerformed(evt);
-
-      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
-      tblCentre.setRowSorter(tr);
-      tr.setRowFilter(RowFilter.regexFilter(""));
-   }//GEN-LAST:event_btnRefreshActionPerformed
-
    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-      DefaultTableModel model = (DefaultTableModel) tblCentre.getModel();
+      DefaultTableModel model = (DefaultTableModel) tblVaccine.getModel();
       String input = txtSearch.getText();
       TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
-      tblCentre.setRowSorter(tr);
+      tblVaccine.setRowSorter(tr);
       tr.setRowFilter(RowFilter.regexFilter(input));
    }//GEN-LAST:event_txtSearchKeyReleased
 
-   private void btnActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActiveActionPerformed
-      int activate = JOptionPane.showConfirmDialog(this, "Activate the Centre?", "Confirm Activation?", JOptionPane.YES_NO_OPTION);
-      if (activate == JOptionPane.YES_OPTION) {
-         if (!txtID.getText().isBlank()) {
-            Centre found = DataIO.checkCentre(Integer.valueOf(txtID.getText()));
-            Vaccine.editCentre = found;
-            if (Vaccine.editCentre.getStatus().equals("Active")) {
-               JOptionPane.showMessageDialog(btnActive, "Centre is already active!");
-            } else {
-               Vaccine.editCentre.setStatus("Active");
-               DataIO.write();
-               JOptionPane.showMessageDialog(btnActive, "Activated Successfully!");
-               btnRefreshActionPerformed(evt);
-            }
-         } else {
-            JOptionPane.showMessageDialog(btnActive, "Please select a row");
+   private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
+   }//GEN-LAST:event_btnUpdateActionPerformed
+
+   private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+
+      // ------------ Table Information ------------
+      DefaultTableModel model = (DefaultTableModel) tblVaccine.getModel();
+      model.setRowCount(0);
+      for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+         String centreID = String.valueOf(DataIO.allVaccines.get(i).getCentre().getCentreId());
+         String centreName = DataIO.allVaccines.get(i).getCentre().getCentreName();
+         String centreStatus = DataIO.allVaccines.get(i).getCentre().getStatus();
+         String vaccineID = String.valueOf(DataIO.allVaccines.get(i).getVaccineID());
+         String vaccineName = DataIO.allVaccines.get(i).getVaccineName();
+         String amount = String.valueOf(DataIO.allVaccines.get(i).getInventory());
+         String array[] = {centreID, centreName, centreStatus, vaccineID, vaccineName, amount};
+         model.addRow(array);
+      }
+      tblVaccine.getColumnModel().getColumn(0).setMinWidth(0);
+      tblVaccine.getColumnModel().getColumn(0).setMaxWidth(0);
+      tblVaccine.getColumnModel().getColumn(3).setMinWidth(0);
+      tblVaccine.getColumnModel().getColumn(3).setMaxWidth(0);
+
+      btnClearActionPerformed(evt);
+
+      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+      tblVaccine.setRowSorter(tr);
+      tr.setRowFilter(RowFilter.regexFilter(""));
+   }//GEN-LAST:event_btnRefreshActionPerformed
+
+   private void tblVaccineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVaccineMouseClicked
+      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
+      comboBoxModel.removeAllElements();
+      cmbCentreName.enable(false);
+      comboBoxModel.addElement(tblVaccine.getValueAt(tblVaccine.getSelectedRow(), 1).toString());
+      txtCentreID.setText(tblVaccine.getValueAt(tblVaccine.getSelectedRow(), 0).toString());
+      txtVaccineID.setText(tblVaccine.getValueAt(tblVaccine.getSelectedRow(), 3).toString());
+      txtVaccineName.setText(tblVaccine.getValueAt(tblVaccine.getSelectedRow(), 4).toString());
+      txtAmount.setText(tblVaccine.getValueAt(tblVaccine.getSelectedRow(), 5).toString());
+   }//GEN-LAST:event_tblVaccineMouseClicked
+
+   private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
+      comboBoxModel.removeAllElements();
+      for (int i = 0; i < DataIO.allCentres.size(); i++) {
+         if (DataIO.allCentres.get(i).getStatus().equals("Active")) {
+            comboBoxModel.addElement(DataIO.allCentres.get(i).getCentreName());
          }
       }
-   }//GEN-LAST:event_btnActiveActionPerformed
+      String selectedCentre = comboBoxModel.getSelectedItem().toString();
+      Centre selected = DataIO.checkCentre(selectedCentre);
 
-   private void btnInactiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInactiveActionPerformed
-      int deactivate = JOptionPane.showConfirmDialog(this, "Close down the Centre?", "Confirm Deactivation?", JOptionPane.YES_NO_OPTION);
-      if (deactivate == JOptionPane.YES_OPTION) {
-         if (!txtID.getText().isBlank()) {
-            Centre found = DataIO.checkCentre(Integer.valueOf(txtID.getText()));
-            Vaccine.editCentre = found;
-            if (Vaccine.editCentre.getStatus().equals("Inactive")) {
-               JOptionPane.showMessageDialog(btnInactive, "Centre is already inactive!");
-            } else {
-               Vaccine.editCentre.setStatus("Inactive");
-               DataIO.write();
-               JOptionPane.showMessageDialog(btnInactive, "Centre is now Inactive!");
-               btnRefreshActionPerformed(evt);
-            }
-         } else {
-            JOptionPane.showMessageDialog(btnInactive, "Please select a row");
-         }
+      txtCentreID.setText(String.valueOf(selected.getCentreId()));
+      cmbCentreName.enable(true);
+      txtVaccineName.setText("");
+      txtVaccineID.setText("");
+      txtAmount.setText("");
+      txtSearch.setText("");
+      tblVaccine.getSelectionModel().clearSelection();
+   }//GEN-LAST:event_btnClearActionPerformed
+
+   private void cmbCentreNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCentreNameItemStateChanged
+      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
+      if (comboBoxModel.getSelectedItem() != null) {
+         String selectedCentre = comboBoxModel.getSelectedItem().toString();
+         Centre selected = DataIO.checkCentre(selectedCentre);
+         txtCentreID.setText(String.valueOf(selected.getCentreId()));
       }
-   }//GEN-LAST:event_btnInactiveActionPerformed
 
-   private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-      AdminMain a = new AdminMain();
-      a.setVisible(true);
-      this.dispose();
-   }//GEN-LAST:event_btnBackActionPerformed
+   }//GEN-LAST:event_cmbCentreNameItemStateChanged
+
+   private void txtAmountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAmountKeyPressed
+      char c = evt.getKeyChar();
+      if ((c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
+         txtAmount.setEditable(true);
+      } else if (Character.isLetter(c) || !((c >= '0') && (c <= '9'))) {
+         txtAmount.setEditable(false);
+      } else {
+         txtAmount.setEditable(true);
+      }
+   }//GEN-LAST:event_txtAmountKeyPressed
+
+   private void txtAmountKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAmountKeyTyped
+      boolean maxno = txtAmount.getText().length() > 6;
+      if (maxno) {
+         evt.consume();
+      }
+   }//GEN-LAST:event_txtAmountKeyTyped
+
+   private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_btnDeleteActionPerformed
 
    /**
     * @param args the command line arguments
@@ -499,7 +489,6 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          java.util.logging.Logger.getLogger(AdminVaccineManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
       }
       //</editor-fold>
-      //</editor-fold>
 
       /* Create and display the form */
       java.awt.EventQueue.invokeLater(new Runnable() {
@@ -510,27 +499,27 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JButton btnActive;
    private javax.swing.JButton btnBack;
    private javax.swing.JButton btnClear;
    private javax.swing.JButton btnCreate;
-   private javax.swing.JButton btnInactive;
+   private javax.swing.JButton btnDelete;
    private javax.swing.JButton btnRefresh;
    private javax.swing.JButton btnUpdate;
-   private javax.swing.JLabel jLabel1;
+   private javax.swing.JComboBox<String> cmbCentreName;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
    private javax.swing.JLabel jLabel6;
    private javax.swing.JLabel jLabel7;
+   private javax.swing.JLabel jLabel8;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JScrollPane jScrollPane1;
-   private javax.swing.JTable tblCentre;
-   private javax.swing.JTextField txtAddress;
-   private javax.swing.JTextField txtID;
-   private javax.swing.JTextField txtInventory;
-   private javax.swing.JTextField txtName;
+   private javax.swing.JTable tblVaccine;
+   private javax.swing.JTextField txtAmount;
+   private javax.swing.JTextField txtCentreID;
    private javax.swing.JTextField txtSearch;
+   private javax.swing.JTextField txtVaccineID;
+   private javax.swing.JTextField txtVaccineName;
    // End of variables declaration//GEN-END:variables
 }

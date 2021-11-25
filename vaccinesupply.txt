@@ -1,0 +1,42 @@
+1
+SinoVac
+500
+1
+Stadium Bukit Jalil
+Kuala Lumpur
+Active
+
+2
+Pfizer
+700
+1
+Stadium Bukit Jalil
+Kuala Lumpur
+Active
+
+3
+Pfizer
+300
+3
+IOI Puchong Mall
+Bandar Puchong Jaya
+Active
+
+4
+SinoVac
+900
+3
+IOI Puchong Mall
+Bandar Puchong Jaya
+Active
+
+5
+Moderna
+100
+3
+IOI Puchong Mall
+Bandar Puchong Jaya
+Active
+
+
+

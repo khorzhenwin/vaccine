@@ -187,6 +187,7 @@ public class Login extends javax.swing.JFrame {
       Register reg = new Register();
       reg.setVisible(true);
       this.dispose();
+
    }//GEN-LAST:event_btnRegisterActionPerformed
 
    private void btnLoginAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginAdminActionPerformed

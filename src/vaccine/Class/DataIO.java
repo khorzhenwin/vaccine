@@ -11,6 +11,7 @@ public class DataIO {
    public static ArrayList<People> allPeople = new ArrayList<People>(); //people.txt
    public static ArrayList<Personnel> allPersonnel = new ArrayList<Personnel>(); //personnel.txt
    public static ArrayList<Appointment> allAppointments = new ArrayList<Appointment>(); //appointment.txt
+   public static ArrayList<VaccineSupply> allVaccines = new ArrayList<VaccineSupply>(); //vaccinesupply.txt
 
    //Initialize all reading into java array lists
    public static void read() {
@@ -19,6 +20,7 @@ public class DataIO {
          Scanner s1 = new Scanner(new File("centre.txt"));
          Scanner s2 = new Scanner(new File("personnel.txt"));
          Scanner s3 = new Scanner(new File("appointment.txt"));
+         Scanner s4 = new Scanner(new File("vaccinesupply.txt"));
          // -----------------------People-----------------------
          while (s.hasNext()) {
             //icno
@@ -44,12 +46,10 @@ public class DataIO {
             String centreName = s1.nextLine();
             // centreAddress
             String centreAddress = s1.nextLine();
-            // inventory for vaccine
-            int inventory = Integer.parseInt(s1.nextLine());
             // centre status
             String status = s1.nextLine();
             s1.nextLine();
-            Centre place = new Centre(centreId, centreName, centreAddress, inventory, status);
+            Centre place = new Centre(centreId, centreName, centreAddress, status);
             allCentres.add(place);
          }
          // -----------------------Personnel-----------------------
@@ -66,7 +66,7 @@ public class DataIO {
          }
          // -----------------------Appointment-----------------------
          while (s3.hasNext()) {
-            //////////////////////////People object///////////////////////
+            // -- People object --
             //icno
             String icno = s3.nextLine();
             //password
@@ -78,7 +78,7 @@ public class DataIO {
             //citizen
             boolean citizen = Boolean.parseBoolean(s3.nextLine());
             People user1 = new People(icno, password, name, phone, citizen);
-            ///////////////////////////////////////////////////////////////
+            // -- end of people object --
             // date 1
             String date1 = s3.nextLine();
             // date 2
@@ -87,23 +87,46 @@ public class DataIO {
             boolean dose1 = Boolean.parseBoolean(s3.nextLine());
             // dose 2
             boolean dose2 = Boolean.parseBoolean(s3.nextLine());
-            //////////////////////////Centre object///////////////////////
+            // -- Centre object --
             // centreId
             int centreId = Integer.parseInt(s3.nextLine());
             // centreName
             String centreName = s3.nextLine();
             // centreAddress
             String centreAddress = s3.nextLine();
-            // inventory for vaccine
-            int inventory = Integer.parseInt(s3.nextLine());
             // centre status
             String status = s3.nextLine();
-            Centre place1 = new Centre(centreId, centreName, centreAddress, inventory, status);
-            ///////////////////////////////////////////////////////////////
+            Centre place1 = new Centre(centreId, centreName, centreAddress, status);
+            // -- end of centre object --
             // empty line seperator
             s3.nextLine();
             Appointment app = new Appointment(user1, date1, date2, dose1, dose2, place1);
             allAppointments.add(app);
+         }
+         // -----------------------Vaccine Supply-----------------------
+         while (s4.hasNext()) {
+            // vaccineID
+            int vaccineID = Integer.parseInt(s4.nextLine());
+            // vaccineName
+            String vaccineName = s4.nextLine();
+            // inventory
+            int inventory = Integer.parseInt(s4.nextLine());
+            // -- Centre object --
+            // centreId
+            int centreId = Integer.parseInt(s4.nextLine());
+            // centreName
+            String centreName = s4.nextLine();
+            // centreAddress
+            String centreAddress = s4.nextLine();
+            // centre status
+            String status = s4.nextLine();
+            Centre location = new Centre(centreId, centreName, centreAddress, status);
+            // empty line seperator
+            s4.nextLine();
+            VaccineSupply supply = new VaccineSupply(vaccineID, vaccineName, inventory, location);
+            allVaccines.add(supply);
+            location.getMyInventory().add(supply);
+
          }
       } catch (Exception e) {
          System.out.println("Error in read");
@@ -116,6 +139,7 @@ public class DataIO {
          PrintWriter a1 = new PrintWriter("personnel.txt");
          PrintWriter a2 = new PrintWriter("centre.txt");
          PrintWriter a3 = new PrintWriter("appointment.txt");
+         PrintWriter a4 = new PrintWriter("vaccinesupply.txt");
          // -----------------------People--------------------------
          for (int i = 0; i < allPeople.size(); i++) {
             a.println(allPeople.get(i).getIcno());
@@ -141,7 +165,6 @@ public class DataIO {
             a2.println(allCentres.get(i).getCentreId());
             a2.println(allCentres.get(i).getCentreName());
             a2.println(allCentres.get(i).getAddress());
-            a2.println(allCentres.get(i).getInventory());
             a2.println(allCentres.get(i).getStatus());
             // Print empty line as seperator
             a2.println();
@@ -164,12 +187,25 @@ public class DataIO {
             a3.println(allAppointments.get(i).getLocation().getCentreId());
             a3.println(allAppointments.get(i).getLocation().getCentreName());
             a3.println(allAppointments.get(i).getLocation().getAddress());
-            a3.println(allAppointments.get(i).getLocation().getInventory());
             a3.println(allAppointments.get(i).getLocation().getStatus());
             // Print empty line as seperator
             a3.println();
          }
          a3.close();
+         // ----------------------Vaccine Supply-----------------------
+         for (int i = 0; i < allVaccines.size(); i++) {
+            a4.println(allVaccines.get(i).getVaccineID());
+            a4.println(allVaccines.get(i).getVaccineName());
+            a4.println(allVaccines.get(i).getInventory());
+            // centre object
+            a4.println(allVaccines.get(i).getCentre().getCentreId());
+            a4.println(allVaccines.get(i).getCentre().getCentreName());
+            a4.println(allVaccines.get(i).getCentre().getAddress());
+            a4.println(allVaccines.get(i).getCentre().getStatus());
+            // Print empty line as seperator
+            a4.println();
+         }
+         a4.close();
       } catch (Exception e) {
          System.out.println("Error in write");
       }
@@ -225,6 +261,10 @@ public class DataIO {
 
    public static int getCentreSize() {
       return allCentres.size();
+   }
+
+   public static int getVaccineSize() {
+      return allVaccines.size();
    }
 
    public static Appointment checkAppointment(String x) {
