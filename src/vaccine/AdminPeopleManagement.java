@@ -5,6 +5,13 @@
  */
 package vaccine;
 
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import vaccine.Class.DataIO;
+import vaccine.Class.People;
+
 /**
  *
  * @author User
@@ -16,6 +23,20 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
     */
    public AdminPeopleManagement() {
       initComponents();
+      DataIO.read();
+      DefaultTableModel model = (DefaultTableModel) tblPeople.getModel();
+      model.setRowCount(0);
+      for (int i = 0; i < DataIO.allPeople.size(); i++) {
+         String icno = DataIO.allPeople.get(i).getIcno();
+         String name = DataIO.allPeople.get(i).getName();
+         String password = DataIO.allPeople.get(i).getPassword();
+         String contact = DataIO.allPeople.get(i).getPhone();
+         String citizen = String.valueOf(DataIO.allPeople.get(i).isCitizen());
+         String array[] = {icno, name, password, contact, citizen};
+         model.addRow(array);
+      }
+      tblPeople.getColumnModel().getColumn(2).setMinWidth(0);
+      tblPeople.getColumnModel().getColumn(2).setMaxWidth(0);
    }
 
    /**
@@ -28,169 +49,420 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
    private void initComponents() {
 
       jScrollPane1 = new javax.swing.JScrollPane();
-      jTable1 = new javax.swing.JTable();
-      jLabel1 = new javax.swing.JLabel();
-      jTextField1 = new javax.swing.JTextField();
-      jButton1 = new javax.swing.JButton();
+      tblPeople = new javax.swing.JTable();
+      txtSearch = new javax.swing.JTextField();
+      btnRefresh = new javax.swing.JButton();
       jLabel6 = new javax.swing.JLabel();
-      jCheckBox1 = new javax.swing.JCheckBox();
-      jTextField3 = new javax.swing.JTextField();
-      jTextField4 = new javax.swing.JTextField();
-      jTextField5 = new javax.swing.JTextField();
-      jTextField6 = new javax.swing.JTextField();
+      chkCitizen = new javax.swing.JCheckBox();
+      txtName = new javax.swing.JTextField();
+      txtIC = new javax.swing.JTextField();
+      txtContact = new javax.swing.JTextField();
       jLabel3 = new javax.swing.JLabel();
       jLabel4 = new javax.swing.JLabel();
       jLabel5 = new javax.swing.JLabel();
-      jButton2 = new javax.swing.JButton();
-      jButton3 = new javax.swing.JButton();
-      jButton4 = new javax.swing.JButton();
-      jButton5 = new javax.swing.JButton();
+      btnRegister = new javax.swing.JButton();
+      btnUpdate = new javax.swing.JButton();
+      btnClear = new javax.swing.JButton();
+      btnDelete = new javax.swing.JButton();
+      jLabel7 = new javax.swing.JLabel();
+      txtPassword = new javax.swing.JPasswordField();
+      chkPassword = new javax.swing.JCheckBox();
+      btnBack = new javax.swing.JButton();
+      jLabel1 = new javax.swing.JLabel();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setResizable(false);
 
-      jTable1.setModel(new javax.swing.table.DefaultTableModel(
+      tblPeople.setAutoCreateRowSorter(true);
+      tblPeople.setForeground(new java.awt.Color(51, 51, 51));
+      tblPeople.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null}
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null}
          },
          new String [] {
-            "Title 1", "Title 2", "Title 3", "Title 4"
+            "IC No", "Name", "Password", "Contact No", "Malaysian"
          }
-      ));
-      jScrollPane1.setViewportView(jTable1);
+      ) {
+         boolean[] canEdit = new boolean [] {
+            false, false, false, false, false
+         };
 
-      jLabel1.setText("User Profile(User)");
+         public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+         }
+      });
+      tblPeople.setSelectionBackground(new java.awt.Color(153, 153, 255));
+      tblPeople.setSelectionForeground(new java.awt.Color(51, 51, 51));
+      tblPeople.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      tblPeople.getTableHeader().setReorderingAllowed(false);
+      tblPeople.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            tblPeopleMouseClicked(evt);
+         }
+      });
+      jScrollPane1.setViewportView(tblPeople);
 
-      jTextField1.setText("jTextField1");
+      txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+         public void keyReleased(java.awt.event.KeyEvent evt) {
+            txtSearchKeyReleased(evt);
+         }
+      });
 
-      jButton1.setText("Search");
+      btnRefresh.setText("Refresh");
+      btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnRefreshActionPerformed(evt);
+         }
+      });
 
-      jLabel6.setText("Phone Number");
+      jLabel6.setText("Contact No :");
 
-      jCheckBox1.setText("Are you Non-Citizen?");
+      chkCitizen.setText("Citizen of Malaysia");
 
-      jTextField3.setText("jTextField1");
+      txtContact.addKeyListener(new java.awt.event.KeyAdapter() {
+         public void keyPressed(java.awt.event.KeyEvent evt) {
+            txtContactKeyPressed(evt);
+         }
+         public void keyTyped(java.awt.event.KeyEvent evt) {
+            txtContactKeyTyped(evt);
+         }
+      });
 
-      jTextField4.setText("jTextField1");
+      jLabel3.setText("Name :");
 
-      jTextField5.setText("jTextField1");
+      jLabel4.setText("Password :");
 
-      jTextField6.setText("jTextField1");
+      jLabel5.setText("IC No :");
 
-      jLabel3.setText("name");
+      btnRegister.setText("Register");
+      btnRegister.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnRegisterActionPerformed(evt);
+         }
+      });
 
-      jLabel4.setText("pasasword");
+      btnUpdate.setText("Update");
+      btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnUpdateActionPerformed(evt);
+         }
+      });
 
-      jLabel5.setText("IC");
+      btnClear.setText("Clear");
+      btnClear.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnClearActionPerformed(evt);
+         }
+      });
 
-      jButton2.setText("Register");
+      btnDelete.setText("Delete");
+      btnDelete.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnDeleteActionPerformed(evt);
+         }
+      });
 
-      jButton3.setText("Update");
+      jLabel7.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+      jLabel7.setText("Manage People Profiles");
+      jLabel7.setToolTipText("");
+      jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-      jButton4.setText("Clear Field");
+      chkPassword.setText("Show Password");
+      chkPassword.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            chkPasswordActionPerformed(evt);
+         }
+      });
 
-      jButton5.setText("Delete");
+      btnBack.setText("Back ➤");
+      btnBack.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnBackActionPerformed(evt);
+         }
+      });
+
+      jLabel1.setText("🔍");
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(layout.createSequentialGroup()
-                  .addContainerGap()
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)))
-               .addGroup(layout.createSequentialGroup()
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+               .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                  .addGap(151, 151, 151)
+                  .addComponent(jLabel7)
+                  .addGap(0, 0, Short.MAX_VALUE))
+               .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                  .addGap(57, 57, 57)
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                      .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                           .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                           .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
-                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2)))
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5))
+                           .addGroup(layout.createSequentialGroup()
+                              .addGap(5, 5, 5)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(chkPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                 .addComponent(txtName)
+                                 .addComponent(txtIC)
+                                 .addComponent(txtContact)))
+                           .addComponent(chkCitizen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                      .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                           .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                           .addComponent(jTextField4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                           .addComponent(jLabel1)
                            .addGroup(layout.createSequentialGroup()
-                              .addGap(10, 10, 10)
-                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                 .addComponent(jCheckBox1)
-                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
-               .addGroup(layout.createSequentialGroup()
-                  .addGap(48, 48, 48)
-                  .addComponent(jLabel5)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(jTextField5)))
-            .addContainerGap(49, Short.MAX_VALUE))
+                              .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                              .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                              .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                              .addComponent(txtSearch)
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                              .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+            .addGap(60, 60, 60))
+         .addGroup(layout.createSequentialGroup()
+            .addGap(19, 19, 19)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(24, Short.MAX_VALUE))
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jLabel1)
-            .addGap(10, 10, 10)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnBack)
+            .addGap(2, 2, 2)
+            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txtIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jLabel5))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(layout.createSequentialGroup()
-                  .addGap(8, 8, 8)
-                  .addComponent(jCheckBox1)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                     .addComponent(jLabel6)
-                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-               .addGroup(layout.createSequentialGroup()
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                     .addComponent(jLabel4)
-                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                  .addGap(11, 11, 11)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                     .addComponent(jLabel3)
-                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGap(24, 24, 24)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jButton2)
-               .addComponent(jButton3)
-               .addComponent(jButton4)
-               .addComponent(jButton5))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel3))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jButton1))
+               .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel4)
+               .addComponent(chkPassword))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel6)
+               .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(chkCitizen)
+            .addGap(28, 28, 28)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+               .addComponent(btnDelete)
+               .addComponent(btnClear)
+               .addComponent(btnUpdate)
+               .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(18, 18, 18)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btnRefresh)
+               .addComponent(jLabel1))
+            .addGap(18, 18, 18)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(12, 12, 12))
       );
 
+      layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClear, btnDelete, btnRegister, btnUpdate});
+
       pack();
+      setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
+
+   private void tblPeopleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPeopleMouseClicked
+
+      txtIC.setText(tblPeople.getValueAt(tblPeople.getSelectedRow(), 0).toString());
+      txtName.setText(tblPeople.getValueAt(tblPeople.getSelectedRow(), 1).toString());
+      txtPassword.setText(tblPeople.getValueAt(tblPeople.getSelectedRow(), 2).toString());
+      txtContact.setText(tblPeople.getValueAt(tblPeople.getSelectedRow(), 3).toString());
+      chkCitizen.setSelected(Boolean.valueOf(tblPeople.getValueAt(tblPeople.getSelectedRow(), 4).toString()));
+
+      txtIC.enable(false);
+
+   }//GEN-LAST:event_tblPeopleMouseClicked
+
+   private void chkPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPasswordActionPerformed
+      if (chkPassword.isSelected()) {
+         txtPassword.setEchoChar((char) 0); //password = JPasswordField
+      } else {
+         txtPassword.setEchoChar('*');
+      }
+   }//GEN-LAST:event_chkPasswordActionPerformed
+
+   private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+
+      DefaultTableModel model = (DefaultTableModel) tblPeople.getModel();
+      model.setRowCount(0);
+      for (int i = 0; i < DataIO.allPeople.size(); i++) {
+         String icno = DataIO.allPeople.get(i).getIcno();
+         String name = DataIO.allPeople.get(i).getName();
+         String password = DataIO.allPeople.get(i).getPassword();
+         String contact = DataIO.allPeople.get(i).getPhone();
+         String citizen = String.valueOf(DataIO.allPeople.get(i).isCitizen());
+         String array[] = {icno, name, password, contact, citizen};
+         model.addRow(array);
+      }
+      tblPeople.getColumnModel().getColumn(2).setMinWidth(0);
+      tblPeople.getColumnModel().getColumn(2).setMaxWidth(0);
+      btnClearActionPerformed(evt);
+      txtIC.enable(true);
+   }//GEN-LAST:event_btnRefreshActionPerformed
+
+   private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+      txtIC.setText("");
+      txtName.setText("");
+      txtPassword.setText("");
+      txtPassword.setEchoChar('*');
+      txtContact.setText("");
+      txtSearch.setText("");
+      chkCitizen.setSelected(false);
+      chkPassword.setSelected(false);
+      txtIC.enable(true);
+      tblPeople.getSelectionModel().clearSelection();
+
+   }//GEN-LAST:event_btnClearActionPerformed
+
+   private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+      DefaultTableModel model = (DefaultTableModel) tblPeople.getModel();
+      String input = txtSearch.getText();
+      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+      tblPeople.setRowSorter(tr);
+      tr.setRowFilter(RowFilter.regexFilter(input));
+   }//GEN-LAST:event_txtSearchKeyReleased
+
+   private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+
+      int confirmReg = JOptionPane.showConfirmDialog(this, "Register User", "Confirm Registration?", JOptionPane.YES_NO_OPTION);
+      if (confirmReg == JOptionPane.YES_OPTION) {
+         //validation for empty fields
+         if (txtIC.getText().isBlank()
+                 || txtPassword.getText().isBlank()
+                 || txtName.getText().isBlank()
+                 || txtContact.getText().isBlank()) {
+            JOptionPane.showMessageDialog(btnRegister, "Please fill in all the fields!");
+         } else {
+            People found = DataIO.checkPeople(txtIC.getText().trim());
+            People foundPhone = DataIO.checkPeopleContact(txtContact.getText().trim());
+            // Check if IC or phone exist, dont allow registration
+            if (found != null) {
+               JOptionPane.showMessageDialog(btnRegister, "User already exists!");
+            } else if (foundPhone != null) {
+               JOptionPane.showMessageDialog(btnRegister, "Contact Number already exists!");
+            } else {
+               People user = new People(txtIC.getText().trim(),
+                       txtPassword.getText().trim(),
+                       txtName.getText(),
+                       txtContact.getText().trim(),
+                       chkCitizen.isSelected());
+               DataIO.allPeople.add(user);
+               DataIO.write();
+               JOptionPane.showMessageDialog(btnRegister, "Account Successfully Registered!");
+               btnRefreshActionPerformed(evt);
+            }
+         }
+      }
+   }//GEN-LAST:event_btnRegisterActionPerformed
+
+   private void txtContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactKeyTyped
+      boolean maxno = txtContact.getText().length() > 11;
+      if (maxno) {
+         evt.consume();
+      }
+   }//GEN-LAST:event_txtContactKeyTyped
+
+   private void txtContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactKeyPressed
+      char c = evt.getKeyChar();
+      if (Character.isLetter(c)) {
+         txtContact.setEditable(false);
+      } else {
+         txtContact.setEditable(true);
+      }
+   }//GEN-LAST:event_txtContactKeyPressed
+
+   private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+      int confirmDelete = JOptionPane.showConfirmDialog(this, "Delete User", "Confirm Deletion?", JOptionPane.YES_NO_OPTION);
+      if (confirmDelete == JOptionPane.YES_OPTION) {
+         People found = DataIO.checkPeople(txtIC.getText().trim());
+         if (found == null) {
+            JOptionPane.showMessageDialog(btnDelete, "IC not found");
+         } else {
+            Vaccine.login = found;
+            for (int i = 0; i < DataIO.allPeople.size(); i++) {
+               if (Vaccine.login == DataIO.allPeople.get(i)) {
+                  DataIO.allPeople.remove(i);
+                  break;
+               }
+            }
+            DataIO.write();
+            JOptionPane.showMessageDialog(btnDelete, "Deleted Successfully!");
+            btnRefreshActionPerformed(evt);
+         }
+      }
+   }//GEN-LAST:event_btnDeleteActionPerformed
+
+   private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+      int confirmUpdate = JOptionPane.showConfirmDialog(this, "Update User", "Save Changes?", JOptionPane.YES_NO_OPTION);
+      if (confirmUpdate == JOptionPane.YES_OPTION) {
+         People found = DataIO.checkPeople(txtIC.getText().trim());
+         People foundPhone = DataIO.checkPeopleContact(txtContact.getText().trim());
+         if (found == null) {
+            JOptionPane.showMessageDialog(btnUpdate, "IC not found");
+         } else if (foundPhone != null && !foundPhone.getIcno().equals(found.getIcno())) {
+            //validating phone number
+            JOptionPane.showMessageDialog(btnUpdate, "Contact Number already exists!");
+         } else {
+            Vaccine.login = found;
+            //validation for empty fields
+            if (txtPassword.getText().isBlank()
+                    || txtContact.getText().isBlank()
+                    || txtName.getText().isBlank()
+                    || txtIC.getText().isBlank()) {
+               JOptionPane.showMessageDialog(btnUpdate, "Please make sure all fields are filled!");
+            } else {
+
+               // updating user object with latest information
+               Vaccine.login.setIcno(txtIC.getText().trim());
+               Vaccine.login.setName(txtName.getText());
+               Vaccine.login.setPassword(txtPassword.getText().trim());
+               Vaccine.login.setPhone(txtContact.getText().trim());
+               Vaccine.login.setCitizen(chkCitizen.isSelected());
+               DataIO.write();
+               JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
+               btnRefreshActionPerformed(evt);
+            }
+         }
+      }
+   }//GEN-LAST:event_btnUpdateActionPerformed
+
+   private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+      AdminMain a = new AdminMain();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnBackActionPerformed
 
    /**
     * @param args the command line arguments
@@ -231,23 +503,26 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JButton jButton1;
-   private javax.swing.JButton jButton2;
-   private javax.swing.JButton jButton3;
-   private javax.swing.JButton jButton4;
-   private javax.swing.JButton jButton5;
-   private javax.swing.JCheckBox jCheckBox1;
+   private javax.swing.JButton btnBack;
+   private javax.swing.JButton btnClear;
+   private javax.swing.JButton btnDelete;
+   private javax.swing.JButton btnRefresh;
+   private javax.swing.JButton btnRegister;
+   private javax.swing.JButton btnUpdate;
+   private javax.swing.JCheckBox chkCitizen;
+   private javax.swing.JCheckBox chkPassword;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
    private javax.swing.JLabel jLabel6;
+   private javax.swing.JLabel jLabel7;
    private javax.swing.JScrollPane jScrollPane1;
-   private javax.swing.JTable jTable1;
-   private javax.swing.JTextField jTextField1;
-   private javax.swing.JTextField jTextField3;
-   private javax.swing.JTextField jTextField4;
-   private javax.swing.JTextField jTextField5;
-   private javax.swing.JTextField jTextField6;
+   private javax.swing.JTable tblPeople;
+   private javax.swing.JTextField txtContact;
+   private javax.swing.JTextField txtIC;
+   private javax.swing.JTextField txtName;
+   private javax.swing.JPasswordField txtPassword;
+   private javax.swing.JTextField txtSearch;
    // End of variables declaration//GEN-END:variables
 }

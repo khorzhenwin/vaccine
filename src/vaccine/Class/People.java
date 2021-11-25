@@ -2,11 +2,10 @@ package vaccine.Class;
 
 public class People extends User {
 
-   private String name;
-   private int phone;
+   private String name, phone;
    private boolean citizen;
 
-   public People(String name, int phone, boolean citizen, int icno, String password) {
+   public People(String icno, String password, String name, String phone, boolean citizen) {
       super(icno, password);
       this.name = name;
       this.phone = phone;
@@ -21,11 +20,11 @@ public class People extends User {
       this.name = name;
    }
 
-   public int getPhone() {
+   public String getPhone() {
       return phone;
    }
 
-   public void setPhone(int phone) {
+   public void setPhone(String phone) {
       this.phone = phone;
    }
 

@@ -1,25 +1,23 @@
 package vaccine.Class;
 
-import java.util.ArrayList;
-
 public class Centre {
 
-   private int centreID;
-   private String centreName, Address;
-   private ArrayList<VaccineSupply> myInventory = new ArrayList<VaccineSupply>();
+   private int inventory;
+   private String centreName, address, status;
 
-   public Centre(int centreID, String centreName, String Address) {
-      this.centreID = centreID;
+   public Centre(String centreName, String address, int inventory, String status) {
+      this.inventory = inventory;
       this.centreName = centreName;
-      this.Address = Address;
+      this.address = address;
+      this.status = status;
    }
 
-   public int getCentreID() {
-      return centreID;
+   public int getInventory() {
+      return inventory;
    }
 
-   public void setCentreID(int centreID) {
-      this.centreID = centreID;
+   public void setInventory(int inventory) {
+      this.inventory = inventory;
    }
 
    public String getCentreName() {
@@ -31,19 +29,19 @@ public class Centre {
    }
 
    public String getAddress() {
-      return Address;
+      return address;
    }
 
-   public void setAddress(String Address) {
-      this.Address = Address;
+   public void setAddress(String address) {
+      this.address = address;
    }
 
-   public ArrayList<VaccineSupply> getMyInventory() {
-      return myInventory;
+   public String getStatus() {
+      return status;
    }
 
-   public void setMyInventory(ArrayList<VaccineSupply> myInventory) {
-      this.myInventory = myInventory;
+   public void setStatus(String status) {
+      this.status = status;
    }
 
 }
