@@ -214,6 +214,15 @@ public class DataIO {
       return null;
    }
 
+   public static Centre checkCentre(String name) {
+      for (int i = 0; i < allCentres.size(); i++) {
+         if (name.equals(allCentres.get(i).getCentreName())) {
+            return allCentres.get(i);
+         }
+      }
+      return null;
+   }
+
    public static int getCentreSize() {
       return allCentres.size();
    }
