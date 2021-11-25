@@ -2,14 +2,23 @@ package vaccine.Class;
 
 public class Centre {
 
-   private int inventory;
+   private int centreId, inventory;
    private String centreName, address, status;
 
-   public Centre(String centreName, String address, int inventory, String status) {
+   public Centre(int centreId, String centreName, String address, int inventory, String status) {
+      this.centreId = centreId;
       this.inventory = inventory;
       this.centreName = centreName;
       this.address = address;
       this.status = status;
+   }
+
+   public int getCentreId() {
+      return centreId;
+   }
+
+   public void setCentreId(int centreId) {
+      this.centreId = centreId;
    }
 
    public int getInventory() {

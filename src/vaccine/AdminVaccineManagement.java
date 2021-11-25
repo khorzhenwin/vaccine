@@ -5,6 +5,9 @@
  */
 package vaccine;
 
+import javax.swing.table.DefaultTableModel;
+import vaccine.Class.DataIO;
+
 /**
  *
  * @author User
@@ -16,6 +19,20 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
     */
    public AdminVaccineManagement() {
       initComponents();
+      DataIO.read();
+      DefaultTableModel model = (DefaultTableModel) tblCentre.getModel();
+      model.setRowCount(0);
+      for (int i = 0; i < DataIO.allCentres.size(); i++) {
+         String id = String.valueOf(DataIO.allCentres.get(i).getCentreId());
+         String name = DataIO.allCentres.get(i).getCentreName();
+         String address = DataIO.allCentres.get(i).getAddress();
+         String inventory = String.valueOf(DataIO.allCentres.get(i).getInventory());
+         String status = DataIO.allCentres.get(i).getStatus();
+         String array[] = {id, name, address, inventory, status};
+         model.addRow(array);
+      }
+      tblCentre.getColumnModel().getColumn(0).setMinWidth(0);
+      tblCentre.getColumnModel().getColumn(0).setMaxWidth(0);
    }
 
    /**
@@ -29,51 +46,84 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
 
       jPanel1 = new javax.swing.JPanel();
       jLabel2 = new javax.swing.JLabel();
-      jButton2 = new javax.swing.JButton();
+      btnCreate = new javax.swing.JButton();
       txtSearch = new javax.swing.JTextField();
-      jButton3 = new javax.swing.JButton();
+      btnInactive = new javax.swing.JButton();
       jLabel4 = new javax.swing.JLabel();
       txtName = new javax.swing.JTextField();
-      jButton5 = new javax.swing.JButton();
+      btnUpdate = new javax.swing.JButton();
       txtRefresh = new javax.swing.JButton();
-      jScrollPane1 = new javax.swing.JScrollPane();
-      jTable1 = new javax.swing.JTable();
       txtAddress = new javax.swing.JTextField();
       jLabel5 = new javax.swing.JLabel();
       txtInventory = new javax.swing.JTextField();
       jLabel6 = new javax.swing.JLabel();
+      btnActive = new javax.swing.JButton();
+      jLabel1 = new javax.swing.JLabel();
+      jScrollPane1 = new javax.swing.JScrollPane();
+      tblCentre = new javax.swing.JTable();
+      txtID = new javax.swing.JTextField();
+      jLabel7 = new javax.swing.JLabel();
       jLabel3 = new javax.swing.JLabel();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setResizable(false);
 
       jLabel2.setText("Centre Name");
 
-      jButton2.setText("Register");
+      btnCreate.setText("Create");
 
-      jButton3.setText("Unavailable");
+      btnInactive.setText("Inactive");
 
       jLabel4.setText("Address");
 
-      jButton5.setText("Add Vaccine Amount");
+      btnUpdate.setText("Update");
 
       txtRefresh.setText("Refresh");
-
-      jTable1.setModel(new javax.swing.table.DefaultTableModel(
-         new Object [][] {
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null}
-         },
-         new String [] {
-            "Title 1", "Title 2", "Title 3", "Title 4"
-         }
-      ));
-      jScrollPane1.setViewportView(jTable1);
 
       jLabel5.setText("Inventory");
 
       jLabel6.setText("🔍");
+
+      btnActive.setText("Active");
+
+      jLabel1.setText("Update Status  :");
+
+      tblCentre.setAutoCreateRowSorter(true);
+      tblCentre.setForeground(new java.awt.Color(51, 51, 51));
+      tblCentre.setModel(new javax.swing.table.DefaultTableModel(
+         new Object [][] {
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null}
+         },
+         new String [] {
+            "CentreID", "CentreName", "Address", "Inventory", "Status"
+         }
+      ) {
+         boolean[] canEdit = new boolean [] {
+            false, false, false, false, false
+         };
+
+         public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+         }
+      });
+      tblCentre.setSelectionBackground(new java.awt.Color(153, 153, 255));
+      tblCentre.setSelectionForeground(new java.awt.Color(51, 51, 51));
+      tblCentre.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      tblCentre.getTableHeader().setReorderingAllowed(false);
+      tblCentre.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            tblCentreMouseClicked(evt);
+         }
+      });
+      jScrollPane1.setViewportView(tblCentre);
+
+      txtID.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+      txtID.setEnabled(false);
+
+      jLabel7.setText("Centre ID");
 
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
@@ -81,41 +131,55 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel1Layout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-               .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                  .addComponent(txtSearch)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(txtRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-               .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addComponent(jScrollPane1)
+               .addGroup(jPanel1Layout.createSequentialGroup()
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnActive, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnInactive, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                      .addComponent(txtAddress)
                      .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(txtInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                     .addComponent(txtSearch))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(txtRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
-         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addGap(84, 84, 84)
-            .addComponent(jButton2)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jButton3)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jButton5)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       jPanel1Layout.setVerticalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel1Layout.createSequentialGroup()
             .addContainerGap()
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel7)
+               .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btnInactive)
+               .addComponent(btnActive)
+               .addComponent(jLabel1))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel2)
                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -125,19 +189,17 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jLabel4))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jButton2)
-               .addComponent(jButton3)
-               .addComponent(jButton5))
-            .addGap(18, 18, 18)
+               .addComponent(btnCreate)
+               .addComponent(btnUpdate))
+            .addGap(26, 26, 26)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(txtRefresh)
                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
       );
 
       jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -151,25 +213,36 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
             .addGap(61, 61, 61)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(61, Short.MAX_VALUE))
-         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel3)
-            .addGap(83, 83, 83))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                  .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGap(9, 9, 9)))
+            .addContainerGap(64, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addGap(49, 49, 49)
+            .addGap(27, 27, 27)
             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(45, 45, 45))
       );
 
       pack();
+      setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
+
+   private void tblCentreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCentreMouseClicked
+
+      txtID.setText(tblCentre.getValueAt(tblCentre.getSelectedRow(), 0).toString());
+      txtName.setText(tblCentre.getValueAt(tblCentre.getSelectedRow(), 1).toString());
+      txtAddress.setText(tblCentre.getValueAt(tblCentre.getSelectedRow(), 2).toString());
+      txtInventory.setText(tblCentre.getValueAt(tblCentre.getSelectedRow(), 3).toString());
+
+      txtID.enable(false);
+   }//GEN-LAST:event_tblCentreMouseClicked
 
    /**
     * @param args the command line arguments
@@ -208,18 +281,22 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JButton jButton2;
-   private javax.swing.JButton jButton3;
-   private javax.swing.JButton jButton5;
+   private javax.swing.JButton btnActive;
+   private javax.swing.JButton btnCreate;
+   private javax.swing.JButton btnInactive;
+   private javax.swing.JButton btnUpdate;
+   private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
    private javax.swing.JLabel jLabel6;
+   private javax.swing.JLabel jLabel7;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JScrollPane jScrollPane1;
-   private javax.swing.JTable jTable1;
+   private javax.swing.JTable tblCentre;
    private javax.swing.JTextField txtAddress;
+   private javax.swing.JTextField txtID;
    private javax.swing.JTextField txtInventory;
    private javax.swing.JTextField txtName;
    private javax.swing.JButton txtRefresh;

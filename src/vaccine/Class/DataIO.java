@@ -38,6 +38,8 @@ public class DataIO {
          }
          // ------------------------Centre-------------------------
          while (s1.hasNext()) {
+            // centreId
+            int centreId = Integer.parseInt(s1.nextLine());
             // centreName
             String centreName = s1.nextLine();
             // centreAddress
@@ -47,7 +49,7 @@ public class DataIO {
             // centre status
             String status = s1.nextLine();
             s1.nextLine();
-            Centre place = new Centre(centreName, centreAddress, inventory, status);
+            Centre place = new Centre(centreId, centreName, centreAddress, inventory, status);
             allCentres.add(place);
          }
          // -----------------------Personnel-----------------------
@@ -86,6 +88,8 @@ public class DataIO {
             // dose 2
             boolean dose2 = Boolean.parseBoolean(s3.nextLine());
             //////////////////////////Centre object///////////////////////
+            // centreId
+            int centreId = Integer.parseInt(s3.nextLine());
             // centreName
             String centreName = s3.nextLine();
             // centreAddress
@@ -94,7 +98,7 @@ public class DataIO {
             int inventory = Integer.parseInt(s3.nextLine());
             // centre status
             String status = s3.nextLine();
-            Centre place1 = new Centre(centreName, centreAddress, inventory, status);
+            Centre place1 = new Centre(centreId, centreName, centreAddress, inventory, status);
             ///////////////////////////////////////////////////////////////
             // empty line seperator
             s3.nextLine();
@@ -134,6 +138,7 @@ public class DataIO {
          a1.close();
          // ------------------------Centre-------------------------
          for (int i = 0; i < allCentres.size(); i++) {
+            a2.println(allCentres.get(i).getCentreId());
             a2.println(allCentres.get(i).getCentreName());
             a2.println(allCentres.get(i).getAddress());
             a2.println(allCentres.get(i).getInventory());
@@ -156,6 +161,7 @@ public class DataIO {
             a3.println(allAppointments.get(i).isDose1());
             a3.println(allAppointments.get(i).isDose2());
             // centre object
+            a3.println(allAppointments.get(i).getLocation().getCentreId());
             a3.println(allAppointments.get(i).getLocation().getCentreName());
             a3.println(allAppointments.get(i).getLocation().getAddress());
             a3.println(allAppointments.get(i).getLocation().getInventory());
