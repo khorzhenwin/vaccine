@@ -6,6 +6,7 @@ public class Vaccine {
 
    public static People login;
    public static Personnel adminLogin;
+   public static Centre editCentre;
 
    public static void main(String[] args) {
       DataIO.read();

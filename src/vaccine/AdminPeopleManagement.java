@@ -330,6 +330,10 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       tblPeople.getColumnModel().getColumn(2).setMaxWidth(0);
       btnClearActionPerformed(evt);
       txtIC.enable(true);
+
+      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+      tblPeople.setRowSorter(tr);
+      tr.setRowFilter(RowFilter.regexFilter(""));
    }//GEN-LAST:event_btnRefreshActionPerformed
 
    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed

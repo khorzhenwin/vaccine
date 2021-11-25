@@ -204,4 +204,27 @@ public class DataIO {
       }
       return null;
    }
+
+   public static Centre checkCentre(int id) {
+      for (int i = 0; i < allCentres.size(); i++) {
+         if (id == allCentres.get(i).getCentreId()) {
+            return allCentres.get(i);
+         }
+      }
+      return null;
+   }
+
+   public static int getCentreSize() {
+      return allCentres.size();
+   }
+
+   public static Appointment checkAppointment(String x) {
+      for (int i = 0; i < allAppointments.size(); i++) {
+         if (x.equals((allAppointments.get(i).getPerson().getIcno()))) {
+            return allAppointments.get(i);
+         }
+      }
+      return null;
+   }
+
 }
