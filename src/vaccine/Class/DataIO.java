@@ -169,6 +169,18 @@ public class DataIO {
       }
    }
 
+<<<<<<< HEAD
+=======
+   public static Appointment checkAppointment(String x) {
+       for(int i = 0; i < allAppointments.size(); i++) {
+           if (x.equals((allAppointments.get(i).getPerson().getIcno()))) {
+               return allAppointments.get(i);
+           }
+       }
+       return null;
+   }
+   
+>>>>>>> Nash
    public static People checkPeople(String x) {
       // return null if name not found, return name object if found
       for (int i = 0; i < allPeople.size(); i++) {
@@ -199,3 +211,4 @@ public class DataIO {
       return null;
    }
 }
+

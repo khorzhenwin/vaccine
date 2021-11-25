@@ -229,9 +229,16 @@ public class UserProfile extends javax.swing.JFrame {
    }//GEN-LAST:event_chkPasswordActionPerformed
 
    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+<<<<<<< HEAD
       UserMain a = new UserMain();
       a.setVisible(true);
       this.dispose();
+=======
+    UserMain um = new UserMain();
+        um.setVisible(true);
+        this.dispose();
+        
+>>>>>>> Nash
    }//GEN-LAST:event_btnBackActionPerformed
 
    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed

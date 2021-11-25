@@ -154,11 +154,14 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtContact">
+<<<<<<< HEAD
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
           </Properties>
+=======
+>>>>>>> Nash
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtContactActionPerformed"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtContactKeyPressed"/>
@@ -176,9 +179,12 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtName">
           <Properties>
+<<<<<<< HEAD
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
+=======
+>>>>>>> Nash
             <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
@@ -202,9 +208,12 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtIC">
           <Properties>
+<<<<<<< HEAD
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
+=======
+>>>>>>> Nash
             <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
@@ -217,11 +226,14 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtPassword">
+<<<<<<< HEAD
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
           </Properties>
+=======
+>>>>>>> Nash
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkPassword">
           <Properties>
