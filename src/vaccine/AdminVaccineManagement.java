@@ -370,7 +370,27 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
    }//GEN-LAST:event_txtSearchKeyReleased
 
    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+      if (txtVaccineID.getText().isBlank()) {
+         JOptionPane.showMessageDialog(btnUpdate, "Select a centre to update!");
+      } else {
+         int confirmUpdate = JOptionPane.showConfirmDialog(this, "Update Centre", "Save Changes?", JOptionPane.YES_NO_OPTION);
+         if (confirmUpdate == JOptionPane.YES_OPTION) {
 
+            Vaccine.inventory = DataIO.checkSupply(Integer.valueOf(txtVaccineID.getText().trim()));
+            // empty fields validation
+            if (txtVaccineName.getText().isBlank()
+                    || txtAmount.getText().isBlank()) {
+               JOptionPane.showMessageDialog(btnCreate, "Please fill in all the fields!");
+            } else {
+               Vaccine.inventory.setVaccineName(txtVaccineName.getText().trim());
+               Vaccine.inventory.setInventory(Integer.valueOf(txtAmount.getText().trim()));
+               DataIO.write();
+               JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
+               btnRefreshActionPerformed(evt);
+            }
+
+         }
+      }
    }//GEN-LAST:event_btnUpdateActionPerformed
 
    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -460,7 +480,31 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
    }//GEN-LAST:event_txtAmountKeyTyped
 
    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-      // TODO add your handling code here:
+      int confirmDelete = JOptionPane.showConfirmDialog(this, "Delete Inventory for this Centre?", "Confirm Deletion?", JOptionPane.YES_NO_OPTION);
+      if (confirmDelete == JOptionPane.YES_OPTION) {
+         // allow only if a row is not selected
+         if (!tblVaccine.getSelectionModel().isSelectionEmpty() || !txtVaccineID.getText().isBlank()) {
+            Vaccine.inventory = DataIO.checkSupply(Integer.valueOf(txtVaccineID.getText().trim()));
+            // removing record from DataIO array list
+            for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+               if (Vaccine.inventory == DataIO.allVaccines.get(i)) {
+                  DataIO.allVaccines.remove(i);
+                  // removing record from Centre Array List
+                  for (int j = 0; j < Vaccine.inventory.getCentre().getMyInventory().size(); j++) {
+                     if (Vaccine.inventory.getCentre() == Vaccine.inventory.getCentre().getMyInventory().get(j).getCentre()) {
+                        Vaccine.inventory.getCentre().getMyInventory().remove(j);
+                     }
+                  }
+                  break;
+               }
+            }
+            DataIO.write();
+            JOptionPane.showMessageDialog(btnDelete, "Deleted Successfully!");
+            btnRefreshActionPerformed(evt);
+         } else {
+            JOptionPane.showMessageDialog(btnDelete, "Please select a row");
+         }
+      }
    }//GEN-LAST:event_btnDeleteActionPerformed
 
    /**

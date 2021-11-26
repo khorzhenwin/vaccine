@@ -23,20 +23,10 @@ Bandar Puchong Jaya
 Active
 
 4
-SinoVac
-900
-3
-IOI Puchong Mall
-Bandar Puchong Jaya
-Active
-
-5
 Moderna
-100
+1100
 3
 IOI Puchong Mall
 Bandar Puchong Jaya
 Active
-
-
 

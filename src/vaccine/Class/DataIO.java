@@ -259,12 +259,13 @@ public class DataIO {
       return null;
    }
 
-   public static int getCentreSize() {
-      return allCentres.size();
-   }
-
-   public static int getVaccineSize() {
-      return allVaccines.size();
+   public static VaccineSupply checkSupply(int id) {
+      for (int i = 0; i < allVaccines.size(); i++) {
+         if (id == allVaccines.get(i).getVaccineID()) {
+            return allVaccines.get(i);
+         }
+      }
+      return null;
    }
 
    public static Appointment checkAppointment(String x) {
@@ -274,6 +275,14 @@ public class DataIO {
          }
       }
       return null;
+   }
+
+   public static int getCentreSize() {
+      return allCentres.size();
+   }
+
+   public static int getVaccineSize() {
+      return allVaccines.size();
    }
 
 }
