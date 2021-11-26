@@ -384,6 +384,17 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
             } else {
                Vaccine.inventory.setVaccineName(txtVaccineName.getText().trim());
                Vaccine.inventory.setInventory(Integer.valueOf(txtAmount.getText().trim()));
+
+               //editing array in Centre
+               Vaccine.editCentre = Vaccine.inventory.getCentre();
+               for (int j = 0; j < Vaccine.editCentre.getMyInventory().size(); j++) {
+                  if (Vaccine.inventory == Vaccine.editCentre.getMyInventory().get(j)) {
+                     Vaccine.editCentre.getMyInventory().get(j).setVaccineName(txtVaccineName.getText().trim());
+                     Vaccine.editCentre.getMyInventory().get(j).setInventory(Integer.valueOf(txtAmount.getText().trim()));
+
+                  }
+
+               }
                DataIO.write();
                JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
                btnRefreshActionPerformed(evt);
@@ -489,10 +500,12 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
             for (int i = 0; i < DataIO.allVaccines.size(); i++) {
                if (Vaccine.inventory == DataIO.allVaccines.get(i)) {
                   DataIO.allVaccines.remove(i);
+
+                  Vaccine.editCentre = Vaccine.inventory.getCentre();
                   // removing record from Centre Array List
-                  for (int j = 0; j < Vaccine.inventory.getCentre().getMyInventory().size(); j++) {
-                     if (Vaccine.inventory.getCentre() == Vaccine.inventory.getCentre().getMyInventory().get(j).getCentre()) {
-                        Vaccine.inventory.getCentre().getMyInventory().remove(j);
+                  for (int j = 0; j < Vaccine.editCentre.getMyInventory().size(); j++) {
+                     if (Vaccine.inventory == Vaccine.editCentre.getMyInventory().get(j)) {
+                        Vaccine.editCentre.getMyInventory().remove(j);
                      }
                   }
                   break;
