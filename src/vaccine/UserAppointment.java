@@ -19,7 +19,6 @@ public class UserAppointment extends javax.swing.JFrame {
     */
    public UserAppointment() {
       initComponents();
-      DataIO.read();
       DefaultComboBoxModel model = (DefaultComboBoxModel) cmbCentre.getModel();
       model.removeAllElements();
 

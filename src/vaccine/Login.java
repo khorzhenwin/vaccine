@@ -209,6 +209,7 @@ public class Login extends javax.swing.JFrame {
                String password = JOptionPane.showInputDialog("Enter your password: ");
                // validation for wrong password
                if (found.getPassword() == password) {
+                  Vaccine.adminLogin = found;
                   AdminMain admin = new AdminMain();
                   admin.setVisible(true);
                   this.dispose();
@@ -234,7 +235,6 @@ public class Login extends javax.swing.JFrame {
 
    public static void main(String args[]) {
 
-      DataIO.read();
       java.awt.EventQueue.invokeLater(new Runnable() {
          public void run() {
             new Login().setVisible(true);

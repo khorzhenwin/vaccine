@@ -212,7 +212,7 @@ public class DataIO {
    }
 
    public static People checkPeople(String x) {
-      // return null if name not found, return name object if found
+      // return null if icno not found, return person object if found
       for (int i = 0; i < allPeople.size(); i++) {
          if (x.equals(allPeople.get(i).getIcno())) {
             return allPeople.get(i);
@@ -222,7 +222,7 @@ public class DataIO {
    }
 
    public static People checkPeopleContact(String x) {
-      // return null if name not found, return name object if found
+      // return null if phone number not found, return person object if found
       for (int i = 0; i < allPeople.size(); i++) {
          if (x.equals(allPeople.get(i).getPhone())) {
             return allPeople.get(i);
@@ -232,7 +232,7 @@ public class DataIO {
    }
 
    public static Personnel checkPersonnel(String x) {
-      // return null if name not found, return name object if found
+      // return null if icno not found, return personnel object if found
       for (int i = 0; i < allPersonnel.size(); i++) {
          if (x.equals(allPersonnel.get(i).getIcno())) {
             return allPersonnel.get(i);

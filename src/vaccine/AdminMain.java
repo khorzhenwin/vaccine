@@ -27,71 +27,147 @@ public class AdminMain extends javax.swing.JFrame {
    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
    private void initComponents() {
 
-      jButton1 = new javax.swing.JButton();
-      jButton2 = new javax.swing.JButton();
-      jButton3 = new javax.swing.JButton();
-      jButton4 = new javax.swing.JButton();
-      jButton5 = new javax.swing.JButton();
+      btnLogout = new javax.swing.JButton();
+      jLabel3 = new javax.swing.JLabel();
+      btnPeople = new javax.swing.JButton();
+      btnPersonnel = new javax.swing.JButton();
+      btnVaccineSupply = new javax.swing.JButton();
+      btnCentre = new javax.swing.JButton();
+      btnAppointment = new javax.swing.JButton();
+      btnReports = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setResizable(false);
 
-      jButton1.setText("User Profile");
-      jButton1.addActionListener(new java.awt.event.ActionListener() {
+      btnLogout.setText("Log Out ➤");
+      btnLogout.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton1ActionPerformed(evt);
+            btnLogoutActionPerformed(evt);
          }
       });
 
-      jButton2.setText("Vaccination Appointment");
+      jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+      jLabel3.setText("Personnel Dashboard");
+      jLabel3.setToolTipText("");
+      jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-      jButton3.setText("Vaccine Center");
+      btnPeople.setText("People Profiles");
+      btnPeople.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnPeopleActionPerformed(evt);
+         }
+      });
 
-      jButton4.setText("Committee Profile");
+      btnPersonnel.setText("Personnel Profiles");
+      btnPersonnel.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnPersonnelActionPerformed(evt);
+         }
+      });
 
-      jButton5.setText("Statistical reporet");
+      btnVaccineSupply.setText("Manage Vaccines");
+      btnVaccineSupply.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnVaccineSupplyActionPerformed(evt);
+         }
+      });
+
+      btnCentre.setText("Manage Centres");
+      btnCentre.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnCentreActionPerformed(evt);
+         }
+      });
+
+      btnAppointment.setText("Manage Appointments");
+
+      btnReports.setText("Statistical Reports");
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addGap(41, 41, 41)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                  .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addContainerGap())
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                  .addComponent(jLabel3)
+                  .addGap(113, 113, 113))))
+         .addGroup(layout.createSequentialGroup()
+            .addGap(95, 95, 95)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+               .addComponent(btnAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btnReports, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addGroup(layout.createSequentialGroup()
-                  .addComponent(jButton2)
-                  .addGap(18, 18, 18)
-                  .addComponent(jButton3))
+                  .addComponent(btnCentre, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(btnVaccineSupply, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                .addGroup(layout.createSequentialGroup()
-                  .addComponent(jButton1)
-                  .addGap(18, 18, 18)
-                  .addComponent(jButton4))
-               .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(56, Short.MAX_VALUE))
+                  .addComponent(btnPeople, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(btnPersonnel, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGap(0, 97, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addGap(83, 83, 83)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jButton1)
-               .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap()
+            .addComponent(btnLogout)
             .addGap(18, 18, 18)
+            .addComponent(jLabel3)
+            .addGap(31, 31, 31)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jButton2)
-               .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(18, 18, 18)
-            .addComponent(jButton5)
-            .addContainerGap(13, Short.MAX_VALUE))
+               .addComponent(btnPeople, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btnPersonnel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addComponent(btnCentre, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btnVaccineSupply, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(btnAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(btnReports, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(43, Short.MAX_VALUE))
       );
 
-      layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton3});
-
       pack();
+      setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+   private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+
+      Login a = new Login();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnLogoutActionPerformed
+
+   private void btnPeopleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeopleActionPerformed
+      AdminPeopleManagement a = new AdminPeopleManagement();
+      a.setVisible(true);
+      this.dispose();
+
+   }//GEN-LAST:event_btnPeopleActionPerformed
+
+   private void btnPersonnelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonnelActionPerformed
+      AdminPersonnelManagement a = new AdminPersonnelManagement();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnPersonnelActionPerformed
+
+   private void btnCentreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCentreActionPerformed
+      AdminCentreManagement a = new AdminCentreManagement();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnCentreActionPerformed
+
+   private void btnVaccineSupplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVaccineSupplyActionPerformed
+      AdminVaccineManagement a = new AdminVaccineManagement();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnVaccineSupplyActionPerformed
 
    /**
     * @param args the command line arguments
@@ -130,10 +206,14 @@ public class AdminMain extends javax.swing.JFrame {
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JButton jButton1;
-   private javax.swing.JButton jButton2;
-   private javax.swing.JButton jButton3;
-   private javax.swing.JButton jButton4;
-   private javax.swing.JButton jButton5;
+   private javax.swing.JButton btnAppointment;
+   private javax.swing.JButton btnCentre;
+   private javax.swing.JButton btnLogout;
+   private javax.swing.JButton btnPeople;
+   private javax.swing.JButton btnPersonnel;
+   private javax.swing.JButton btnProfile;
+   private javax.swing.JButton btnReports;
+   private javax.swing.JButton btnVaccineSupply;
+   private javax.swing.JLabel jLabel3;
    // End of variables declaration//GEN-END:variables
 }

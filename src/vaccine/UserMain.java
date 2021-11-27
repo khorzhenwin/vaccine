@@ -5,6 +5,10 @@
  */
 package vaccine;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import vaccine.Class.*;
+
 /**
  *
  * @author User
@@ -16,6 +20,10 @@ public class UserMain extends javax.swing.JFrame {
     */
    public UserMain() {
       initComponents();
+      lblName.setText("Welcome back " + Vaccine.login.getName());
+      SimpleDateFormat format = new SimpleDateFormat("dd MMMMM yyyy");
+      Date date = new Date();
+      lblDate.setText("Today's Date : " + format.format(date));
    }
 
    /**
@@ -27,11 +35,17 @@ public class UserMain extends javax.swing.JFrame {
    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
    private void initComponents() {
 
+      jPanel1 = new javax.swing.JPanel();
       btnProfile = new javax.swing.JButton();
-      jButton2 = new javax.swing.JButton();
-      jButton3 = new javax.swing.JButton();
+      btnAppointment = new javax.swing.JButton();
+      btnReport = new javax.swing.JButton();
+      btnLogout = new javax.swing.JButton();
+      jLabel3 = new javax.swing.JLabel();
+      lblName = new javax.swing.JLabel();
+      lblDate = new javax.swing.JLabel();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setResizable(false);
 
       btnProfile.setText("User Profile");
       btnProfile.addActionListener(new java.awt.event.ActionListener() {
@@ -40,55 +54,137 @@ public class UserMain extends javax.swing.JFrame {
          }
       });
 
-      jButton2.setText("Vaccination Appointment");
-
-      jButton3.setText("Vaccination Report");
-      jButton3.addActionListener(new java.awt.event.ActionListener() {
+      btnAppointment.setText("Appointment");
+      btnAppointment.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton3ActionPerformed(evt);
+            btnAppointmentActionPerformed(evt);
          }
       });
+
+      btnReport.setText("Vaccination Report");
+      btnReport.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnReportActionPerformed(evt);
+         }
+      });
+
+      javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+      jPanel1.setLayout(jPanel1Layout);
+      jPanel1Layout.setHorizontalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+               .addComponent(btnReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addGroup(jPanel1Layout.createSequentialGroup()
+                  .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(btnAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap())
+      );
+      jPanel1Layout.setVerticalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addComponent(btnAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
+            .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
+      );
+
+      btnLogout.setText("Log Out ➤");
+      btnLogout.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnLogoutActionPerformed(evt);
+         }
+      });
+
+      jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+      jLabel3.setText("User Dashboard");
+      jLabel3.setToolTipText("");
+      jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+      lblName.setText("jLabel1");
+
+      lblDate.setText("jLabel1");
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-               .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+         .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                  .addContainerGap()
+                  .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                .addGroup(layout.createSequentialGroup()
-                  .addGap(0, 0, Short.MAX_VALUE)
-                  .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(15, 15, 15))
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                     .addGroup(layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(jLabel3)))
+                  .addGap(0, 39, Short.MAX_VALUE)))
+            .addContainerGap())
+         .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(layout.createSequentialGroup()
-            .addGap(56, 56, 56)
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(18, 18, 18)
-            .addComponent(jButton3)
-            .addContainerGap(87, Short.MAX_VALUE))
+               .addComponent(btnLogout)
+               .addComponent(lblName))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(lblDate)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+            .addComponent(jLabel3)
+            .addGap(28, 28, 28)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(29, 29, 29))
       );
 
       pack();
       setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
 
-   private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+   private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
       // TODO add your handling code here:
-   }//GEN-LAST:event_jButton3ActionPerformed
+   }//GEN-LAST:event_btnReportActionPerformed
 
    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
       UserProfile a = new UserProfile();
       a.setVisible(true);
       this.dispose();
    }//GEN-LAST:event_btnProfileActionPerformed
+
+   private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+      Vaccine.login = null;
+      Login a = new Login();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnLogoutActionPerformed
+
+   private void btnAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAppointmentActionPerformed
+      Appointment found = DataIO.checkAppointment(Vaccine.login.getIcno());
+      if (found == null) {
+         UserAppointment a = new UserAppointment();
+         a.setVisible(true);
+         this.dispose();
+      } else {
+         UserStatus b = new UserStatus();
+         b.setVisible(true);
+         this.dispose();
+      }
+   }//GEN-LAST:event_btnAppointmentActionPerformed
 
    /**
     * @param args the command line arguments
@@ -127,8 +223,13 @@ public class UserMain extends javax.swing.JFrame {
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JButton btnAppointment;
+   private javax.swing.JButton btnLogout;
    private javax.swing.JButton btnProfile;
-   private javax.swing.JButton jButton2;
-   private javax.swing.JButton jButton3;
+   private javax.swing.JButton btnReport;
+   private javax.swing.JLabel jLabel3;
+   private javax.swing.JPanel jPanel1;
+   private javax.swing.JLabel lblDate;
+   private javax.swing.JLabel lblName;
    // End of variables declaration//GEN-END:variables
 }

@@ -22,7 +22,6 @@ public class AdminPersonnelManagement extends javax.swing.JFrame {
     */
    public AdminPersonnelManagement() {
       initComponents();
-      DataIO.read();
       DefaultTableModel model = (DefaultTableModel) tblPersonnel.getModel();
       model.setRowCount(0);
       for (int i = 0; i < DataIO.allPersonnel.size(); i++) {
@@ -195,7 +194,7 @@ public class AdminPersonnelManagement extends javax.swing.JFrame {
                   .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+               .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addContainerGap())
       );
@@ -222,7 +221,8 @@ public class AdminPersonnelManagement extends javax.swing.JFrame {
       jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClear, btnDelete, btnRegister, btnUpdate});
 
       tblPersonnel.setAutoCreateRowSorter(true);
-      tblPersonnel.setForeground(new java.awt.Color(51, 51, 51));
+      tblPersonnel.setBackground(new java.awt.Color(204, 204, 204));
+      tblPersonnel.setForeground(new java.awt.Color(0, 0, 0));
       tblPersonnel.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
             {null, null, null},
@@ -242,9 +242,12 @@ public class AdminPersonnelManagement extends javax.swing.JFrame {
             return canEdit [columnIndex];
          }
       });
+      tblPersonnel.setGridColor(new java.awt.Color(204, 204, 204));
       tblPersonnel.setSelectionBackground(new java.awt.Color(153, 153, 255));
       tblPersonnel.setSelectionForeground(new java.awt.Color(51, 51, 51));
       tblPersonnel.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      tblPersonnel.setShowHorizontalLines(false);
+      tblPersonnel.setShowVerticalLines(false);
       tblPersonnel.getTableHeader().setReorderingAllowed(false);
       tblPersonnel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {

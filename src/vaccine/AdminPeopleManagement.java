@@ -23,7 +23,6 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
     */
    public AdminPeopleManagement() {
       initComponents();
-      DataIO.read();
       DefaultTableModel model = (DefaultTableModel) tblPeople.getModel();
       model.setRowCount(0);
       for (int i = 0; i < DataIO.allPeople.size(); i++) {
@@ -74,7 +73,8 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
       setResizable(false);
 
       tblPeople.setAutoCreateRowSorter(true);
-      tblPeople.setForeground(new java.awt.Color(51, 51, 51));
+      tblPeople.setBackground(new java.awt.Color(204, 204, 204));
+      tblPeople.setForeground(new java.awt.Color(0, 0, 0));
       tblPeople.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
             {null, null, null, null, null},
@@ -94,9 +94,12 @@ public class AdminPeopleManagement extends javax.swing.JFrame {
             return canEdit [columnIndex];
          }
       });
+      tblPeople.setGridColor(new java.awt.Color(204, 204, 204));
       tblPeople.setSelectionBackground(new java.awt.Color(153, 153, 255));
       tblPeople.setSelectionForeground(new java.awt.Color(51, 51, 51));
       tblPeople.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      tblPeople.setShowHorizontalLines(false);
+      tblPeople.setShowVerticalLines(false);
       tblPeople.getTableHeader().setReorderingAllowed(false);
       tblPeople.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {

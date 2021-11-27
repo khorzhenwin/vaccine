@@ -24,7 +24,6 @@ public class AdminCentreManagement extends javax.swing.JFrame {
     */
    public AdminCentreManagement() {
       initComponents();
-      DataIO.read();
       DefaultTableModel model = (DefaultTableModel) tblCentre.getModel();
       model.setRowCount(0);
       for (int i = 0; i < DataIO.allCentres.size(); i++) {
@@ -122,7 +121,8 @@ public class AdminCentreManagement extends javax.swing.JFrame {
       jLabel1.setText("Update Status  :");
 
       tblCentre.setAutoCreateRowSorter(true);
-      tblCentre.setForeground(new java.awt.Color(51, 51, 51));
+      tblCentre.setBackground(new java.awt.Color(204, 204, 204));
+      tblCentre.setForeground(new java.awt.Color(0, 0, 0));
       tblCentre.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
             {null, null, null, null},
@@ -142,9 +142,12 @@ public class AdminCentreManagement extends javax.swing.JFrame {
             return canEdit [columnIndex];
          }
       });
+      tblCentre.setGridColor(new java.awt.Color(204, 204, 204));
       tblCentre.setSelectionBackground(new java.awt.Color(153, 153, 255));
       tblCentre.setSelectionForeground(new java.awt.Color(51, 51, 51));
       tblCentre.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      tblCentre.setShowHorizontalLines(false);
+      tblCentre.setShowVerticalLines(false);
       tblCentre.getTableHeader().setReorderingAllowed(false);
       tblCentre.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {

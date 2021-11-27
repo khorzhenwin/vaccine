@@ -25,8 +25,6 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
    public AdminVaccineManagement() {
       initComponents();
 
-      DataIO.read();
-
       // ------------ Table Information ------------
       DefaultTableModel model = (DefaultTableModel) tblVaccine.getModel();
       model.setRowCount(0);
@@ -139,7 +137,8 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
       jLabel6.setText("🔍");
 
       tblVaccine.setAutoCreateRowSorter(true);
-      tblVaccine.setForeground(new java.awt.Color(51, 51, 51));
+      tblVaccine.setBackground(new java.awt.Color(204, 204, 204));
+      tblVaccine.setForeground(new java.awt.Color(0, 0, 0));
       tblVaccine.setModel(new javax.swing.table.DefaultTableModel(
          new Object [][] {
             {null, null, null, null, null, null},
@@ -159,9 +158,12 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
             return canEdit [columnIndex];
          }
       });
+      tblVaccine.setGridColor(new java.awt.Color(204, 204, 204));
       tblVaccine.setSelectionBackground(new java.awt.Color(153, 153, 255));
       tblVaccine.setSelectionForeground(new java.awt.Color(51, 51, 51));
       tblVaccine.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+      tblVaccine.setShowHorizontalLines(false);
+      tblVaccine.setShowVerticalLines(false);
       tblVaccine.getTableHeader().setReorderingAllowed(false);
       tblVaccine.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
