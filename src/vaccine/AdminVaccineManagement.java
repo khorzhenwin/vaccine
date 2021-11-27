@@ -197,6 +197,7 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
 
       jLabel8.setText("Vaccine ID");
 
+      cmbCentreName.setForeground(new java.awt.Color(102, 102, 102));
       cmbCentreName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
       cmbCentreName.addItemListener(new java.awt.event.ItemListener() {
          public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -390,7 +391,7 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
                //editing array in Centre
                Vaccine.editCentre = Vaccine.inventory.getCentre();
                for (int j = 0; j < Vaccine.editCentre.getMyInventory().size(); j++) {
-                  if (Vaccine.inventory == Vaccine.editCentre.getMyInventory().get(j)) {
+                  if (Vaccine.inventory.getVaccineID() == Vaccine.editCentre.getMyInventory().get(j).getVaccineID()) {
                      Vaccine.editCentre.getMyInventory().get(j).setVaccineName(txtVaccineName.getText().trim());
                      Vaccine.editCentre.getMyInventory().get(j).setInventory(Integer.valueOf(txtAmount.getText().trim()));
 
@@ -506,7 +507,7 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
                   Vaccine.editCentre = Vaccine.inventory.getCentre();
                   // removing record from Centre Array List
                   for (int j = 0; j < Vaccine.editCentre.getMyInventory().size(); j++) {
-                     if (Vaccine.inventory == Vaccine.editCentre.getMyInventory().get(j)) {
+                     if (Vaccine.inventory.getVaccineID() == Vaccine.editCentre.getMyInventory().get(j).getVaccineID()) {
                         Vaccine.editCentre.getMyInventory().remove(j);
                      }
                   }

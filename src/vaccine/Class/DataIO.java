@@ -2,7 +2,9 @@ package vaccine.Class;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class DataIO {
@@ -83,6 +85,10 @@ public class DataIO {
             String date1 = s3.nextLine();
             // date 2
             String date2 = s3.nextLine();
+            // time 1
+            String time1 = s3.nextLine();
+            // time 2
+            String time2 = s3.nextLine();
             // dose 1
             boolean dose1 = Boolean.parseBoolean(s3.nextLine());
             // dose 2
@@ -100,7 +106,7 @@ public class DataIO {
             // -- end of centre object --
             // empty line seperator
             s3.nextLine();
-            Appointment app = new Appointment(user1, date1, date2, dose1, dose2, place1);
+            Appointment app = new Appointment(user1, date1, date2, time1, time2, dose1, dose2, place1);
             allAppointments.add(app);
          }
          // -----------------------Vaccine Supply-----------------------
@@ -125,8 +131,6 @@ public class DataIO {
             s4.nextLine();
             VaccineSupply supply = new VaccineSupply(vaccineID, vaccineName, inventory, location);
             allVaccines.add(supply);
-            location.getMyInventory().add(supply);
-
          }
       } catch (Exception e) {
          System.out.println("Error in read");
@@ -181,6 +185,8 @@ public class DataIO {
             // end of people object
             a3.println(allAppointments.get(i).getDate1());
             a3.println(allAppointments.get(i).getDate2());
+            a3.println(allAppointments.get(i).getTime1());
+            a3.println(allAppointments.get(i).getTime2());
             a3.println(allAppointments.get(i).isDose1());
             a3.println(allAppointments.get(i).isDose2());
             // centre object
@@ -285,4 +291,10 @@ public class DataIO {
       return allVaccines.size();
    }
 
+//   public static String[] getDates() {
+//      SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy");
+//      Date date = new Date();
+//      String today = format.format(date);
+//
+//   }
 }

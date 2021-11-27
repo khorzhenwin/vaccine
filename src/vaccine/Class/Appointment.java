@@ -3,14 +3,16 @@ package vaccine.Class;
 public class Appointment {
 
    private People person;
-   private String date1, date2;
+   private String date1, date2, time1, time2;
    private boolean dose1, dose2;
    private Centre location;
 
-   public Appointment(People person, String date1, String date2, boolean dose1, boolean dose2, Centre location) {
+   public Appointment(People person, String date1, String date2, String time1, String time2, boolean dose1, boolean dose2, Centre location) {
       this.person = person;
       this.date1 = date1;
       this.date2 = date2;
+      this.time1 = time1;
+      this.time2 = time2;
       this.dose1 = dose1;
       this.dose2 = dose2;
       this.location = location;
@@ -38,6 +40,22 @@ public class Appointment {
 
    public void setDate2(String date2) {
       this.date2 = date2;
+   }
+
+   public String getTime1() {
+      return time1;
+   }
+
+   public void setTime1(String time1) {
+      this.time1 = time1;
+   }
+
+   public String getTime2() {
+      return time2;
+   }
+
+   public void setTime2(String time2) {
+      this.time2 = time2;
    }
 
    public boolean isDose1() {

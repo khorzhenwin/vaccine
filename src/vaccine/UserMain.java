@@ -21,7 +21,7 @@ public class UserMain extends javax.swing.JFrame {
    public UserMain() {
       initComponents();
       lblName.setText("Welcome back " + Vaccine.login.getName());
-      SimpleDateFormat format = new SimpleDateFormat("dd MMMMM yyyy");
+      SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy");
       Date date = new Date();
       lblDate.setText("Today's Date : " + format.format(date));
    }
