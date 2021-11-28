@@ -283,6 +283,15 @@ public class DataIO {
       return null;
    }
 
+   public static boolean hasAppointment(String date1, String time1) {
+      for (int i = 0; i < allAppointments.size(); i++) {
+         if (date1.equals(allAppointments.get(i).getDate1()) && time1.equals(allAppointments.get(i).getTime1())) {
+            return true;
+         }
+      }
+      return false;
+   }
+
    public static int getCentreSize() {
       return allCentres.size();
    }

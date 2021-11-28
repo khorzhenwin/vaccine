@@ -18,6 +18,17 @@ public class Appointment {
       this.location = location;
    }
 
+   public Appointment(People person, String date1, String date2, String time1, String time2, Centre location) {
+      this.person = person;
+      this.date1 = date1;
+      this.date2 = date2;
+      this.time1 = time1;
+      this.time2 = time2;
+      this.dose1 = false;
+      this.dose2 = false;
+      this.location = location;
+   }
+
    public People getPerson() {
       return person;
    }
