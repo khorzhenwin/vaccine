@@ -457,6 +457,7 @@ public class UserAppointment extends javax.swing.JFrame {
                DataIO.write();
                JOptionPane.showMessageDialog(btnCreate, "Appointment has successfully been made!\n"
                        + "Note: You may only cancel your appointment before the appointment date");
+               Vaccine.app = newAppointment;
                UserStatus a = new UserStatus();
                a.setVisible(true);
                this.dispose();

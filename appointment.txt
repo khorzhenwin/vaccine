@@ -5,9 +5,9 @@ Khor Zhen Win
 true
 29/11/2021
 20/12/2021
-0800
-0830
-false
+0900
+0930
+true
 false
 1
 Stadium Bukit Jalil

@@ -8,6 +8,7 @@ public class Vaccine {
    public static Personnel adminLogin;
    public static Centre editCentre;
    public static VaccineSupply inventory;
+   public static Appointment app;
 
    public static void main(String[] args) {
       DataIO.read();

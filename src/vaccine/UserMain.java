@@ -180,6 +180,7 @@ public class UserMain extends javax.swing.JFrame {
          a.setVisible(true);
          this.dispose();
       } else {
+         Vaccine.app = found;
          UserStatus b = new UserStatus();
          b.setVisible(true);
          this.dispose();
