@@ -104,9 +104,11 @@ public class DataIO {
             String status = s3.nextLine();
             Centre place1 = new Centre(centreId, centreName, centreAddress, status);
             // -- end of centre object --
+            // vaccine name
+            String vaccineName = s3.nextLine();
             // empty line seperator
             s3.nextLine();
-            Appointment app = new Appointment(user1, date1, date2, time1, time2, dose1, dose2, place1);
+            Appointment app = new Appointment(user1, date1, date2, time1, time2, dose1, dose2, place1, vaccineName);
             allAppointments.add(app);
          }
          // -----------------------Vaccine Supply-----------------------
@@ -194,6 +196,8 @@ public class DataIO {
             a3.println(allAppointments.get(i).getLocation().getCentreName());
             a3.println(allAppointments.get(i).getLocation().getAddress());
             a3.println(allAppointments.get(i).getLocation().getStatus());
+            // vaccine Name
+            a3.println(allAppointments.get(i).getVaccineName());
             // Print empty line as seperator
             a3.println();
          }
@@ -268,6 +272,16 @@ public class DataIO {
    public static VaccineSupply checkSupply(int id) {
       for (int i = 0; i < allVaccines.size(); i++) {
          if (id == allVaccines.get(i).getVaccineID()) {
+            return allVaccines.get(i);
+         }
+      }
+      return null;
+   }
+
+   public static VaccineSupply checkSupply(String centreName, String vaccineName) {
+      for (int i = 0; i < allVaccines.size(); i++) {
+         if (centreName.equals(allVaccines.get(i).getCentre().getCentreName())
+                 && vaccineName.equals(allVaccines.get(i).getVaccineName())) {
             return allVaccines.get(i);
          }
       }

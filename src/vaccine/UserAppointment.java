@@ -348,7 +348,12 @@ public class UserAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_txtICActionPerformed
 
    private void cmbVaccineNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbVaccineNameItemStateChanged
-
+      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbVaccineName.getModel();
+      if (comboBoxModel.getSelectedItem() != null) {
+         String selectedVaccine = cmbVaccineName.getSelectedItem().toString();
+         VaccineSupply type = DataIO.checkSupply(cmbCentreName.getSelectedItem().toString(), selectedVaccine);
+         lblVaccineID.setText(String.valueOf(type.getVaccineID()));
+      }
    }//GEN-LAST:event_cmbVaccineNameItemStateChanged
 
    private void cmbCentreNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCentreNameItemStateChanged
@@ -432,12 +437,20 @@ public class UserAppointment extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(btnCreate, "Another user has already booked this slot!");
             } else {
                Centre location = DataIO.checkCentre(cmbCentreName.getSelectedItem().toString());
+               VaccineSupply inventory = DataIO.checkSupply(Integer.valueOf(lblVaccineID.getText().trim()));
+               // -2 in inventory
+               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                  if (inventory.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
+                     DataIO.allVaccines.get(i).reserve2Dose();
+                  }
+               }
                Appointment newAppointment = new Appointment(Vaccine.login,
                        df.format(dtpDate1.getDate()),
                        df.format(dtpDate2.getDate()),
                        cmbTimeSlot1.getSelectedItem().toString(),
                        txtTimeSlot2.getText().trim(),
-                       location);
+                       location,
+                       cmbVaccineName.getSelectedItem().toString());
                DataIO.allAppointments.add(newAppointment);
                DataIO.write();
                JOptionPane.showMessageDialog(btnCreate, "Appointment has successfully been made!\n"

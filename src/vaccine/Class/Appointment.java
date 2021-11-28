@@ -3,11 +3,11 @@ package vaccine.Class;
 public class Appointment {
 
    private People person;
-   private String date1, date2, time1, time2;
+   private String date1, date2, time1, time2, vaccineName;
    private boolean dose1, dose2;
    private Centre location;
 
-   public Appointment(People person, String date1, String date2, String time1, String time2, boolean dose1, boolean dose2, Centre location) {
+   public Appointment(People person, String date1, String date2, String time1, String time2, boolean dose1, boolean dose2, Centre location, String vaccineName) {
       this.person = person;
       this.date1 = date1;
       this.date2 = date2;
@@ -16,9 +16,10 @@ public class Appointment {
       this.dose1 = dose1;
       this.dose2 = dose2;
       this.location = location;
+      this.vaccineName = vaccineName;
    }
 
-   public Appointment(People person, String date1, String date2, String time1, String time2, Centre location) {
+   public Appointment(People person, String date1, String date2, String time1, String time2, Centre location, String vaccineName) {
       this.person = person;
       this.date1 = date1;
       this.date2 = date2;
@@ -27,6 +28,7 @@ public class Appointment {
       this.dose1 = false;
       this.dose2 = false;
       this.location = location;
+      this.vaccineName = vaccineName;
    }
 
    public People getPerson() {
@@ -91,6 +93,14 @@ public class Appointment {
 
    public void setLocation(Centre location) {
       this.location = location;
+   }
+
+   public String getVaccineName() {
+      return vaccineName;
+   }
+
+   public void setVaccineName(String vaccineName) {
+      this.vaccineName = vaccineName;
    }
 
 }
