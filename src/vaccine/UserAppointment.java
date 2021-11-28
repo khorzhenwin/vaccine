@@ -432,7 +432,9 @@ public class UserAppointment extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(btnCreate, "Please ensure all the appointment details are filled!");
          } else {
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            boolean found = DataIO.hasAppointment(df.format(dtpDate1.getDate()), cmbTimeSlot1.getSelectedItem().toString());
+            boolean found = DataIO.hasAppointment(cmbCentreName.getSelectedItem().toString(),
+                    df.format(dtpDate1.getDate()),
+                    cmbTimeSlot1.getSelectedItem().toString());
             if (found) {
                JOptionPane.showMessageDialog(btnCreate, "Another user has already booked this slot!");
             } else {
