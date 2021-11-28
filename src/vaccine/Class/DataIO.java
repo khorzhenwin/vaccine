@@ -291,10 +291,14 @@ public class DataIO {
       return allVaccines.size();
    }
 
-//   public static String[] getDates() {
-//      SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy");
-//      Date date = new Date();
-//      String today = format.format(date);
-//
-//   }
+   public static String[] getTimeSlot1() {
+      String[] timeslot1 = {"0800", "0900", "1000", "1100", "1200", "1300", "1400", "1500", "1600", "1700", "1800", "1900", "2000", "2100", "2200"};
+      return timeslot1;
+   }
+
+   public static String[] getTimeSlot2() {
+      String[] timeslot2 = {"0830", "0930", "1030", "1130", "1230", "1330", "1430", "1530", "1630", "1730", "1830", "1930", "2030", "2130", "2230"};
+      return timeslot2;
+   }
+
 }

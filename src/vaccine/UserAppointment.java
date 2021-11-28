@@ -19,23 +19,27 @@ public class UserAppointment extends javax.swing.JFrame {
     */
    public UserAppointment() {
       initComponents();
-      // setting IC value
-      txtIC.setText(Vaccine.login.getIcno());
-      // setting Centre dropdown values
       DefaultComboBoxModel comboCentre = (DefaultComboBoxModel) cmbCentreName.getModel();
       DefaultComboBoxModel comboVaccine = (DefaultComboBoxModel) cmbVaccineName.getModel();
+      DefaultComboBoxModel comboTime1 = (DefaultComboBoxModel) cmbTimeSlot1.getModel();
       comboCentre.removeAllElements();
       comboVaccine.removeAllElements();
+      comboTime1.removeAllElements();
+
+      // setting IC value
+      txtIC.setText(Vaccine.login.getIcno());
+
+      // setting Centre dropdown values
       for (int i = 0; i < DataIO.allCentres.size(); i++) {
          if (DataIO.allCentres.get(i).getStatus().equals("Active") && DataIO.allCentres.get(i).getMyInventory() != null) {
             comboCentre.addElement(DataIO.allCentres.get(i).getCentreName());
             lblCentreID.setText(String.valueOf(DataIO.allCentres.get(i).getCentreId()));
          }
       }
+      // setting Vaccine Name dropdown values
       if (comboCentre.getSize() == 0) {
          comboCentre.addElement("No Centres available");
       } else {
-         // setting Vaccine Name
          Vaccine.editCentre = DataIO.checkCentre(comboCentre.getSelectedItem().toString());
          for (int j = 0; j < DataIO.allVaccines.size(); j++) {
             if (Vaccine.editCentre.getCentreId() == DataIO.allVaccines.get(j).getCentre().getCentreId()) {
@@ -45,6 +49,12 @@ public class UserAppointment extends javax.swing.JFrame {
                }
             }
          }
+      }
+      // set up date dropdown values
+      // set up time dropdown values
+      String[] time1 = DataIO.getTimeSlot1();
+      for (String slot : time1) {
+         comboTime1.addElement(slot);
       }
    }
 
@@ -62,7 +72,6 @@ public class UserAppointment extends javax.swing.JFrame {
       jLabel12 = new javax.swing.JLabel();
       jLabel11 = new javax.swing.JLabel();
       txtDate2 = new javax.swing.JTextField();
-      cmbDate1 = new javax.swing.JComboBox<>();
       cmbTimeSlot1 = new javax.swing.JComboBox<>();
       jLabel10 = new javax.swing.JLabel();
       jLabel9 = new javax.swing.JLabel();
@@ -75,6 +84,7 @@ public class UserAppointment extends javax.swing.JFrame {
       jLabel6 = new javax.swing.JLabel();
       lblVaccineID = new javax.swing.JLabel();
       lblCentreID = new javax.swing.JLabel();
+      dtpDate1 = new com.toedter.calendar.JDateChooser();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setResizable(false);
@@ -95,8 +105,6 @@ public class UserAppointment extends javax.swing.JFrame {
 
       txtDate2.setDisabledTextColor(new java.awt.Color(102, 102, 102));
       txtDate2.setEnabled(false);
-
-      cmbDate1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
       cmbTimeSlot1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -139,6 +147,7 @@ public class UserAppointment extends javax.swing.JFrame {
       jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
       lblVaccineID.setBackground(new java.awt.Color(255, 255, 255));
+      lblVaccineID.setFont(new java.awt.Font("Dialog", 0, 3)); // NOI18N
       lblVaccineID.setForeground(new java.awt.Color(255, 255, 255));
       lblVaccineID.setEnabled(false);
       lblVaccineID.setFocusable(false);
@@ -147,44 +156,56 @@ public class UserAppointment extends javax.swing.JFrame {
       lblVaccineID.setVerifyInputWhenFocusTarget(false);
 
       lblCentreID.setBackground(new java.awt.Color(255, 255, 255));
+      lblCentreID.setFont(new java.awt.Font("Dialog", 0, 3)); // NOI18N
       lblCentreID.setForeground(new java.awt.Color(255, 255, 255));
       lblCentreID.setEnabled(false);
       lblCentreID.setFocusable(false);
       lblCentreID.setInheritsPopupMenu(false);
       lblCentreID.setRequestFocusEnabled(false);
       lblCentreID.setVerifyInputWhenFocusTarget(false);
+      lblCentreID.addInputMethodListener(new java.awt.event.InputMethodListener() {
+         public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+         }
+         public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            lblCentreIDInputMethodTextChanged(evt);
+         }
+      });
+      lblCentreID.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+         public void propertyChange(java.beans.PropertyChangeEvent evt) {
+            lblCentreIDPropertyChange(evt);
+         }
+      });
+
+      dtpDate1.setDateFormatString("dd/MM/yyyy");
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addComponent(lblVaccineID, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lblVaccineID, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
          .addGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addGroup(layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
-                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                  .addGap(104, 104, 104)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                  .addGap(33, 33, 33)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                      .addGroup(layout.createSequentialGroup()
                         .addComponent(cmbTimeSlot1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                      .addGroup(layout.createSequentialGroup()
-                        .addComponent(cmbDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(dtpDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                  .addGap(11, 11, 11)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                      .addComponent(txtDate2, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                      .addComponent(txtTimeSlot2)))
@@ -210,8 +231,8 @@ public class UserAppointment extends javax.swing.JFrame {
          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                .addGap(10, 10, 10)
-               .addComponent(lblCentreID, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addContainerGap(689, Short.MAX_VALUE)))
+               .addComponent(lblCentreID, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addContainerGap(730, Short.MAX_VALUE)))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +241,7 @@ public class UserAppointment extends javax.swing.JFrame {
                .addGroup(layout.createSequentialGroup()
                   .addContainerGap()
                   .addComponent(btnBack))
-               .addComponent(lblVaccineID))
+               .addComponent(lblVaccineID, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(32, 32, 32)
             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(28, 28, 28)
@@ -236,28 +257,28 @@ public class UserAppointment extends javax.swing.JFrame {
                .addComponent(cmbVaccineName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jLabel8))
             .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel11)
-               .addComponent(cmbDate1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel9))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                  .addComponent(cmbTimeSlot1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addComponent(jLabel10))
-               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                  .addComponent(txtTimeSlot2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addComponent(jLabel12)))
-            .addContainerGap(82, Short.MAX_VALUE))
+               .addGroup(layout.createSequentialGroup()
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jLabel11)
+                     .addComponent(jLabel9))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmbTimeSlot1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10))
+                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTimeSlot2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel12))))
+               .addComponent(dtpDate1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(84, Short.MAX_VALUE))
          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                .addGap(10, 10, 10)
-               .addComponent(lblCentreID)
+               .addComponent(lblCentreID, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addContainerGap(363, Short.MAX_VALUE)))
       );
-
-      lblVaccineID.getAccessibleContext().setAccessibleName("");
 
       pack();
       setLocationRelativeTo(null);
@@ -294,20 +315,35 @@ public class UserAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_cmbVaccineNameItemStateChanged
 
    private void cmbCentreNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCentreNameItemStateChanged
-//      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
-//      if (comboBoxModel.getSelectedItem() != null) {
-//         String selectedCentre = comboBoxModel.getSelectedItem().toString();
-//         Centre selected = DataIO.checkCentre(selectedCentre);
-//         // setting Vaccine Name
-//         DefaultComboBoxModel comboVaccine = (DefaultComboBoxModel) cmbVaccineName.getModel();
-//         comboVaccine.removeAllElements();
-//         for (int j = 0; j < selected.getMyInventory().size(); j++) {
-//            if (selected.getMyInventory().get(j).getInventory() > 2) {
-//               comboVaccine.addElement(Vaccine.editCentre.getMyInventory().get(j).getVaccineName());
-//            }
-//         }
-//      }
+      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
+      if (comboBoxModel.getSelectedItem() != null) {
+         String selectedCentre = comboBoxModel.getSelectedItem().toString();
+         Centre selected = DataIO.checkCentre(selectedCentre);
+         lblCentreID.setText(String.valueOf(selected.getCentreId()));
+      }
    }//GEN-LAST:event_cmbCentreNameItemStateChanged
+
+   private void lblCentreIDInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_lblCentreIDInputMethodTextChanged
+
+   }//GEN-LAST:event_lblCentreIDInputMethodTextChanged
+
+   private void lblCentreIDPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lblCentreIDPropertyChange
+      DefaultComboBoxModel comboVaccine = (DefaultComboBoxModel) cmbVaccineName.getModel();
+      if (!lblCentreID.getText().equals("")) {
+         // setting Vaccine Name
+         comboVaccine.removeAllElements();
+         Centre selected = DataIO.checkCentre(Integer.valueOf(lblCentreID.getText().trim()));
+         if (selected != null) {
+            for (int j = 0; j < DataIO.allVaccines.size(); j++) {
+               if (selected.getCentreId() == DataIO.allVaccines.get(j).getCentre().getCentreId()) {
+                  if (DataIO.allVaccines.get(j).getInventory() >= 2) {
+                     comboVaccine.addElement(DataIO.allVaccines.get(j).getVaccineName());
+                  }
+               }
+            }
+         }
+      }
+   }//GEN-LAST:event_lblCentreIDPropertyChange
 
    /**
     * @param args the command line arguments
@@ -348,9 +384,9 @@ public class UserAppointment extends javax.swing.JFrame {
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JButton btnBack;
    private javax.swing.JComboBox<String> cmbCentreName;
-   private javax.swing.JComboBox<String> cmbDate1;
    private javax.swing.JComboBox<String> cmbTimeSlot1;
    private javax.swing.JComboBox<String> cmbVaccineName;
+   private com.toedter.calendar.JDateChooser dtpDate1;
    private javax.swing.JLabel jLabel10;
    private javax.swing.JLabel jLabel11;
    private javax.swing.JLabel jLabel12;

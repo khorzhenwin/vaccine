@@ -44,4 +44,12 @@ public class VaccineSupply {
    public void setCentre(Centre centre) {
       this.centre = centre;
    }
+
+   public void reserve2Dose() {
+      inventory = inventory - 2;
+   }
+
+   public void reserve1Dose() {
+      inventory = inventory - 1;
+   }
 }
