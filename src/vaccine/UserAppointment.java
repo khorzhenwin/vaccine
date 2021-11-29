@@ -148,6 +148,11 @@ public class UserAppointment extends javax.swing.JFrame {
             cmbCentreNameItemStateChanged(evt);
          }
       });
+      cmbCentreName.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            cmbCentreNameMouseClicked(evt);
+         }
+      });
 
       jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
       jLabel6.setText("Create Appointment");
@@ -269,9 +274,8 @@ public class UserAppointment extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addGroup(jPanel1Layout.createSequentialGroup()
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel9)
-                        .addComponent(dtpDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                     .addComponent(dtpDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jLabel9)
                      .addComponent(jLabel11))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,6 +374,7 @@ public class UserAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_lblCentreIDInputMethodTextChanged
 
    private void lblCentreIDPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lblCentreIDPropertyChange
+
       DefaultComboBoxModel comboVaccine = (DefaultComboBoxModel) cmbVaccineName.getModel();
       if (!lblCentreID.getText().equals("")) {
          // setting Vaccine Name
@@ -423,8 +428,8 @@ public class UserAppointment extends javax.swing.JFrame {
       if (confirmCreate == JOptionPane.YES_OPTION) {
 
          // empty fields validation
-         if (cmbCentreName.getSelectedItem().equals("")
-                 || cmbVaccineName.getSelectedItem().equals("")
+         if (cmbCentreName.getSelectedItem() == null
+                 || cmbVaccineName.getSelectedItem() == null
                  || dtpDate1.getDate() == null
                  || dtpDate2.getDate() == null
                  || cmbTimeSlot1.getSelectedItem() == null
@@ -438,33 +443,48 @@ public class UserAppointment extends javax.swing.JFrame {
             if (found) {
                JOptionPane.showMessageDialog(btnCreate, "Another user has already booked this slot!");
             } else {
-               Centre location = DataIO.checkCentre(cmbCentreName.getSelectedItem().toString());
-               VaccineSupply inventory = DataIO.checkSupply(Integer.valueOf(lblVaccineID.getText().trim()));
-               // -2 in inventory
-               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
-                  if (inventory.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
-                     DataIO.allVaccines.get(i).reserve2Dose();
+               boolean foundCentreSupply = DataIO.checkSupplyCentreExists(cmbCentreName.getSelectedItem().toString(), cmbVaccineName.getSelectedItem().toString());
+               if (foundCentreSupply) {
+
+                  Centre location = DataIO.checkCentre(cmbCentreName.getSelectedItem().toString());
+                  VaccineSupply inventory = DataIO.checkSupply(Integer.valueOf(lblVaccineID.getText().trim()));
+                  // -2 in inventory
+                  for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                     if (inventory.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
+                        DataIO.allVaccines.get(i).reserve2Dose();
+                     }
                   }
+                  Appointment newAppointment = new Appointment(Vaccine.login,
+                          df.format(dtpDate1.getDate()),
+                          df.format(dtpDate2.getDate()),
+                          cmbTimeSlot1.getSelectedItem().toString(),
+                          txtTimeSlot2.getText().trim(),
+                          location,
+                          cmbVaccineName.getSelectedItem().toString());
+                  DataIO.allAppointments.add(newAppointment);
+                  DataIO.write();
+                  JOptionPane.showMessageDialog(btnCreate, "Appointment has successfully been made!\n"
+                          + "Note: You may only cancel your appointment before the appointment date");
+                  Vaccine.app = newAppointment;
+                  UserStatus a = new UserStatus();
+                  a.setVisible(true);
+                  this.dispose();
+               } else {
+                  JOptionPane.showMessageDialog(btnCreate, "Vaccine doesn't exist at this centre");
                }
-               Appointment newAppointment = new Appointment(Vaccine.login,
-                       df.format(dtpDate1.getDate()),
-                       df.format(dtpDate2.getDate()),
-                       cmbTimeSlot1.getSelectedItem().toString(),
-                       txtTimeSlot2.getText().trim(),
-                       location,
-                       cmbVaccineName.getSelectedItem().toString());
-               DataIO.allAppointments.add(newAppointment);
-               DataIO.write();
-               JOptionPane.showMessageDialog(btnCreate, "Appointment has successfully been made!\n"
-                       + "Note: You may only cancel your appointment before the appointment date");
-               Vaccine.app = newAppointment;
-               UserStatus a = new UserStatus();
-               a.setVisible(true);
-               this.dispose();
             }
          }
       }
    }//GEN-LAST:event_btnCreateActionPerformed
+
+   private void cmbCentreNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbCentreNameMouseClicked
+      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
+      if (comboBoxModel.getSelectedItem() != null) {
+         String selectedCentre = comboBoxModel.getSelectedItem().toString();
+         Centre selected = DataIO.checkCentre(selectedCentre);
+         lblCentreID.setText(String.valueOf(selected.getCentreId()));
+      }
+   }//GEN-LAST:event_cmbCentreNameMouseClicked
 
    /**
     * @param args the command line arguments

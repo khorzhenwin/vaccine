@@ -288,6 +288,16 @@ public class DataIO {
       return null;
    }
 
+   public static boolean checkSupplyCentreExists(String centreName, String vaccineName) {
+      for (int i = 0; i < allVaccines.size(); i++) {
+         if (vaccineName.equals(allVaccines.get(i).getVaccineName())
+                 && centreName.equals(allVaccines.get(i).getCentre().getCentreName())) {
+            return true;
+         }
+      }
+      return false;
+   }
+
    public static Appointment checkAppointment(String x) {
       for (int i = 0; i < allAppointments.size(); i++) {
          if (x.equals((allAppointments.get(i).getPerson().getIcno()))) {
@@ -317,6 +327,22 @@ public class DataIO {
          }
       }
       return null;
+   }
+
+   public static String checkDoses(String x) {
+      String status = "";
+      for (int i = 0; i < allAppointments.size(); i++) {
+         if (x.equals(allAppointments.get(i).getPerson().getIcno())) {
+            if (allAppointments.get(i).isDose1()) {
+               status = "1st Dose";
+            } else if (allAppointments.get(i).isDose2()) {
+               status = "2nd Dose";
+            } else {
+               status = "Unvaccinated";
+            }
+         }
+      }
+      return status;
    }
 
    public static int getCentreSize() {

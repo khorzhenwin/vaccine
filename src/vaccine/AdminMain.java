@@ -80,6 +80,11 @@ public class AdminMain extends javax.swing.JFrame {
       });
 
       btnAppointment.setText("Manage Appointments");
+      btnAppointment.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnAppointmentActionPerformed(evt);
+         }
+      });
 
       btnReports.setText("Statistical Reports");
 
@@ -169,6 +174,12 @@ public class AdminMain extends javax.swing.JFrame {
       this.dispose();
    }//GEN-LAST:event_btnVaccineSupplyActionPerformed
 
+   private void btnAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAppointmentActionPerformed
+      AdminAppointment a = new AdminAppointment();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnAppointmentActionPerformed
+
    /**
     * @param args the command line arguments
     */
@@ -211,7 +222,6 @@ public class AdminMain extends javax.swing.JFrame {
    private javax.swing.JButton btnLogout;
    private javax.swing.JButton btnPeople;
    private javax.swing.JButton btnPersonnel;
-   private javax.swing.JButton btnProfile;
    private javax.swing.JButton btnReports;
    private javax.swing.JButton btnVaccineSupply;
    private javax.swing.JLabel jLabel3;
