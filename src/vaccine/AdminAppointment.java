@@ -5,8 +5,12 @@
  */
 package vaccine;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -527,6 +531,12 @@ public class AdminAppointment extends javax.swing.JFrame {
       dtpDate2.setDate(null);
       txtSearch.setText("");
       tblAppointment.getSelectionModel().clearSelection();
+      DefaultTableModel model = (DefaultTableModel) tblAppointment.getModel();
+      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+      tblAppointment.setRowSorter(tr);
+      tr.setRowFilter(RowFilter.regexFilter(""));
+      txtIC.setEnabled(true);
+      txtName.setEnabled(true);
    }//GEN-LAST:event_btnClearActionPerformed
 
    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
@@ -610,11 +620,6 @@ public class AdminAppointment extends javax.swing.JFrame {
 
       btnClearActionPerformed(evt);
 
-      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
-      tblAppointment.setRowSorter(tr);
-      tr.setRowFilter(RowFilter.regexFilter(""));
-      txtIC.setEnabled(true);
-      txtName.setEnabled(true);
    }//GEN-LAST:event_btnRefreshActionPerformed
 
    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -622,14 +627,51 @@ public class AdminAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_btnDeleteActionPerformed
 
    private void tblAppointmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAppointmentMouseClicked
-//      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
-//      comboBoxModel.removeAllElements();
-//      cmbCentreName.enable(false);
-//      comboBoxModel.addElement(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 1).toString());
-//      txtCentreID.setText(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 0).toString());
-//      txtVaccineID.setText(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 3).toString());
-//      txtVaccineName.setText(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 4).toString());
-//      txtAmount.setText(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 5).toString());
+      // setting up fields for selected row
+      // icno
+      txtIC.setText(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 0).toString());
+      txtIC.setEnabled(false);
+      // name
+      txtName.setText(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 1).toString());
+      txtName.setEnabled(false);
+      // centre combobox
+      String centreName = tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 2).toString();
+      for (int i = 0; i < cmbCentreName.getModel().getSize(); i++) {
+         if (cmbCentreName.getItemAt(i).toString().equals(centreName)) {
+            cmbCentreName.setSelectedIndex(i);
+            break;
+         }
+      }
+      // vaccine combobox
+      String vaccineName = tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 3).toString();
+      for (int i = 0; i < cmbVaccineName.getModel().getSize(); i++) {
+         if (cmbVaccineName.getItemAt(i).toString().equals(vaccineName)) {
+            cmbVaccineName.setSelectedIndex(i);
+            break;
+         }
+      }
+      // 1st & 2nd dose date
+      try {
+         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+         Date date1, date2;
+         date1 = df.parse(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 4).toString());
+         date2 = df.parse(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 6).toString());
+         dtpDate1.setDate(date1);
+         dtpDate2.setDate(date2);
+
+      } catch (ParseException ex) {
+         Logger.getLogger(UserStatus.class.getName()).log(Level.SEVERE, null, ex);
+      }
+      // time 1 and 2
+      String timeslot1 = tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 5).toString();
+      String timeslot2 = tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 7).toString();
+      txtTimeSlot2.setText(timeslot2);
+      for (int i = 0; i < cmbTimeSlot1.getModel().getSize(); i++) {
+         if (cmbTimeSlot1.getItemAt(i).toString().equals(timeslot1)) {
+            cmbTimeSlot1.setSelectedIndex(i);
+            break;
+         }
+      }
    }//GEN-LAST:event_tblAppointmentMouseClicked
 
    private void lblCentreIDInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_lblCentreIDInputMethodTextChanged
