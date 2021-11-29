@@ -3,32 +3,15 @@
 Khor Zhen Win
 0127024916
 true
-29/11/2021
-20/12/2021
-0900
-0930
-true
+22/12/2021
+12/01/2022
+0800
+0830
+false
 false
 1
 Stadium Bukit Jalil
 Kuala Lumpur
 Active
 SinoVac
-
-01234567890
-123
-test
-0123456789
-false
-29/11/2021
-20/12/2021
-0800
-0830
-false
-false
-3
-IOI Puchong Mall
-Bandar Puchong Jaya
-Active
-Pfizer
 
