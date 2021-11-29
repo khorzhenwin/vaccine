@@ -8,7 +8,9 @@ package vaccine;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import vaccine.Class.Centre;
 import vaccine.Class.DataIO;
 import vaccine.Class.VaccineSupply;
@@ -174,8 +176,6 @@ public class AdminAppointment extends javax.swing.JFrame {
 
       jLabel11.setText("IC No");
 
-      txtIC.setEnabled(false);
-
       cmbTimeSlot1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
       cmbTimeSlot1.addItemListener(new java.awt.event.ItemListener() {
          public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -191,6 +191,11 @@ public class AdminAppointment extends javax.swing.JFrame {
       cmbCentreName.addItemListener(new java.awt.event.ItemListener() {
          public void itemStateChanged(java.awt.event.ItemEvent evt) {
             cmbCentreNameItemStateChanged(evt);
+         }
+      });
+      cmbCentreName.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            cmbCentreNameMouseClicked(evt);
          }
       });
 
@@ -243,6 +248,11 @@ public class AdminAppointment extends javax.swing.JFrame {
          }
       });
 
+      txtSearch.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            txtSearchActionPerformed(evt);
+         }
+      });
       txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
          public void keyReleased(java.awt.event.KeyEvent evt) {
             txtSearchKeyReleased(evt);
@@ -271,8 +281,6 @@ public class AdminAppointment extends javax.swing.JFrame {
             btnDeleteActionPerformed(evt);
          }
       });
-
-      txtName.setEnabled(false);
 
       jLabel20.setText("Recipient Name");
 
@@ -510,7 +518,15 @@ public class AdminAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_dtpDate1PropertyChange
 
    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-
+      txtIC.setText("");
+      txtName.setText("");
+      cmbCentreName.setSelectedIndex(0);
+      cmbVaccineName.setSelectedIndex(0);
+      cmbTimeSlot1.setSelectedIndex(0);
+      dtpDate1.setDate(null);
+      dtpDate2.setDate(null);
+      txtSearch.setText("");
+      tblAppointment.getSelectionModel().clearSelection();
    }//GEN-LAST:event_btnClearActionPerformed
 
    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
@@ -518,11 +534,11 @@ public class AdminAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_btnCreateActionPerformed
 
    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-//      DefaultTableModel model = (DefaultTableModel) tblVaccine.getModel();
-//      String input = txtSearch.getText();
-//      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
-//      tblVaccine.setRowSorter(tr);
-//      tr.setRowFilter(RowFilter.regexFilter(input));
+      DefaultTableModel model = (DefaultTableModel) tblAppointment.getModel();
+      String input = txtSearch.getText();
+      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+      tblAppointment.setRowSorter(tr);
+      tr.setRowFilter(RowFilter.regexFilter(input));
    }//GEN-LAST:event_txtSearchKeyReleased
 
    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -530,7 +546,75 @@ public class AdminAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_btnUpdateActionPerformed
 
    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+// ------------ Table Information ------------
+      DefaultTableModel model = (DefaultTableModel) tblAppointment.getModel();
+      model.setRowCount(0);
+      for (int i = 0; i < DataIO.allAppointments.size(); i++) {
+         String icno = DataIO.allAppointments.get(i).getPerson().getIcno();
+         String personName = DataIO.allAppointments.get(i).getPerson().getName();
+         String centreName = DataIO.allAppointments.get(i).getLocation().getCentreName();
+         String vaccineName = DataIO.allAppointments.get(i).getVaccineName();
+         String date1 = DataIO.allAppointments.get(i).getDate1();
+         String time1 = DataIO.allAppointments.get(i).getTime1();
+         String date2 = DataIO.allAppointments.get(i).getDate2();
+         String time2 = DataIO.allAppointments.get(i).getTime2();
 
+         String dose = DataIO.checkDoses(icno);
+         String array[] = {icno, personName, centreName, vaccineName, date1, time1, date2, time2, dose};
+         model.addRow(array);
+      }
+      // recipient, centre, vaccine
+      tblAppointment.getColumnModel().getColumn(1).setMinWidth(0);
+      tblAppointment.getColumnModel().getColumn(1).setMaxWidth(0);
+      tblAppointment.getColumnModel().getColumn(2).setMinWidth(0);
+      tblAppointment.getColumnModel().getColumn(2).setMaxWidth(0);
+      tblAppointment.getColumnModel().getColumn(3).setMinWidth(0);
+      tblAppointment.getColumnModel().getColumn(3).setMaxWidth(0);
+
+      // ------------ ComboBox Information ------------
+      DefaultComboBoxModel comboCentre = (DefaultComboBoxModel) cmbCentreName.getModel();
+      DefaultComboBoxModel comboVaccine = (DefaultComboBoxModel) cmbVaccineName.getModel();
+      DefaultComboBoxModel comboTime1 = (DefaultComboBoxModel) cmbTimeSlot1.getModel();
+      comboCentre.removeAllElements();
+      comboVaccine.removeAllElements();
+      comboTime1.removeAllElements();
+      // setting Centre dropdown values
+      for (int i = 0; i < DataIO.allCentres.size(); i++) {
+         if (DataIO.allCentres.get(i).getStatus().equals("Active") && DataIO.allCentres.get(i).getMyInventory() != null) {
+            comboCentre.addElement(DataIO.allCentres.get(i).getCentreName());
+            lblCentreID.setText(String.valueOf(DataIO.allCentres.get(i).getCentreId()));
+         }
+      }
+      // setting Vaccine Name dropdown values
+      if (comboCentre.getSize() == 0) {
+         comboCentre.addElement("No Centres available");
+      } else {
+         Vaccine.editCentre = DataIO.checkCentre(comboCentre.getSelectedItem().toString());
+         for (int j = 0; j < DataIO.allVaccines.size(); j++) {
+            if (Vaccine.editCentre.getCentreId() == DataIO.allVaccines.get(j).getCentre().getCentreId()) {
+               if (DataIO.allVaccines.get(j).getInventory() >= 2) {
+                  Vaccine.editCentre.getMyInventory().add(DataIO.allVaccines.get(j));
+
+                  comboVaccine.addElement(DataIO.allVaccines.get(j).getVaccineName());
+               }
+            }
+         }
+      }
+      // set up date chooser
+      dtpDate1.setMinSelectableDate(new Date());
+      // set up time dropdown values
+      String[] time1 = DataIO.getTimeSlot1();
+      for (String slot : time1) {
+         comboTime1.addElement(slot);
+      }
+
+      btnClearActionPerformed(evt);
+
+      TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+      tblAppointment.setRowSorter(tr);
+      tr.setRowFilter(RowFilter.regexFilter(""));
+      txtIC.setEnabled(true);
+      txtName.setEnabled(true);
    }//GEN-LAST:event_btnRefreshActionPerformed
 
    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -569,6 +653,19 @@ public class AdminAppointment extends javax.swing.JFrame {
          }
       }
    }//GEN-LAST:event_lblCentreIDPropertyChange
+
+   private void cmbCentreNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbCentreNameMouseClicked
+      DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
+      if (comboBoxModel.getSelectedItem() != null) {
+         String selectedCentre = comboBoxModel.getSelectedItem().toString();
+         Centre selected = DataIO.checkCentre(selectedCentre);
+         lblCentreID.setText(String.valueOf(selected.getCentreId()));
+      }
+   }//GEN-LAST:event_cmbCentreNameMouseClicked
+
+   private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_txtSearchActionPerformed
 
    /**
     * @param args the command line arguments

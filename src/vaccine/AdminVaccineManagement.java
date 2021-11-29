@@ -112,6 +112,11 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          }
       });
 
+      txtSearch.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            txtSearchActionPerformed(evt);
+         }
+      });
       txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
          public void keyReleased(java.awt.event.KeyEvent evt) {
             txtSearchKeyReleased(evt);
@@ -522,6 +527,10 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          }
       }
    }//GEN-LAST:event_btnDeleteActionPerformed
+
+   private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_txtSearchActionPerformed
 
    /**
     * @param args the command line arguments
