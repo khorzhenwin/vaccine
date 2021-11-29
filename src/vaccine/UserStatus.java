@@ -380,7 +380,7 @@ public class UserStatus extends javax.swing.JFrame {
                   allow = true;
                }
                // if nothing changed
-               if (df.parse(date1).equals(df.parse(Vaccine.app.getDate1()))) {
+               if (df.parse(date1).equals(df.parse(Vaccine.app.getDate1())) && cmbTimeSlot1.getSelectedItem().toString().equals(Vaccine.app.getTime1())) {
                   allow = true;
                }
                // if dose1 not done and appointment is missed, allow to reschedule to later date
@@ -393,7 +393,13 @@ public class UserStatus extends javax.swing.JFrame {
                   boolean found = DataIO.hasAppointment(txtCentreName.getText(),
                           df.format(dtpDate1.getDate()),
                           cmbTimeSlot1.getSelectedItem().toString());
-                  if (found) {
+                  Appointment comparison = DataIO.hasAppointment(txtCentreName.getText(),
+                          df.format(dtpDate1.getDate()),
+                          cmbTimeSlot1.getSelectedItem().toString(),
+                          df.format(dtpDate2.getDate()),
+                          txtTimeSlot2.getText().trim());
+                  // if the record is found and its not the current owners appointment
+                  if (found && !txtIC.getText().equals(comparison.getPerson().getIcno())) {
                      JOptionPane.showMessageDialog(btnUpdate, "Another user has already booked this slot!");
                   } else {
                      Vaccine.app.setDate1(date1);
@@ -441,6 +447,8 @@ public class UserStatus extends javax.swing.JFrame {
                UserMain a = new UserMain();
                a.setVisible(true);
                this.dispose();
+            } else {
+               JOptionPane.showMessageDialog(btnDelete, "This appointment cannot be deleted");
             }
 
          } catch (ParseException ex) {
