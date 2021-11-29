@@ -48,6 +48,25 @@ public class UserReport extends javax.swing.JFrame {
                  + "\t" + "=====SECOND DOSE STATUS=====" + "\n"
                  + "\t" + "Second Dose Date : " + Vaccine.app.getDate2() + "\n"
                  + "\t" + "Second Dose Status : " + Vaccine.app.isDose2() + "\n");
+      } else {
+
+         txtf_report.setText("\t" + "=====VACCINATION PROGRAM=====" + "\n"
+                 + "\t" + "Name : " + Vaccine.login.getName() + "\n"
+                 + "\t" + "IC Number : " + Vaccine.login.getIcno() + "\n"
+                 + "\t" + "Contact : " + Vaccine.login.getPhone() + "\n"
+                 + "\n"
+                 + "\t" + "=====VACCINATION LOCATION=====" + "\n"
+                 + "\t" + "Vaccination Venue : \n"
+                 + "\t" + "Address : \n"
+                 + "\n"
+                 + "\t" + "=====FIRST DOSE STATUS=====" + "\n"
+                 + "\t" + "First Dose Date : \n"
+                 + "\t" + "First Dose Status : \n"
+                 + "\n"
+                 + "\t" + "=====SECOND DOSE STATUS=====" + "\n"
+                 + "\t" + "Second Dose Date : \n"
+                 + "\t" + "Second Dose Status : \n");
+
       }
    }
 
