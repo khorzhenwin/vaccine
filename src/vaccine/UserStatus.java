@@ -442,6 +442,13 @@ public class UserStatus extends javax.swing.JFrame {
                   }
                }
 
+               VaccineSupply inventory = DataIO.checkSupply(txtCentreName.getText().trim(), txtVaccineName.getText().trim());
+               // +2 back in inventory
+               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                  if (inventory.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
+                     DataIO.allVaccines.get(i).unreserve2Dose();
+                  }
+               }
                DataIO.write();
                JOptionPane.showMessageDialog(btnDelete, "The appointment has been deleted");
                UserMain a = new UserMain();
