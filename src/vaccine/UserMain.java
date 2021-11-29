@@ -157,7 +157,9 @@ public class UserMain extends javax.swing.JFrame {
    }// </editor-fold>//GEN-END:initComponents
 
    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-      // TODO add your handling code here:
+      UserReport a = new UserReport();
+      a.setVisible(true);
+      this.dispose();
    }//GEN-LAST:event_btnReportActionPerformed
 
    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
