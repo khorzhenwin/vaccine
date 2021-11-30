@@ -620,7 +620,71 @@ public class AdminAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_txtSearchKeyReleased
 
    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+      int confirmCreate = JOptionPane.showConfirmDialog(this, "Change appointment details?", "Confirm all appointment details?", JOptionPane.YES_NO_OPTION);
+      if (confirmCreate == JOptionPane.YES_OPTION) {
 
+         // empty fields validation
+         if (dtpDate1.getDate() == null
+                 || cmbCentreName.getSelectedItem() == null
+                 || cmbTimeSlot1.getSelectedItem() == null
+                 || cmbVaccineName.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(btnUpdate, "Please ensure all the appointment details are filled!");
+         } else {
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String date1 = df.format(dtpDate1.getDate());
+            String date2 = df.format(dtpDate2.getDate());
+            // users current record
+            Vaccine.app = DataIO.checkAppointment(txtIC.getText().trim());
+            Centre location = DataIO.checkCentre(cmbCentreName.getSelectedItem().toString());
+            // users new record
+            boolean exists = DataIO.hasAppointment(cmbCentreName.getSelectedItem().toString(),
+                    df.format(dtpDate1.getDate()),
+                    cmbTimeSlot1.getSelectedItem().toString());
+
+            // if record exists -> check if its the users current record (if no changes were made)
+            if (exists) {
+               // if no changes were made to time location and date, no updates are required
+               // check if this new booking record exists already and is not the current owners existing booking
+               Appointment comparison = DataIO.hasAppointment(cmbCentreName.getSelectedItem().toString(),
+                       df.format(dtpDate1.getDate()),
+                       cmbTimeSlot1.getSelectedItem().toString(),
+                       df.format(dtpDate2.getDate()),
+                       txtTimeSlot2.getText().trim());
+               if (!txtIC.getText().equals(comparison.getPerson().getIcno())) {
+                  JOptionPane.showMessageDialog(btnUpdate, "Another user has already booked this slot!");
+               } else {
+                  btnRefreshActionPerformed(evt);
+                  JOptionPane.showMessageDialog(btnUpdate, "No changes have been made");
+               }
+
+            } else {
+               VaccineSupply newSupply = DataIO.checkSupply(location.getCentreName(), cmbVaccineName.getSelectedItem().toString());
+               VaccineSupply oldSupply = DataIO.checkSupply(tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 2).toString(),
+                       tblAppointment.getValueAt(tblAppointment.getSelectedRow(), 3).toString());
+               // -2 from new location
+               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                  if (newSupply.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
+                     DataIO.allVaccines.get(i).reserve2Dose();
+                  }
+               }
+               // +2 from old location
+               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                  if (oldSupply.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
+                     DataIO.allVaccines.get(i).reserve2Dose();
+                  }
+               }
+               Vaccine.app.setLocation(location);
+               Vaccine.app.setVaccineName(cmbVaccineName.getSelectedItem().toString());
+               Vaccine.app.setDate1(date1);
+               Vaccine.app.setTime1(cmbTimeSlot1.getSelectedItem().toString());
+               Vaccine.app.setDate2(date2);
+               Vaccine.app.setTime2(txtTimeSlot2.getText());
+               btnRefreshActionPerformed(evt);
+               JOptionPane.showMessageDialog(btnUpdate, "Appointment has been updated successfully!");
+            }
+
+         }
+      }
    }//GEN-LAST:event_btnUpdateActionPerformed
 
    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -703,7 +767,7 @@ public class AdminAppointment extends javax.swing.JFrame {
             String dateToday = df.format(today);
             // if have not reached the appointment date, allow to be deleted
             if (df.parse(dateToday).before(df.parse(dateRecorded))) {
-               
+
                for (int i = 0; i < DataIO.allAppointments.size(); i++) {
                   if (Vaccine.app == DataIO.allAppointments.get(i)) {
                      DataIO.allAppointments.remove(i);
