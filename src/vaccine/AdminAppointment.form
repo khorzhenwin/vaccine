@@ -265,6 +265,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIC">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtICFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="cmbTimeSlot1">
           <Properties>
@@ -434,6 +437,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtName">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel20">
           <Properties>

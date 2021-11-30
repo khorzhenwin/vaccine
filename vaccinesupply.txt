@@ -1,6 +1,6 @@
 1
 SinoVac
-496
+492
 1
 Stadium Bukit Jalil
 Kuala Lumpur
@@ -24,7 +24,7 @@ Active
 
 4
 Moderna
-1120
+998
 3
 IOI Puchong Mall
 Bandar Puchong Jaya

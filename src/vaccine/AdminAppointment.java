@@ -12,11 +12,14 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import vaccine.Class.Appointment;
 import vaccine.Class.Centre;
 import vaccine.Class.DataIO;
+import vaccine.Class.People;
 import vaccine.Class.VaccineSupply;
 
 /**
@@ -180,6 +183,12 @@ public class AdminAppointment extends javax.swing.JFrame {
 
       jLabel11.setText("IC No");
 
+      txtIC.addFocusListener(new java.awt.event.FocusAdapter() {
+         public void focusLost(java.awt.event.FocusEvent evt) {
+            txtICFocusLost(evt);
+         }
+      });
+
       cmbTimeSlot1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
       cmbTimeSlot1.addItemListener(new java.awt.event.ItemListener() {
          public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -285,6 +294,8 @@ public class AdminAppointment extends javax.swing.JFrame {
             btnDeleteActionPerformed(evt);
          }
       });
+
+      txtName.setEnabled(false);
 
       jLabel20.setText("Recipient Name");
 
@@ -536,11 +547,68 @@ public class AdminAppointment extends javax.swing.JFrame {
       tblAppointment.setRowSorter(tr);
       tr.setRowFilter(RowFilter.regexFilter(""));
       txtIC.setEnabled(true);
-      txtName.setEnabled(true);
    }//GEN-LAST:event_btnClearActionPerformed
 
    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+      int confirmCreate = JOptionPane.showConfirmDialog(this, "Make an Appointment?", "Confirm all appointment details?", JOptionPane.YES_NO_OPTION);
+      if (confirmCreate == JOptionPane.YES_OPTION) {
 
+         if (tblAppointment.getSelectionModel().isSelectionEmpty()) {
+            // empty fields validation
+
+            if (txtIC.getText().isBlank()
+                    || txtName.getText().isBlank()
+                    || cmbCentreName.getSelectedItem() == null
+                    || cmbVaccineName.getSelectedItem() == null
+                    || dtpDate1.getDate() == null
+                    || dtpDate2.getDate() == null
+                    || cmbTimeSlot1.getSelectedItem() == null
+                    || txtTimeSlot2.getText().isBlank()) {
+               JOptionPane.showMessageDialog(btnCreate, "Please ensure all the appointment details are filled!");
+            } else {
+               // checking if booking exist
+               SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+               boolean found = DataIO.hasAppointment(cmbCentreName.getSelectedItem().toString(),
+                       df.format(dtpDate1.getDate()),
+                       cmbTimeSlot1.getSelectedItem().toString());
+               if (found) {
+                  JOptionPane.showMessageDialog(btnCreate, "Another user has already booked this slot!");
+               } else {
+                  // extra layer of validation if front end fails
+                  boolean foundCentreSupply = DataIO.checkSupplyCentreExists(cmbCentreName.getSelectedItem().toString(),
+                          cmbVaccineName.getSelectedItem().toString());
+                  if (foundCentreSupply) {
+
+                     Centre location = DataIO.checkCentre(cmbCentreName.getSelectedItem().toString());
+                     VaccineSupply inventory = DataIO.checkSupply(cmbCentreName.getSelectedItem().toString(),
+                             cmbVaccineName.getSelectedItem().toString());
+                     // -2 in inventory
+                     for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                        if (inventory.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
+                           DataIO.allVaccines.get(i).reserve2Dose();
+                        }
+                     }
+                     People person = DataIO.checkPeople(txtIC.getText().trim());
+                     Appointment newAppointment = new Appointment(person,
+                             df.format(dtpDate1.getDate()),
+                             df.format(dtpDate2.getDate()),
+                             cmbTimeSlot1.getSelectedItem().toString(),
+                             txtTimeSlot2.getText().trim(),
+                             location,
+                             cmbVaccineName.getSelectedItem().toString());
+                     DataIO.allAppointments.add(newAppointment);
+                     DataIO.write();
+                     JOptionPane.showMessageDialog(btnCreate, "Appointment has successfully been made!");
+                     btnRefreshActionPerformed(evt);
+                  } else {
+                     JOptionPane.showMessageDialog(btnCreate, "Vaccine doesn't exist at this centre");
+                  }
+               }
+            }
+         } else {
+            JOptionPane.showMessageDialog(btnCreate, "Please unselect a row");
+         }
+      }
    }//GEN-LAST:event_btnCreateActionPerformed
 
    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
@@ -623,7 +691,44 @@ public class AdminAppointment extends javax.swing.JFrame {
    }//GEN-LAST:event_btnRefreshActionPerformed
 
    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+      int confirmCreate = JOptionPane.showConfirmDialog(this, "DELETE APPOINTMENT?", "Confirm deletion?", JOptionPane.YES_NO_OPTION);
+      if (confirmCreate == JOptionPane.YES_OPTION) {
+         try {
+            Vaccine.app = DataIO.checkAppointment(txtIC.getText().trim());
+            Vaccine.login = DataIO.checkPeople(txtIC.getText().trim());
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            Date today = new Date();
+            String dateRecorded = Vaccine.app.getDate1();
+            String date1 = df.format(dtpDate1.getDate());
+            String dateToday = df.format(today);
+            // if have not reached the appointment date, allow to be deleted
+            if (df.parse(dateToday).before(df.parse(dateRecorded))) {
+               
+               for (int i = 0; i < DataIO.allAppointments.size(); i++) {
+                  if (Vaccine.app == DataIO.allAppointments.get(i)) {
+                     DataIO.allAppointments.remove(i);
+                     break;
+                  }
+               }
 
+               VaccineSupply inventory = DataIO.checkSupply(cmbCentreName.getSelectedItem().toString(), cmbVaccineName.getSelectedItem().toString());
+               // +2 back in inventory
+               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                  if (inventory.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
+                     DataIO.allVaccines.get(i).unreserve2Dose();
+                  }
+               }
+               DataIO.write();
+               JOptionPane.showMessageDialog(btnDelete, "The appointment has been deleted");
+               btnRefreshActionPerformed(evt);
+            } else {
+               JOptionPane.showMessageDialog(btnDelete, "This appointment cannot be deleted");
+            }
+
+         } catch (ParseException ex) {
+            Logger.getLogger(UserStatus.class.getName()).log(Level.SEVERE, null, ex);
+         }
+      }
    }//GEN-LAST:event_btnDeleteActionPerformed
 
    private void tblAppointmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAppointmentMouseClicked
@@ -708,6 +813,19 @@ public class AdminAppointment extends javax.swing.JFrame {
    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
       // TODO add your handling code here:
    }//GEN-LAST:event_txtSearchActionPerformed
+
+   private void txtICFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtICFocusLost
+      if (!txtIC.getText().isBlank()) {
+         Vaccine.login = DataIO.checkPeople(txtIC.getText().trim());
+         if (Vaccine.login == null) {
+            txtName.setText("");
+            JOptionPane.showMessageDialog(txtIC, "IC No not found.");
+         } else {
+            txtIC.setText(Vaccine.login.getIcno());
+            txtName.setText(Vaccine.login.getName());
+         }
+      }
+   }//GEN-LAST:event_txtICFocusLost
 
    /**
     * @param args the command line arguments

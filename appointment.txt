@@ -1,0 +1,34 @@
+010618141323
+123
+Khor Zhen Win
+0127024916
+true
+09/12/2021
+30/12/2021
+0800
+0830
+false
+false
+3
+IOI Puchong Mall
+Bandar Puchong Jaya
+Active
+Moderna
+
+01234567890
+123
+test
+0123456789
+false
+18/12/2021
+08/01/2022
+0800
+0830
+false
+false
+1
+Stadium Bukit Jalil
+Kuala Lumpur
+Active
+SinoVac
+
