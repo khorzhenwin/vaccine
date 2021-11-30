@@ -670,7 +670,7 @@ public class AdminAppointment extends javax.swing.JFrame {
                // +2 from old location
                for (int i = 0; i < DataIO.allVaccines.size(); i++) {
                   if (oldSupply.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
-                     DataIO.allVaccines.get(i).reserve2Dose();
+                     DataIO.allVaccines.get(i).unreserve2Dose();
                   }
                }
                Vaccine.app.setLocation(location);
@@ -679,6 +679,7 @@ public class AdminAppointment extends javax.swing.JFrame {
                Vaccine.app.setTime1(cmbTimeSlot1.getSelectedItem().toString());
                Vaccine.app.setDate2(date2);
                Vaccine.app.setTime2(txtTimeSlot2.getText());
+               DataIO.write();
                btnRefreshActionPerformed(evt);
                JOptionPane.showMessageDialog(btnUpdate, "Appointment has been updated successfully!");
             }

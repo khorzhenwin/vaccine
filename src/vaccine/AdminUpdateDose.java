@@ -167,8 +167,13 @@ public class AdminUpdateDose extends javax.swing.JFrame {
 
    private void txtICFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtICFocusLost
       if (!txtIC.getText().isBlank()) {
+         btnDose1.setEnabled(true);
+         btnDose2.setEnabled(true);
+         chbDose1.setSelected(false);
+         chbDose2.setSelected(false);
          Vaccine.app = DataIO.checkAppointment(txtIC.getText().trim());
          if (Vaccine.app == null) {
+            txtIC.setText("");
             txtName.setText("");
             JOptionPane.showMessageDialog(txtIC, "This user does not have an appointment");
          } else {

@@ -58,6 +58,6 @@ public class VaccineSupply {
    }
 
    public void unreserve1Dose() {
-      inventory = inventory + 2;
+      inventory = inventory + 1;
    }
 }

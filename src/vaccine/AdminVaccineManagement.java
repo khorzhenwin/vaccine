@@ -139,6 +139,8 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          }
       });
 
+      txtVaccineName.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+
       jLabel6.setText("🔍");
 
       tblVaccine.setAutoCreateRowSorter(true);
@@ -442,7 +444,8 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
    private void tblVaccineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVaccineMouseClicked
       DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cmbCentreName.getModel();
       comboBoxModel.removeAllElements();
-      cmbCentreName.enable(false);
+      cmbCentreName.setEnabled(false);
+      txtVaccineName.setEnabled(false);
       comboBoxModel.addElement(tblVaccine.getValueAt(tblVaccine.getSelectedRow(), 1).toString());
       txtCentreID.setText(tblVaccine.getValueAt(tblVaccine.getSelectedRow(), 0).toString());
       txtVaccineID.setText(tblVaccine.getValueAt(tblVaccine.getSelectedRow(), 3).toString());
@@ -462,7 +465,8 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
       Centre selected = DataIO.checkCentre(selectedCentre);
 
       txtCentreID.setText(String.valueOf(selected.getCentreId()));
-      cmbCentreName.enable(true);
+      cmbCentreName.setEnabled(true);
+      txtVaccineName.setEnabled(true);
       txtVaccineName.setText("");
       txtVaccineID.setText("");
       txtAmount.setText("");
