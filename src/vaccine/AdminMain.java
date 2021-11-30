@@ -35,6 +35,7 @@ public class AdminMain extends javax.swing.JFrame {
       btnCentre = new javax.swing.JButton();
       btnAppointment = new javax.swing.JButton();
       btnReports = new javax.swing.JButton();
+      btnUpdateDose = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setResizable(false);
@@ -88,6 +89,13 @@ public class AdminMain extends javax.swing.JFrame {
 
       btnReports.setText("Statistical Reports");
 
+      btnUpdateDose.setText("Update Vaccination Dose Status");
+      btnUpdateDose.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnUpdateDoseActionPerformed(evt);
+         }
+      });
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
@@ -104,6 +112,7 @@ public class AdminMain extends javax.swing.JFrame {
          .addGroup(layout.createSequentialGroup()
             .addGap(95, 95, 95)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+               .addComponent(btnUpdateDose, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(btnAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(btnReports, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addGroup(layout.createSequentialGroup()
@@ -133,9 +142,11 @@ public class AdminMain extends javax.swing.JFrame {
                .addComponent(btnVaccineSupply, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(btnAppointment, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnUpdateDose, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(btnReports, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(43, Short.MAX_VALUE))
+            .addGap(40, 40, 40))
       );
 
       pack();
@@ -180,6 +191,12 @@ public class AdminMain extends javax.swing.JFrame {
       this.dispose();
    }//GEN-LAST:event_btnAppointmentActionPerformed
 
+   private void btnUpdateDoseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDoseActionPerformed
+      AdminUpdateDose a = new AdminUpdateDose();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnUpdateDoseActionPerformed
+
    /**
     * @param args the command line arguments
     */
@@ -223,6 +240,7 @@ public class AdminMain extends javax.swing.JFrame {
    private javax.swing.JButton btnPeople;
    private javax.swing.JButton btnPersonnel;
    private javax.swing.JButton btnReports;
+   private javax.swing.JButton btnUpdateDose;
    private javax.swing.JButton btnVaccineSupply;
    private javax.swing.JLabel jLabel3;
    // End of variables declaration//GEN-END:variables

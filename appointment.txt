@@ -7,8 +7,8 @@ true
 07/01/2022
 0800
 0830
-false
-false
+true
+true
 3
 IOI Puchong Mall
 Bandar Puchong Jaya
@@ -22,6 +22,23 @@ test
 false
 18/12/2021
 08/01/2022
+0800
+0830
+true
+false
+1
+Stadium Bukit Jalil
+Kuala Lumpur
+Active
+SinoVac
+
+012345678901
+nash
+nash
+0123456787
+true
+24/12/2021
+14/01/2022
 0800
 0830
 false

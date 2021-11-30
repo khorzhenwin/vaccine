@@ -333,10 +333,10 @@ public class DataIO {
       String status = "";
       for (int i = 0; i < allAppointments.size(); i++) {
          if (x.equals(allAppointments.get(i).getPerson().getIcno())) {
-            if (allAppointments.get(i).isDose1()) {
-               status = "1st Dose";
-            } else if (allAppointments.get(i).isDose2()) {
+            if (allAppointments.get(i).isDose2()) {
                status = "2nd Dose";
+            } else if (allAppointments.get(i).isDose1()) {
+               status = "1st Dose";
             } else {
                status = "Unvaccinated";
             }
