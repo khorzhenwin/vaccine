@@ -1,6 +1,6 @@
 1
 SinoVac
-490
+488
 1
 Stadium Bukit Jalil
 Kuala Lumpur
@@ -24,9 +24,25 @@ Active
 
 4
 Moderna
-1000
+998
 3
 IOI Puchong Mall
 Bandar Puchong Jaya
+Active
+
+5
+Pfizer
+600
+5
+Sime Darby Hospital
+Subang Jaya
+Active
+
+6
+SinoVac
+700
+5
+Sime Darby Hospital
+Subang Jaya
 Active
 

@@ -17,4 +17,14 @@ public class Personnel extends User {
       this.personnelName = personnelName;
    }
 
+   @Override
+   public void setPassword(String password) {
+      super.setPassword(password); //To change body of generated methods, choose Tools | Templates.
+   }
+
+   @Override
+   public void setIcno(String icno) {
+      super.setIcno(icno); //To change body of generated methods, choose Tools | Templates.
+   }
+
 }

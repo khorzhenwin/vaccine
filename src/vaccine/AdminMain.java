@@ -88,6 +88,11 @@ public class AdminMain extends javax.swing.JFrame {
       });
 
       btnReports.setText("Statistical Reports");
+      btnReports.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnReportsActionPerformed(evt);
+         }
+      });
 
       btnUpdateDose.setText("Update Vaccination Dose Status");
       btnUpdateDose.addActionListener(new java.awt.event.ActionListener() {
@@ -196,6 +201,12 @@ public class AdminMain extends javax.swing.JFrame {
       a.setVisible(true);
       this.dispose();
    }//GEN-LAST:event_btnUpdateDoseActionPerformed
+
+   private void btnReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportsActionPerformed
+      AdminReport a = new AdminReport();
+      a.setVisible(true);
+      this.dispose();
+   }//GEN-LAST:event_btnReportsActionPerformed
 
    /**
     * @param args the command line arguments

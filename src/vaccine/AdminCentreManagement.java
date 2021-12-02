@@ -323,8 +323,8 @@ public class AdminCentreManagement extends javax.swing.JFrame {
                   Vaccine.editCentre.setCentreName(txtName.getText());
                   Vaccine.editCentre.setAddress(txtAddress.getText());
                   DataIO.write();
-                  JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
                   btnRefreshActionPerformed(evt);
+                  JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
                }
             } else {
                JOptionPane.showMessageDialog(btnCreate, "Please select a row");
@@ -349,8 +349,8 @@ public class AdminCentreManagement extends javax.swing.JFrame {
                        "Active");
                DataIO.allCentres.add(newCentre);
                DataIO.write();
-               JOptionPane.showMessageDialog(btnCreate, "Centre Sucessfully Created!");
                btnRefreshActionPerformed(evt);
+               JOptionPane.showMessageDialog(btnCreate, "Centre Sucessfully Created!");
             }
          } else {
             JOptionPane.showMessageDialog(btnCreate, "Please unselect the row");

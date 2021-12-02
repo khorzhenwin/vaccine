@@ -208,7 +208,7 @@ public class Login extends javax.swing.JFrame {
             } else {
                String password = JOptionPane.showInputDialog("Enter your password: ");
                // validation for wrong password
-               if (found.getPassword() == password) {
+               if (password.equals(found.getPassword())) {
                   Vaccine.adminLogin = found;
                   AdminMain admin = new AdminMain();
                   admin.setVisible(true);

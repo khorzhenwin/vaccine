@@ -362,8 +362,8 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
                DataIO.allVaccines.add(inventory);
                found.getMyInventory().add(inventory);
                DataIO.write();
-               JOptionPane.showMessageDialog(btnCreate, "Inventory has been created for " + found.getCentreName());
                btnRefreshActionPerformed(evt);
+               JOptionPane.showMessageDialog(btnCreate, "Inventory has been created for " + found.getCentreName());
             }
          } else {
             JOptionPane.showMessageDialog(btnCreate, "Please unselect the row");
@@ -406,8 +406,8 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
 
                }
                DataIO.write();
-               JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
                btnRefreshActionPerformed(evt);
+               JOptionPane.showMessageDialog(btnUpdate, "Updated Successfully!");
             }
 
          }
@@ -524,8 +524,8 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
                }
             }
             DataIO.write();
-            JOptionPane.showMessageDialog(btnDelete, "Deleted Successfully!");
             btnRefreshActionPerformed(evt);
+            JOptionPane.showMessageDialog(btnDelete, "Deleted Successfully!");
          } else {
             JOptionPane.showMessageDialog(btnDelete, "Please select a row");
          }

@@ -571,8 +571,11 @@ public class AdminAppointment extends javax.swing.JFrame {
                boolean found = DataIO.hasAppointment(cmbCentreName.getSelectedItem().toString(),
                        df.format(dtpDate1.getDate()),
                        cmbTimeSlot1.getSelectedItem().toString());
+               Appointment userFound = DataIO.checkAppointment(txtIC.getText().trim());
                if (found) {
                   JOptionPane.showMessageDialog(btnCreate, "Another user has already booked this slot!");
+               } else if (userFound != null) {
+                  JOptionPane.showMessageDialog(btnCreate, "This user already has made an appointment!");
                } else {
                   // extra layer of validation if front end fails
                   boolean foundCentreSupply = DataIO.checkSupplyCentreExists(cmbCentreName.getSelectedItem().toString(),
