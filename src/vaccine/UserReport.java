@@ -172,6 +172,10 @@ public class UserReport extends javax.swing.JFrame {
       } catch (Exception e) {
          JOptionPane.showMessageDialog(null, e);
       }
+
+      UserReport a = new UserReport();
+      a.setVisible(true);
+      this.dispose();
     }//GEN-LAST:event_btn_printActionPerformed
 
    /**
