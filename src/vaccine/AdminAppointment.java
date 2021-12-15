@@ -760,41 +760,48 @@ public class AdminAppointment extends javax.swing.JFrame {
 
    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
       int confirmCreate = JOptionPane.showConfirmDialog(this, "DELETE APPOINTMENT?", "Confirm deletion?", JOptionPane.YES_NO_OPTION);
+
       if (confirmCreate == JOptionPane.YES_OPTION) {
-         try {
-            Vaccine.app = DataIO.checkAppointment(txtIC.getText().trim());
-            Vaccine.login = DataIO.checkPeople(txtIC.getText().trim());
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            Date today = new Date();
-            String dateRecorded = Vaccine.app.getDate1();
-            String date1 = df.format(dtpDate1.getDate());
-            String dateToday = df.format(today);
-            // if have not reached the appointment date, allow to be deleted
-            if (df.parse(dateToday).before(df.parse(dateRecorded))) {
 
-               for (int i = 0; i < DataIO.allAppointments.size(); i++) {
-                  if (Vaccine.app == DataIO.allAppointments.get(i)) {
-                     DataIO.allAppointments.remove(i);
-                     break;
+         if (!tblAppointment.getSelectionModel().isSelectionEmpty()) {
+            // empty fields validation
+            try {
+               Vaccine.app = DataIO.checkAppointment(txtIC.getText().trim());
+               Vaccine.login = DataIO.checkPeople(txtIC.getText().trim());
+               SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+               Date today = new Date();
+               String dateRecorded = Vaccine.app.getDate1();
+               String date1 = df.format(dtpDate1.getDate());
+               String dateToday = df.format(today);
+               // if have not reached the appointment date, allow to be deleted
+               if (df.parse(dateToday).before(df.parse(dateRecorded))) {
+
+                  for (int i = 0; i < DataIO.allAppointments.size(); i++) {
+                     if (Vaccine.app == DataIO.allAppointments.get(i)) {
+                        DataIO.allAppointments.remove(i);
+                        break;
+                     }
                   }
+
+                  VaccineSupply inventory = DataIO.checkSupply(cmbCentreName.getSelectedItem().toString(), cmbVaccineName.getSelectedItem().toString());
+                  // +2 back in inventory
+                  for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                     if (inventory.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
+                        DataIO.allVaccines.get(i).unreserve2Dose();
+                     }
+                  }
+                  DataIO.write();
+                  JOptionPane.showMessageDialog(btnDelete, "The appointment has been deleted");
+                  btnRefreshActionPerformed(evt);
+               } else {
+                  JOptionPane.showMessageDialog(btnDelete, "This appointment cannot be deleted");
                }
 
-               VaccineSupply inventory = DataIO.checkSupply(cmbCentreName.getSelectedItem().toString(), cmbVaccineName.getSelectedItem().toString());
-               // +2 back in inventory
-               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
-                  if (inventory.getVaccineID() == DataIO.allVaccines.get(i).getVaccineID()) {
-                     DataIO.allVaccines.get(i).unreserve2Dose();
-                  }
-               }
-               DataIO.write();
-               JOptionPane.showMessageDialog(btnDelete, "The appointment has been deleted");
-               btnRefreshActionPerformed(evt);
-            } else {
-               JOptionPane.showMessageDialog(btnDelete, "This appointment cannot be deleted");
+            } catch (ParseException ex) {
+               Logger.getLogger(UserStatus.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-         } catch (ParseException ex) {
-            Logger.getLogger(UserStatus.class.getName()).log(Level.SEVERE, null, ex);
+         } else {
+            JOptionPane.showMessageDialog(btnDelete, "Please select a row");
          }
       }
    }//GEN-LAST:event_btnDeleteActionPerformed

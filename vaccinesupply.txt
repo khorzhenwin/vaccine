@@ -36,7 +36,7 @@ Pfizer
 5
 Sime Darby Hospital
 Subang Jaya
-Active
+Inactive
 
 6
 SinoVac
@@ -44,5 +44,21 @@ SinoVac
 5
 Sime Darby Hospital
 Subang Jaya
+Inactive
+
+7
+Johnson&Johnson
+210
+5
+Sime Darby Hospital
+Subang Jaya
+Inactive
+
+8
+Pfizer
+107
+6
+APU
+APU
 Active
 

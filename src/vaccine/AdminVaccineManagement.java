@@ -32,6 +32,7 @@ public class AdminVaccineManagement extends javax.swing.JFrame {
          String centreID = String.valueOf(DataIO.allVaccines.get(i).getCentre().getCentreId());
          String centreName = DataIO.allVaccines.get(i).getCentre().getCentreName();
          String centreStatus = DataIO.allVaccines.get(i).getCentre().getStatus();
+         //String centreStatus = DataIO.checkCentre(centreName).getStatus();
          String vaccineID = String.valueOf(DataIO.allVaccines.get(i).getVaccineID());
          String vaccineName = DataIO.allVaccines.get(i).getVaccineName();
          String amount = String.valueOf(DataIO.allVaccines.get(i).getInventory());

@@ -397,6 +397,11 @@ public class AdminCentreManagement extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(btnActive, "Centre is already active!");
             } else {
                Vaccine.editCentre.setStatus("Active");
+               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                  if (DataIO.allVaccines.get(i).getCentre().getCentreName().equals(Vaccine.editCentre.getCentreName())) {
+                     DataIO.allVaccines.get(i).setCentre(Vaccine.editCentre);
+                  }
+               }
                DataIO.write();
                JOptionPane.showMessageDialog(btnActive, "Activated Successfully!");
                btnRefreshActionPerformed(evt);
@@ -417,6 +422,11 @@ public class AdminCentreManagement extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(btnInactive, "Centre is already inactive!");
             } else {
                Vaccine.editCentre.setStatus("Inactive");
+               for (int i = 0; i < DataIO.allVaccines.size(); i++) {
+                  if (DataIO.allVaccines.get(i).getCentre().getCentreName().equals(Vaccine.editCentre.getCentreName())) {
+                     DataIO.allVaccines.get(i).setCentre(Vaccine.editCentre);
+                  }
+               }
                DataIO.write();
                JOptionPane.showMessageDialog(btnInactive, "Centre is now Inactive!");
                btnRefreshActionPerformed(evt);
